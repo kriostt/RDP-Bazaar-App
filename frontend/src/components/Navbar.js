@@ -59,7 +59,7 @@ const Navbar = () => {
               {/* chat icon redirects to chat page */}
               <Link
                 to="/chat"
-                className="nav-link text-light ms-3"
+                className="nav-link ms-3"
                 aria-current="page"
                 exact
               >
@@ -69,7 +69,7 @@ const Navbar = () => {
               {/* bell icon redirects to notifications page */}
               <Link
                 to="/notifications"
-                className="nav-link text-light ms-3"
+                className="nav-link ms-3"
                 aria-current="page"
                 exact
               >
@@ -79,7 +79,7 @@ const Navbar = () => {
               {/* person icon redirects to profile page */}
               <Link
                 to="/profile"
-                className="nav-link text-light ms-3"
+                className="nav-link ms-3"
                 aria-current="page"
                 exact
               >
