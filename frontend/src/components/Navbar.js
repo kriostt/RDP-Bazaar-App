@@ -8,7 +8,15 @@ const Navbar = () => {
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
         <div className="container-fluid px-0">
           {/* logo takes user back to home page when clicked */}
-          <Link to="/" className="navbar-brand ms-3">
+          <Link
+            to="/"
+            className="navbar-brand ms-3"
+            style={{
+              fontFamily: "Arial, sans-serif",
+              fontSize: "20px",
+              fontWeight: "bold",
+            }}
+          >
             RDP BAZAAR
           </Link>
 
@@ -78,7 +86,7 @@ const Navbar = () => {
 
               {/* person icon redirects to profile page */}
               <Link
-                to="/profile"
+                to="/edit-profile"
                 className="nav-link ms-3"
                 aria-current="page"
                 exact

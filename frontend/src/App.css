@@ -1,1 +1,9 @@
 /* styling specific to App component and children components */
+
+.profile-heading {
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+  text-align: center;
+  margin-top: 3em;
+}
