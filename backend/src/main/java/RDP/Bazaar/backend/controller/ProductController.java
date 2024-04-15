@@ -8,52 +8,20 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/api/products")
+@CrossOrigin(origins = "http://localhost:3000")
 public class ProductController {
     // automatic injection of ProductService instance
     @Autowired
     private ProductService productService;
 
-    // API endpoint for searching products by name or description
-    @GetMapping("/search")
-    public List<Product> searchProducts(@RequestParam String search) {
-        return productService.search(search);
-    }
-
-    // API endpoint for filtering products by condition
-    @GetMapping("/filterByCondition")
-    public List<Product> filterProductsByCondition(@RequestParam String condition) {
-        return productService.filterByCondition(condition);
-    }
-
-    // API endpoint for filtering products by price range
-    @GetMapping("/filterByPrice")
-    public List<Product> filterProductsByPriceRange(@RequestParam double minPrice, @RequestParam double maxPrice) {
-        return productService.filterByPriceRange(minPrice, maxPrice);
-    }
-
-    // API endpoint for getting all products sorted by price in ascending order
-    @GetMapping("/sortByPriceAsc")
-    public List<Product> getAllProductsSortedByPriceAscending() {
-        return productService.getAllProductsSortedByPriceAscending();
-    }
-
-    // API endpoint for getting all products sorted by price in descending order
-    @GetMapping("/sortByPriceDesc")
-    public List<Product> getAllProductsSortedByPriceDescending() {
-        return productService.getAllProductsSortedByPriceDescending();
-    }
-
-    // API endpoint for getting all products sorted by date posted in ascending order
-    @GetMapping ("/sortByDatePostedAsc")
-    public List<Product> getAllProductsSortedByDatePostedAscending() {
-        return productService.getAllProductsSortedByDatePostedAscending();
-    }
-
-    // API endpoint for getting all products sorted by date posted in descending order
-    @GetMapping ("/sortByDatePostedDesc")
-    public List<Product> getAllProductsSortedByDatePostedDescending() {
-        return productService.getAllProductsSortedByDatePostedDescending();
+    // API endpoint for searching and filtering products
+    @GetMapping("/searchAndFilter")
+    public List<Product> searchAndFilterProducts(@RequestParam(required = false) String search,
+                                                 @RequestParam(required = false) String condition,
+                                                 @RequestParam(required = false) Double minPrice,
+                                                 @RequestParam(required = false) Double maxPrice,
+                                                 @RequestParam(required = false) String sortBy) {
+        return productService.searchAndFilterProducts(search, condition, minPrice, maxPrice, sortBy);
     }
 }
