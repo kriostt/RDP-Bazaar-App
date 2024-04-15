@@ -18,49 +18,27 @@ public class ProductService {
 
     // get products based on search and filter criteria
     public List<Product> searchAndFilterProducts(String search, String condition, Double minPrice, Double maxPrice, String sortBy) {
-        // used to dynamically build query predicates based on provided search and filter criteria
-        Specification<Product> spec = Specification.where(null);
+        // call the repository method
+        return productRepository.findAllProductsWithSearchAndFilter(search, condition, minPrice, maxPrice, applySort(sortBy));
+    }
 
-        // if search is provided, get products with name or description like in provided search query
-        if (search != null && !search.isEmpty()) {
-            spec = spec.and((root, query, cb) -> cb.or(
-                    cb.like(cb.lower(root.get("name")), "%" + search.toLowerCase() + "%"),
-                    cb.like(cb.lower(root.get("description")), "%" + search.toLowerCase() + "%")
-            ));
-        }
-
-        // if condition is provided, get products of provided condition
-        if (condition != null && !condition.isEmpty()) {
-            spec = spec.and((root, query, cb) -> cb.equal(cb.lower(root.get("condtion")), condition.toLowerCase()));
-        }
-
-        // if minPrice is provided, get products with price >= provided minPrice
-        if (minPrice != null) {
-            spec = spec.and((root, query, cb) -> cb.greaterThanOrEqualTo(root.get("price"), minPrice));
-        }
-
-        // if maxPrice is provided, get products with price <= provided maxPrice
-        if (maxPrice != null) {
-            spec = spec.and((root, query, cb) -> cb.lessThanOrEqualTo(root.get("price"), maxPrice));
-        }
-
-        // if sortBy is provided, get products using the repository method and apply sorting based on provided sortBy
+    // apply the sorting filter
+    private Sort applySort(String sortBy) {
+        // if sortBy is provided, return the desired order
         if (sortBy != null && !sortBy.isEmpty()) {
             switch (sortBy) {
                 case "priceAsc":
-                    return productRepository.findAllProductsWithSearchAndFilter(spec, Sort.by(Sort.Direction.ASC, "price"));
+                    return Sort.by(Sort.Direction.ASC, "price");
                 case "priceDesc":
-                    return productRepository.findAllProductsWithSearchAndFilter(spec, Sort.by(Sort.Direction.DESC, "price"));
+                    return Sort.by(Sort.Direction.DESC, "price");
                 case "datePostedAsc":
-                    return productRepository.findAllProductsWithSearchAndFilter(spec, Sort.by(Sort.Direction.ASC, "datePosted"));
+                    return Sort.by(Sort.Direction.ASC, "datePosted");
                 case "datePostedDesc":
-                    return productRepository.findAllProductsWithSearchAndFilter(spec, Sort.by(Sort.Direction.DESC, "datePosted"));
+                    return Sort.by(Sort.Direction.DESC, "datePosted");
                 default:
                     break;
             }
         }
-
-        // if no sorting specified, get products without sorting
-        return productRepository.findAllProductsWithSearchAndFilter(spec, null);
+        return null;
     }
 }
