@@ -51,22 +51,22 @@ const Navbar = () => {
                     </Link>
                   </li>
                   <li>
-                    <Link to="/Furniture" className="dropdown-item">
+                    <Link to="/furniture" className="dropdown-item">
                       Furniture
                     </Link>
                   </li>
                   <li>
-                    <Link to="/Miscellaneous" className="dropdown-item">
+                    <Link to="/miscellaneous" className="dropdown-item">
                       Miscellaneous
                     </Link>
                   </li>
                   <li>
-                    <Link to="/Textbooks" className="dropdown-item">
+                    <Link to="/textbooks" className="dropdown-item">
                       Textbooks
                     </Link>
                   </li>
                   <li>
-                    <Link to="/Vehicles" className="dropdown-item">
+                    <Link to="/vehicles" className="dropdown-item">
                       Vehicles
                     </Link>
                   </li>
