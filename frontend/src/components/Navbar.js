@@ -1,5 +1,6 @@
 // import necessary modules
 import { Link } from "react-router-dom";
+import "./Navbar.css";
 
 const Navbar = () => {
   // JSX for navbar component
@@ -24,15 +25,52 @@ const Navbar = () => {
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav me-auto mb-2 mb-lg-0 ms-3">
               {/* "Products" redirects to product catalogue */}
-              <li className="nav-item">
+              <li className="nav-item dropdown">
                 <Link
                   to="/products"
-                  className="nav-link text-light"
-                  aria-current="page"
-                  exact
+                  className="nav-link text-light dropdown-toggle"
+                  role="button"
+                  aria-expanded="false"
                 >
                   Products
                 </Link>
+                <ul className="dropdown-menu">
+                  <li>
+                    <Link to="/appliances" className="dropdown-item">
+                      Appliances
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/clothing" className="dropdown-item">
+                      Clothing
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/electronics" className="dropdown-item">
+                      Electronics
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/Furniture" className="dropdown-item">
+                      Furniture
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/Miscellaneous" className="dropdown-item">
+                      Miscellaneous
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/Textbooks" className="dropdown-item">
+                      Textbooks
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/Vehicles" className="dropdown-item">
+                      Vehicles
+                    </Link>
+                  </li>
+                </ul>
               </li>
 
               {/* "Sellers" redirects to seller catalogue */}
