@@ -28,7 +28,7 @@ const Navbar = () => {
               <li className="nav-item dropdown">
                 <Link
                   to="/products"
-                  className="nav-link text-light dropdown-toggle"
+                  className="nav-link dropdown-toggle"
                   role="button"
                   aria-expanded="false"
                 >
@@ -77,7 +77,7 @@ const Navbar = () => {
               <li className="nav-item">
                 <Link
                   to="/sellers"
-                  className="nav-link text-light"
+                  className="nav-link"
                   aria-current="page"
                   exact
                 >
@@ -89,7 +89,7 @@ const Navbar = () => {
               <li className="nav-item">
                 <Link
                   to="/insights"
-                  className="nav-link text-light"
+                  className="nav-link"
                   aria-current="page"
                   exact
                 >
