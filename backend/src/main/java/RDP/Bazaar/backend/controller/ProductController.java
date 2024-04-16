@@ -15,13 +15,19 @@ public class ProductController {
     @Autowired
     private ProductService productService;
 
+    // API endpoint for getting all products
+    @GetMapping("/")
+    public List<Product> getAllProducts() {
+        return productService.getAllProducts();
+    }
+
     // API endpoint for searching and filtering products
     @GetMapping("/searchAndFilter")
     public List<Product> searchAndFilterProducts(@RequestParam(required = false) String search,
-                                                 @RequestParam(required = false) String condition,
+                                                 @RequestParam(required = false) String productCondition,
                                                  @RequestParam(required = false) Double minPrice,
                                                  @RequestParam(required = false) Double maxPrice,
                                                  @RequestParam(required = false) String sortBy) {
-        return productService.searchAndFilterProducts(search, condition, minPrice, maxPrice, sortBy);
+        return productService.searchAndFilterProducts(search, productCondition, minPrice, maxPrice, sortBy);
     }
 }
