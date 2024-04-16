@@ -118,39 +118,75 @@ const Insight = () => {
 
   // JSX for insight component
   return (
-    <div className="container">
+    <div className="container" style={{ marginTop: "50px" }}>
       {/* title for insight component */}
-      <h1 className="display-4">Insights</h1>
+      <h1 className="display-4 text-center mb-5">Insights</h1>
 
       {/* display total products */}
-      <p className="lead">Total Products: {productCount}</p>
+      <p className="lead text-center">Total Products: {productCount}</p>
 
       <div className="row">
         <div className="col-md-6">
-          <h3>Clicks Per Product</h3>
-          {/* render doughnut chart */}
-          <Doughnut data={clicksPerProductData} />
+          <div className="card">
+            <div className="card-body">
+              <h3 className="card-title text-center mb-3">
+                Clicks Per Product
+              </h3>
+              {/* render doughnut chart */}
+              <div style={{ maxWidth: "300px", margin: "0 auto" }}>
+                <Doughnut
+                  data={clicksPerProductData}
+                  options={{
+                    plugins: {
+                      legend: {
+                        position: "bottom",
+                        labels: {
+                          boxWidth: 20,
+                          fontSize: 12,
+                        },
+                      },
+                    },
+                    aspectRatio: 1,
+                  }}
+                />
+              </div>
+            </div>
+          </div>
         </div>
 
         <div className="col-md-6">
-          <h3>Total Clicks Per Date</h3>
-          {/* render line chart */}
-          <Line
-            data={totalClicksPerDateData}
-            options={{
-              scales: {
-                x: {
-                  type: "time",
-                  time: {
-                    unit: "day",
-                    displayFormats: {
-                      day: "MMM dd",
+          <div className="card">
+            <div className="card-body">
+              <h3 className="card-title text-center mb-3">
+                Total Clicks Per Date
+              </h3>
+              {/* render line chart */}
+              <Line
+                data={totalClicksPerDateData}
+                options={{
+                  scales: {
+                    x: {
+                      type: "time",
+                      time: {
+                        unit: "day",
+                        displayFormats: {
+                          day: "MMM dd",
+                        },
+                      },
+                    },
+                    y: {
+                      beginAtZero: true,
                     },
                   },
-                },
-              },
-            }}
-          />
+                  plugins: {
+                    legend: {
+                      display: false,
+                    },
+                  },
+                }}
+              />
+            </div>
+          </div>
         </div>
       </div>
     </div>
