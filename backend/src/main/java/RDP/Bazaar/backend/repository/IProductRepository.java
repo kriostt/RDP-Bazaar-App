@@ -24,7 +24,7 @@ public interface IProductRepository extends JpaRepository<Product, Long> {
     int countByUserUserId(Long userId);
 
     // get the number of clicks for each product owned by a user
-    @Query("SELECT p, SUM(p.clicks) FROM Product p WHERE p.user.userId = :userId GROUP BY p")
+    @Query("SELECT p.productId, p.name, SUM(p.clicks) FROM Product p WHERE p.user.userId = :userId GROUP BY p.productId, p.name")
     List<Object[]> getClicksPerProductForUser(Long userId);
 
     // get the overall number of clicks per date for all products that belong to a user
