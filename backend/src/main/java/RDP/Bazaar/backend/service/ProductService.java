@@ -1,5 +1,6 @@
 package RDP.Bazaar.backend.service;
 
+import RDP.Bazaar.backend.entity.Product;
 import RDP.Bazaar.backend.repository.IProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,6 +13,15 @@ public class ProductService {
     // automatic injection of IProductRepository instance
     @Autowired
     private IProductRepository productRepository;
+
+    // get all products
+    public List<Product> getAllProducts() {
+        List<Product> products = productRepository.findAll();
+
+        // remove user information from each product (PLACEHOLDER FOR HOW PRODUCT CATALOGUE FEATURE HANDLES THIS)
+        products.forEach(product -> product.setUser(null));
+        return products;
+    }
 
     // increment number of clicks for specific product
     public void incrementClicks(Long productId) {
