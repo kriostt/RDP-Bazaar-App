@@ -22,8 +22,7 @@ public class Product {
     private String description;
     private double price;
     private String category;
-    @Column(name = "`condition`")
-    private String condition;
+    private String productCondition;
 
     private Date datePosted;
 }
