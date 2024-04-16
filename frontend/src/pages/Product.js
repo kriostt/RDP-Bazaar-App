@@ -105,21 +105,29 @@ const Product = () => {
         <div className="input-group mt-2">
           <span className="input-group-text">$</span>
           <input
-            type="number"
+            type="text"
             className="form-control"
             placeholder="Min Price"
             value={minPrice}
-            onChange={(e) => setMinPrice(e.target.value)}
+            onChange={(e) => {
+              // remove any non-digit characters (including -) from the input value
+              const value = e.target.value.replace(/[^0-9]/g, "");
+              setMinPrice(value);
+            }}
           />
 
           <span className="input-group-text">to</span>
 
           <input
-            type="number"
+            type="text"
             className="form-control"
             placeholder="Max Price"
             value={maxPrice}
-            onChange={(e) => setMaxPrice(e.target.value)}
+            onChange={(e) => {
+              // remove any non-digit characters (including -) from the input value
+              const value = e.target.value.replace(/[^0-9]/g, "");
+              setMaxPrice(value);
+            }}
           />
         </div>
 
@@ -137,7 +145,7 @@ const Product = () => {
         </select>
 
         {/* clear button */}
-        <div className="mt-2">
+        <div className="mt-2 d-flex justify-content-end">
           <button className="btn btn-secondary" onClick={handleClear}>
             Clear
           </button>
