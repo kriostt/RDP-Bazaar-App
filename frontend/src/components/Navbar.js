@@ -63,7 +63,7 @@ const Navbar = () => {
 
           {/* navbar icons */}
           <div>
-            <div class="navbar-nav d-flex flex-row">
+            <div className="navbar-nav d-flex flex-row">
               {/* chat icon redirects to chat page */}
               <Link
                 to="/chat"
@@ -71,7 +71,7 @@ const Navbar = () => {
                 aria-current="page"
                 exact
               >
-                <i class="bi bi-chat"></i>
+                <i className="bi bi-chat"></i>
               </Link>
 
               {/* bell icon redirects to notifications page */}
@@ -81,17 +81,17 @@ const Navbar = () => {
                 aria-current="page"
                 exact
               >
-                <i class="bi bi-bell"></i>
+                <i className="bi bi-bell"></i>
               </Link>
 
               {/* person icon redirects to profile page */}
               <Link
-                to="/edit-profile"
+                to="/edit-profile/:userId"
                 className="nav-link ms-3"
                 aria-current="page"
                 exact
               >
-                <i class="bi bi-person"></i>
+                <i className="bi bi-person"></i>
               </Link>
             </div>
           </div>
