@@ -21,8 +21,7 @@ public class ProductService {
     public List<Product> getAllProducts() {
         List<Product> products = productRepository.findAll();
 
-        // remove user information from each product (PLACEHOLDER FOR HOW PRODUCT
-        // CATALOGUE FEATURE HANDLES THIS)
+        // remove user information from each product (PLACEHOLDER FOR HOW PRODUCT CATALOGUE FEATURE HANDLES THIS)
         products.forEach(product -> product.setUser(null));
         return products;
     }
@@ -69,7 +68,8 @@ public class ProductService {
 
         // find products based on search and filter criteria using specifications
         List<Product> products = productRepository.findAll(
-                ProductSpecifications.searchAndFilterProducts(search, category, productCondition, minPrice, maxPrice));
+                ProductSpecifications.searchAndFilterProducts(search, category, productCondition, minPrice, maxPrice)
+        );
 
         // remove user information from each product
         products.forEach(product -> product.setUser(null));
