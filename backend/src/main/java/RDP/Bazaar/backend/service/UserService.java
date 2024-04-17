@@ -50,8 +50,14 @@ public class UserService {
     }
 
     // Method to get a user by ID
-    public Optional<User> getUserById(Long id) {
-        return repository.findById(id); // Retrieve the user by ID using the repository
+    public User getUserById(Long id) {
+        Optional<User> userOptional = repository.findById(id);
+        User user = userOptional.orElse(null);
+        if (user != null ) {
+            // Set the products as null
+            user.setProducts(null);
+        }
+        return user;
     }
 
     // Method to update a user by ID
