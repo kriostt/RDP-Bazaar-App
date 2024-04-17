@@ -1,15 +1,15 @@
 // import necessary modules
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import "chartjs-adapter-date-fns";
-import { Chart as ChartJS } from "chart.js/auto";
-import { Doughnut, Line } from "react-chartjs-2";
+import { Chart as ChartJS } from "chart.js/auto"; // needed to render charts
+import { Doughnut, Bar } from "react-chartjs-2";
 
 const Insight = () => {
   // state variables to hold insight data
   const [productCount, setProductCount] = useState(0);
   const [clicksPerProduct, setClicksPerProduct] = useState([]);
-  const [totalClicksPerDate, setTotalClicksPerDate] = useState([]);
+  const [totalClicks, setTotalClicks] = useState([]);
+  const [clicksPerCategory, setClicksPerCategory] = useState([]);
 
   // function to fetch product count
   const fetchProductCount = async (userId) => {
@@ -43,19 +43,35 @@ const Insight = () => {
     }
   };
 
-  // function to fetch total clicks per date
-  const fetchTotalClicksPerDate = async (userId) => {
+  // function to fetch total clicks
+  const fetchTotalClicks = async (userId) => {
     try {
       const response = await axios.get(
-        // send a GET request to fetch total clicks per date from backend
-        `http://localhost:9090/api/products/totalClicksPerDate/${userId}`
+        // send a GET request to fetch total clicks from backend
+        `http://localhost:9090/api/products/totalClicks/${userId}`
       );
 
       // update the state with the fetched response
-      setTotalClicksPerDate(response.data);
+      setTotalClicks(response.data);
     } catch (error) {
       // handle errors if any occur during fetching
-      console.error("Error fetching total clicks per date: ", error);
+      console.error("Error fetching total clicks: ", error);
+    }
+  };
+
+  // function to fetch total clicks per category
+  const fetchClicksPerCategory = async () => {
+    try {
+      const response = await axios.get(
+        // send a GET request to getch clicks per category from backend
+        "http://localhost:9090/api/products/totalClicksPerCategory"
+      );
+
+      // update the state with the fetched response
+      setClicksPerCategory(response.data);
+    } catch (error) {
+      // handle errors if any occur during fetching
+      console.error("Error fetching clicks per category: ", error);
     }
   };
 
@@ -66,7 +82,8 @@ const Insight = () => {
     const userId = 1; // placeholder for user id
     fetchProductCount(userId);
     fetchClicksPerProduct(userId);
-    fetchTotalClicksPerDate(userId);
+    fetchTotalClicks(userId);
+    fetchClicksPerCategory();
   }, []);
 
   // data for doughnut chart displaying clicks per product
@@ -98,42 +115,49 @@ const Insight = () => {
     ],
   };
 
-  // data for line chart displaying total clicks per date
-  const totalClicksPerDateData = {
-    // dates
-    labels: totalClicksPerDate.map((data) => data[1]),
+  // data for bar chart displaying clicks per category
+  const clicksPerCategoryData = {
+    // category names
+    labels: clicksPerCategory.map((category) => category[0]),
     datasets: [
       {
         label: "Clicks",
-        fill: false,
-        lineTension: 0.1,
-        backgroundColor: "rgba(75,192,192,0.4)",
-        borderColor: "rgba(75,192,192,1)",
+        backgroundColor: "rgba(75,192,192,0.2)",
+        borderColor: "rgba(0,0,0,1)",
         borderWidth: 1,
-        // total clicks for each date
-        data: totalClicksPerDate.map((data) => data[0]),
+        borderRadius: 5,
+        // number of clicks per category
+        data: clicksPerCategory.map((category) => category[1]),
       },
     ],
   };
 
   // JSX for insight component
   return (
-    <div className="container" style={{ marginTop: "50px" }}>
-      {/* title for insight component */}
+    <div className="container mt-5">
       <h1 className="display-4 text-center mb-5">Insights</h1>
 
       {/* display total products */}
       <p className="lead text-center">Total Products: {productCount}</p>
 
+      {/* display total clicks */}
+      <p className="lead text-center">Total Clicks: {totalClicks}</p>
+
+      {/* container for doughtnut chart */}
       <div className="row">
         <div className="col-md-6">
-          <div className="card">
+          <div className="card mb-4 mx-3">
             <div className="card-body">
+              {/* container title */}
               <h3 className="card-title text-center mb-3">
                 Clicks Per Product
               </h3>
-              {/* render doughnut chart */}
-              <div style={{ maxWidth: "300px", margin: "0 auto" }}>
+
+              <div
+                className="d-flex justify-content-center"
+                style={{ height: "300px" }}
+              >
+                {/* render doughnut chart */}
                 <Doughnut
                   data={clicksPerProductData}
                   options={{
@@ -154,37 +178,45 @@ const Insight = () => {
           </div>
         </div>
 
+        {/* container for bar chart */}
         <div className="col-md-6">
-          <div className="card">
+          <div className="card mb-4 mx-3">
             <div className="card-body">
+              {/* container title */}
               <h3 className="card-title text-center mb-3">
-                Total Clicks Per Date
+                Clicks Per Category
               </h3>
-              {/* render line chart */}
-              <Line
-                data={totalClicksPerDateData}
-                options={{
-                  scales: {
-                    x: {
-                      type: "time",
-                      time: {
-                        unit: "day",
-                        displayFormats: {
-                          day: "MMM dd",
+
+              <div
+                className="d-flex justify-content-center"
+                style={{ height: "300px" }}
+              >
+                {/* render bar chart */}
+                <Bar
+                  data={clicksPerCategoryData}
+                  options={{
+                    plugins: {
+                      legend: {
+                        display: false,
+                      },
+                    },
+                    scales: {
+                      x: {
+                        title: {
+                          display: true,
+                          text: "Categories",
+                        },
+                      },
+                      y: {
+                        title: {
+                          display: true,
+                          text: "Clicks",
                         },
                       },
                     },
-                    y: {
-                      beginAtZero: true,
-                    },
-                  },
-                  plugins: {
-                    legend: {
-                      display: false,
-                    },
-                  },
-                }}
-              />
+                  }}
+                />
+              </div>
             </div>
           </div>
         </div>

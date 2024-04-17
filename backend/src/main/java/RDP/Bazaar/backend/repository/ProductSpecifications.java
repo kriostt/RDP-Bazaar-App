@@ -6,7 +6,7 @@ import org.springframework.data.jpa.domain.Specification;
 public class ProductSpecifications {
     // method to generate specification for searching and filtering products
     public static Specification<Product> searchAndFilterProducts(
-            String search, String productCondition, Double minPrice, Double maxPrice) {
+            String search, String category, String productCondition, Double minPrice, Double maxPrice) {
 
         // initialize specification with a null predicate
         Specification<Product> specification = Specification.where(null);
@@ -14,6 +14,11 @@ public class ProductSpecifications {
         // add specification for searching by name or description if search parameter is provided
         if (search != null && !search.isBlank()) {
             specification = specification.and(nameOrDescriptionContainsIgnoreCase(search));
+        }
+
+        // add specification for filtering by product category if category parameter is provided
+        if (category != null && !category.isBlank()) {
+            specification = specification.and(categoryEquals(category));
         }
 
         // add specification for filtering by product condition if productCondition parameter is provided
@@ -40,6 +45,14 @@ public class ProductSpecifications {
                                 criteriaBuilder.lower(root.get("description")),
                                 "%" + search.toLowerCase() + "%")
                 );
+    }
+
+    // specifications to filter products by product category
+    private static Specification<Product> categoryEquals(String category) {
+        return (root, query, criteriaBuilder) ->
+                criteriaBuilder.equal(
+                        criteriaBuilder.lower(root.get("category")),
+                        category.toLowerCase());
     }
 
     // specifications to filter products by product condition

@@ -3,6 +3,8 @@ package RDP.Bazaar.backend.controller;
 import RDP.Bazaar.backend.entity.Product;
 import RDP.Bazaar.backend.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,6 +21,17 @@ public class ProductController {
     @GetMapping("/")
     public List<Product> getAllProducts() {
         return productService.getAllProducts();
+    }
+
+    // API endpoint to get a product by ID
+    @GetMapping("/{productId}")
+    public ResponseEntity<Product> getProductById(@PathVariable Long productId) {
+        Product product = productService.getProductById(productId);
+        if (product != null) {
+            return new ResponseEntity<>(product, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     // API endpoint to increment click count of specific product
@@ -39,20 +52,26 @@ public class ProductController {
         return productService.getClicksPerProductForUser(userId);
     }
 
-    // API endpoint to get total number of clicks per date for all products that belong to specific user
-    @GetMapping("/totalClicksPerDate/{userId}")
-    public List<Object[]> getTotalClicksPerDateForUser(@PathVariable Long userId) {
-        return productService.getTotalClicksPerDateForUser(userId);
-
+    // API endpoint to get total number of clicks for all products that belong to specific user
+    @GetMapping("/totalClicks/{userId}")
+    public Integer getTotalClicksForUser(@PathVariable Long userId) {
+        return productService.getTotalClicksForUser(userId);
     }
-    
+
+    // API endpoint to get total number of clicks per product category
+    @GetMapping("/totalClicksPerCategory")
+    public List<Object[]> getClicksPerCategory() {
+        return productService.getTotalClicksByCategory();
+    }
+
     // API endpoint for searching and filtering products
     @GetMapping("/searchAndFilter")
     public List<Product> searchAndFilterProducts(@RequestParam(required = false) String search,
+                                                 @RequestParam(required = false) String category,
                                                  @RequestParam(required = false) String productCondition,
                                                  @RequestParam(required = false) Double minPrice,
                                                  @RequestParam(required = false) Double maxPrice,
                                                  @RequestParam(required = false) String sortBy) {
-        return productService.searchAndFilterProducts(search, productCondition, minPrice, maxPrice, sortBy);
+        return productService.searchAndFilterProducts(search, category, productCondition, minPrice, maxPrice, sortBy);
     }
 }
