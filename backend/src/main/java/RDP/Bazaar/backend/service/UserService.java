@@ -6,9 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.Comparator;
 import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
@@ -20,13 +17,21 @@ public class UserService {
 
     // get all users
     public List<User> getAllUsers() {
-        return repository.findAll();
+        List<User> users = repository.findAll();
+
+        // remove product list from each user
+        users.forEach(user -> user.setProducts(null));
+
+        return users;
     }
 
     // get users based on search and filter criteria
     public List<User> searchAndFilterUsers(String search, String sortBy) {
         // find users based on search and filter criteria using specifications
         List<User> users = repository.findAll(UserSpecifications.searchAndFilterUsers(search));
+
+        // remove product list from each user
+        users.forEach(user -> user.setProducts(null));
 
         // sort users based on provided sortBy parameter
         if ("usernameAsc".equals(sortBy)) {
