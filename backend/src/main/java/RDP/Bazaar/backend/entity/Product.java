@@ -16,7 +16,7 @@ public class Product {
     // primary key for Product entity
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private long productId;
 
     private String name;
     private String description;
@@ -25,4 +25,12 @@ public class Product {
     private String productCondition;
 
     private Date datePosted;
+
+    // additional property for insights
+    private int clicks;
+
+    // establish relationship with User entity
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "userId")
+    private User user;
 }
