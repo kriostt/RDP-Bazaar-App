@@ -23,7 +23,7 @@ public class UserController {
     UserService userService;
 
     // API endpoint for getting all users
-    @GetMapping("/users")
+    @GetMapping("/")
     public List<User> getALlUsers() {
         return userService.getAllUsers();
     }
@@ -42,7 +42,7 @@ public class UserController {
     }
 
     // Endpoint to retrieve a user by ID
-    @GetMapping("/user/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<User> getUserById(@PathVariable Long id) {
         User user = userService.getUserById(id);
         if (user != null ) {
