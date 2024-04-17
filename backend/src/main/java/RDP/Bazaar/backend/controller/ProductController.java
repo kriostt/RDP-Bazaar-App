@@ -45,6 +45,12 @@ public class ProductController {
         return productService.getTotalClicksForUser(userId);
     }
 
+    // API endpoint to get total number of clicks per product category
+    @GetMapping("/totalClicksPerCategory")
+    public List<Object[]> getClicksPerCategory() {
+        return productService.getTotalClicksByCategory();
+    }
+
     // API endpoint for searching and filtering products
     @GetMapping("/searchAndFilter")
     public List<Product> searchAndFilterProducts(@RequestParam(required = false) String search,

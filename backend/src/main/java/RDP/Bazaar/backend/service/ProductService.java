@@ -35,7 +35,7 @@ public class ProductService {
         return productRepository.countByUserUserId(userId);
     }
 
-    // get number of clicks per products for a specific user
+    // get total number of clicks per products for a specific user
     public List<Object[]> getClicksPerProductForUser(Long userId) {
         return productRepository.getClicksPerProductForUser(userId);
     }
@@ -43,6 +43,11 @@ public class ProductService {
     // get total number of clicks for all products that belong to a specific user
     public Integer getTotalClicksForUser(Long userId) {
         return productRepository.getTotalClicksForUser(userId);
+    }
+
+    // get total number of clicks per product category
+    public List<Object[]> getTotalClicksByCategory() {
+        return productRepository.getTotalClicksByCategory();
     }
 
     // get products based on search and filter criteria

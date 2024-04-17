@@ -26,11 +26,15 @@ public interface IProductRepository extends JpaRepository<Product, Long>, JpaSpe
     // get the total number of products that belong to a user
     int countByUserUserId(Long userId);
 
-    // get the number of clicks for each product owned by a user
+    // get the total number of clicks for each product owned by a user
     @Query("SELECT p.productId, p.name, SUM(p.clicks) FROM Product p WHERE p.user.userId = :userId GROUP BY p.productId, p.name")
     List<Object[]> getClicksPerProductForUser(Long userId);
 
     // get the total number of clicks for all products that belong to a user
     @Query("SELECT SUM(p.clicks) FROM Product p WHERE p.user.userId = :userId")
     Integer getTotalClicksForUser(Long userId);
+
+    // get the total number of clicks for each product category
+    @Query("SELECT p.category, SUM(p.clicks) FROM Product p GROUP BY p.category")
+    List<Object[]> getTotalClicksByCategory();
 }
