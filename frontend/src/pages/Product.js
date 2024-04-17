@@ -238,5 +238,4 @@ const Product = () => {
   );
 };
 
-// export product component
 export default Product;
