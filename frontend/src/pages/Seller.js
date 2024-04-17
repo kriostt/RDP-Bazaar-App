@@ -62,47 +62,57 @@ const Seller = () => {
 
   // JSX for seller component
   return (
-    <div>
-      <div className="container mt-4">
-        {/* search input */}
-        <input
-          type="text"
-          className="form-control"
-          placeholder="Search sellers"
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-        />
+    <div className="container mt-4">
+      <div className="row">
+        {/* container for search and filter */}
+        <div className="col-md-2">
+          {/* search input */}
+          <input
+            type="text"
+            className="form-control"
+            placeholder="Search sellers"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
 
-        {/* sort by dropdown */}
-        <select
-          className="form-select mt-2"
-          value={sortBy}
-          onChange={(e) => setSortBy(e.target.value)}
-        >
-          <option value="">Sort By</option>
-          <option value="usernameAsc">Username: A to Z</option>
-          <option value="usernameDesc">Username: Z to A</option>
-        </select>
-      </div>
+          {/* sort by dropdown */}
+          <select
+            className="form-select mt-2"
+            value={sortBy}
+            onChange={(e) => setSortBy(e.target.value)}
+          >
+            <option value="">Sort By</option>
+            <option value="usernameAsc">Username: A to Z</option>
+            <option value="usernameDesc">Username: Z to A</option>
+          </select>
+        </div>
 
-      {/* !!!!!!!!!!!!!!!!!!!!!!!!!! --- PLACEHOLDER FOR SELLER CATALOGUE --- !!!!!!!!!!!!!!!!!!!!!!!!!! */}
-      {/* title for seller component */}
-      <h1 className="seller">Sellers</h1>
+        {/* container for seller catalogue */}
+        <div className="col-md-10">
+          {/* !!!!!!!!!!!!!!!!!!!!!!!!!! --- PLACEHOLDER FOR SELLER CATALOGUE --- !!!!!!!!!!!!!!!!!!!!!!!!!! */}
+          {/* title for seller component */}
+          <h1 className="seller">Sellers</h1>
 
-      {/* map through sellers and render each one */}
-      <div className="seller-list text-center">
-        {sellers.map((seller) => (
-          <div key={seller.id} className="seller-item">
-            <h2>{seller.username}</h2>
-            <p>
-              {seller.firstName} {seller.lastName}
-            </p>
-            <p>
-              {seller.phone} | {seller.email}
-            </p>
-            {/* add more details if needed */}
+          {/* map through sellers and render each one */}
+          <div className="seller-list d-flex flex-wrap justify-content-center">
+            {sellers.map((seller) => (
+              <div
+                key={seller.id}
+                className="seller-item border mb-3 p-3"
+                style={{ cursor: "pointer", width: "500px" }}
+              >
+                <h2>{seller.username}</h2>
+                <p>
+                  {seller.firstName} {seller.lastName}
+                </p>
+                <p>
+                  {seller.phone} | {seller.email}
+                </p>
+                {/* add more details if needed */}
+              </div>
+            ))}
           </div>
-        ))}
+        </div>
       </div>
     </div>
   );
