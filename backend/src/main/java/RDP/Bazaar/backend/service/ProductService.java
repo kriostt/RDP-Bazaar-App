@@ -50,11 +50,13 @@ public class ProductService {
     // get products based on search and filter criteria
     public List<Product> searchAndFilterProducts(
             String search, String productCondition, Double minPrice, Double maxPrice, String sortBy) {
-
         // find products based on search and filter criteria using specifications
         List<Product> products = productRepository.findAll(
                 ProductSpecifications.searchAndFilterProducts(search, productCondition, minPrice, maxPrice)
         );
+
+        // remove user information from each product
+        products.forEach(product -> product.setUser(null));
 
         // sort products based on provided sortBy parameter
         if ("priceAsc".equals(sortBy)) {
