@@ -29,7 +29,7 @@ function App() {
         <Route path="/insights" element={<Insight />} />
         <Route path="/chat" element={<Chat />}></Route>
         <Route path="/notifications" element={<Notification />} />
-        <Route path="/edit-profile" element={<EditProfile />} />
+        <Route path="/edit-profile/:userId" element={<EditProfile />} />
         <Route path="/change-password" element={<ChangePassword />} />
       </Routes>
     </Router>
