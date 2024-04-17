@@ -3,13 +3,13 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "chartjs-adapter-date-fns";
 import { Chart as ChartJS } from "chart.js/auto";
-import { Doughnut, Line } from "react-chartjs-2";
+import { Doughnut } from "react-chartjs-2";
 
 const Insight = () => {
   // state variables to hold insight data
   const [productCount, setProductCount] = useState(0);
   const [clicksPerProduct, setClicksPerProduct] = useState([]);
-  const [totalClicksPerDate, setTotalClicksPerDate] = useState([]);
+  const [totalClicks, setTotalClicks] = useState([]);
 
   // function to fetch product count
   const fetchProductCount = async (userId) => {
@@ -43,19 +43,19 @@ const Insight = () => {
     }
   };
 
-  // function to fetch total clicks per date
-  const fetchTotalClicksPerDate = async (userId) => {
+  // function to fetch total clicks
+  const fetchTotalClicks = async (userId) => {
     try {
       const response = await axios.get(
-        // send a GET request to fetch total clicks per date from backend
-        `http://localhost:9090/api/products/totalClicksPerDate/${userId}`
+        // send a GET request to fetch total clicks from backend
+        `http://localhost:9090/api/products/totalClicks/${userId}`
       );
 
       // update the state with the fetched response
-      setTotalClicksPerDate(response.data);
+      setTotalClicks(response.data);
     } catch (error) {
       // handle errors if any occur during fetching
-      console.error("Error fetching total clicks per date: ", error);
+      console.error("Error fetching total clicks: ", error);
     }
   };
 
@@ -66,7 +66,7 @@ const Insight = () => {
     const userId = 1; // placeholder for user id
     fetchProductCount(userId);
     fetchClicksPerProduct(userId);
-    fetchTotalClicksPerDate(userId);
+    fetchTotalClicks(userId);
   }, []);
 
   // data for doughnut chart displaying clicks per product
@@ -98,91 +98,40 @@ const Insight = () => {
     ],
   };
 
-  // data for line chart displaying total clicks per date
-  const totalClicksPerDateData = {
-    // dates
-    labels: totalClicksPerDate.map((data) => data[1]),
-    datasets: [
-      {
-        label: "Clicks",
-        fill: false,
-        lineTension: 0.1,
-        backgroundColor: "rgba(75,192,192,0.4)",
-        borderColor: "rgba(75,192,192,1)",
-        borderWidth: 1,
-        // total clicks for each date
-        data: totalClicksPerDate.map((data) => data[0]),
-      },
-    ],
-  };
-
   // JSX for insight component
   return (
-    <div className="container" style={{ marginTop: "50px" }}>
-      {/* title for insight component */}
-      <h1 className="display-4 text-center mb-5">Insights</h1>
+    <div
+      className="container d-flex justify-content-center align-items-center"
+      style={{ marginTop: "50px", width: "100%" }}
+    >
+      <div className="text-center">
+        {/* title for insight component */}
+        <h1 className="display-4 text-center mb-5">Insights</h1>
 
-      {/* display total products */}
-      <p className="lead text-center">Total Products: {productCount}</p>
+        {/* display total products */}
+        <p className="lead text-center">Total Products: {productCount}</p>
 
-      <div className="row">
-        <div className="col-md-6">
-          <div className="card">
-            <div className="card-body">
-              <h3 className="card-title text-center mb-3">
-                Clicks Per Product
-              </h3>
-              {/* render doughnut chart */}
-              <div style={{ maxWidth: "300px", margin: "0 auto" }}>
-                <Doughnut
-                  data={clicksPerProductData}
-                  options={{
-                    plugins: {
-                      legend: {
-                        position: "bottom",
-                        labels: {
-                          boxWidth: 20,
-                          fontSize: 12,
-                        },
-                      },
-                    },
-                    aspectRatio: 1,
-                  }}
-                />
-              </div>
-            </div>
-          </div>
-        </div>
+        {/* display total clicks */}
+        <p className="lead text-center">Total Clicks: {totalClicks}</p>
 
-        <div className="col-md-6">
-          <div className="card">
-            <div className="card-body">
-              <h3 className="card-title text-center mb-3">
-                Total Clicks Per Date
-              </h3>
-              {/* render line chart */}
-              <Line
-                data={totalClicksPerDateData}
+        <div className="card" style={{ width: "600px" }}>
+          <div className="card-body">
+            <h3 className="card-title text-center mb-3">Clicks Per Product</h3>
+            {/* render doughnut chart for clicks per product */}
+            <div style={{ width: "300px", margin: "0 auto" }}>
+              <Doughnut
+                data={clicksPerProductData}
                 options={{
-                  scales: {
-                    x: {
-                      type: "time",
-                      time: {
-                        unit: "day",
-                        displayFormats: {
-                          day: "MMM dd",
-                        },
-                      },
-                    },
-                    y: {
-                      beginAtZero: true,
-                    },
-                  },
                   plugins: {
                     legend: {
-                      display: false,
+                      position: "bottom",
+                      labels: {
+                        boxWidth: 20,
+                        fontSize: 12,
+                      },
                     },
                   },
+                  aspectRatio: 1,
                 }}
               />
             </div>
