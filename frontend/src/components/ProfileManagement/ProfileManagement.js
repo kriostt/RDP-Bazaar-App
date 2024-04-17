@@ -31,7 +31,9 @@ const ProfileManagement = () => {
     const fetchUserData = async () => {
       try {
         // Fetch user data from the server using Axios
-        const response = await axios.get(`http://localhost:9090/user/1`);
+        const response = await axios.get(
+          `http://localhost:9090/api/users/user/1`
+        );
         // Update the profile data state with the fetched data
         setProfileData(response.data);
       } catch (error) {
@@ -75,7 +77,7 @@ const ProfileManagement = () => {
 
     try {
       // Send a PUT request to update the user profile data on the server
-      await axios.put(`http://localhost:9090/user/1`, profileData);
+      await axios.put(`http://localhost:9090/api/users/user/1`, profileData);
       // Display a success message if the profile data is updated successfully
       alert("Profile Data Updated Successfully");
     } catch (error) {

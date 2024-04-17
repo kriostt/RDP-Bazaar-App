@@ -20,13 +20,13 @@ public class UserService {
 
     // get all users
     public List<User> getAllUsers() {
-        return userRepository.findAll();
+        return repository.findAll();
     }
 
     // get users based on search and filter criteria
     public List<User> searchAndFilterUsers(String search, String sortBy) {
         // find users based on search and filter criteria using specifications
-        List<User> users = userRepository.findAll(UserSpecifications.searchAndFilterUsers(search));
+        List<User> users = repository.findAll(UserSpecifications.searchAndFilterUsers(search));
 
         // sort users based on provided sortBy parameter
         if ("usernameAsc".equals(sortBy)) {
@@ -52,7 +52,7 @@ public class UserService {
     // Method to update a user by ID
     public User updateUser(Long id, User updatedUser) {
         if (repository.existsById(id)) { // Check if the user with the given ID exists
-            updatedUser.setId(id); // Set the ID of the updated user
+            updatedUser.setUserId(id); // Set the ID of the updated user
             return repository.save(updatedUser); // Save the updated user using the repository
         } else {
             return null; // Return null if the user with the given ID doesn't exist

@@ -22,7 +22,7 @@ const ChangePassword = () => {
       try {
         // Fetch the current password from the backend using Axios
         const response = await axios.get(
-          `http://localhost:9090/user/current-password/1`
+          `http://localhost:9090/api/users/user/current-password/1`
         );
         // Update the current password state with the fetched data
         setCurrentPassword(response.data);
@@ -91,7 +91,7 @@ const ChangePassword = () => {
     try {
       // Send a PUT request to change the user's password on the backend
       const response = await axios.put(
-        `http://localhost:9090/user/change-password/1`,
+        `http://localhost:9090/api/users/user/change-password/1`,
         {
           currentPassword: oldPassword,
           newPassword: newPassword,
