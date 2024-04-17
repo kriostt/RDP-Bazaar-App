@@ -43,8 +43,13 @@ public class UserController {
 
     // Endpoint to retrieve a user by ID
     @GetMapping("/user/{id}")
-    public Optional<User> getUserById(@PathVariable Long id) {
-        return userService.getUserById(id);  // Delegate the retrieval operation to the UserService
+    public ResponseEntity<User> getUserById(@PathVariable Long id) {
+        User user = userService.getUserById(id);
+        if (user != null ) {
+            return new ResponseEntity<>(user, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     // Endpoint to update a user by ID
