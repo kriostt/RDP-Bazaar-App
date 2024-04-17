@@ -1,14 +1,14 @@
 package RDP.Bazaar.backend.repository;
 
 import RDP.Bazaar.backend.entity.User;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.jpa.repository.JpaRepository; // Importing JpaRepository interface from Spring Data JPA
+import org.springframework.stereotype.Repository; // Importing Repository annotation from Spring Framework
 
-// manages User entities
-@Repository // automatically detected and configured by Spring Data JPA
-public interface IUserRepository extends JpaRepository<User, Long>, JpaSpecificationExecutor<User> {
-    // JpaRepository<User, Long> provides CRUD operations for User entity
+import java.util.Optional;
+
+@Repository // Indicates that this interface is a Spring Data repository
+public interface IUserRepository  extends JpaRepository<User, Long>, , JpaSpecificationExecutor<User> {
+    // This interface extends JpaRepository, providing CRUD functionalities for User entity with primary key of type Integer
 
     // JpaSpecificationExecutor allows execution of dynamic queries using Specifications
 }
