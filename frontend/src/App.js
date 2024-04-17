@@ -13,6 +13,7 @@ import Chat from "./pages/Chat";
 import Notification from "./pages/Notification";
 import EditProfile from "./components/ProfileManagement/EditProfile";
 import ChangePassword from "./components/ProfileManagement/ChangePassword";
+import ProductDetail from "./pages/ProductDetail";
 
 function App() {
   // JSX for app component
@@ -25,6 +26,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/products" element={<Product />} />
+        <Route path="/product/:productId" element={<ProductDetail />} />
         <Route path="/sellers" element={<Seller />} />
         <Route path="/insights" element={<Insight />} />
         <Route path="/chat" element={<Chat />}></Route>
