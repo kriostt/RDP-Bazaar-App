@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { NotificationContainer, NotificationManager } from 'react-notifications';
 import notificationIcon from '../images/notification-icon.png';
-
 import './Cart.css'; // Import CSS file for styling
 
 const CustomSuccessNotification = ({ message }) => {
@@ -14,8 +13,8 @@ const CustomSuccessNotification = ({ message }) => {
   }, []);
 
   return (
-    <div className="custom-notification">
-      <img src={notificationIcon} alt="Notification" className="notification-icon" />
+    <div className="custom-notification" style={{ background: 'green', color: 'white', padding: '10px', borderRadius: '5px', display: 'flex', alignItems: 'center' }}>
+      <img src={notificationIcon} alt="Notification" className="notification-icon" style={{ marginRight: '10px' }} />
       {message}
     </div>
   );

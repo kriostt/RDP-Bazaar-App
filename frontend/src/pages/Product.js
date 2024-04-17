@@ -1,26 +1,39 @@
-import React, { useState, useEffect } from 'react';
-import './product.css';
-import { NotificationManager, NotificationContainer } from 'react-notifications';
-import notificationIcon from '../images/notification-icon.png';
-import Cart from '../Products-extension/Cart';
-import axios from 'axios'; // Import Axios for HTTP requests
+import React, { useState } from 'react';
+import './Product.css'; 
+import backpackImage from '../images/backpack.png'; 
+import speakerImage from '../images/speaker.png'; 
+import waterbottleImage from '../images/waterbottle.png'; 
+import Cart from '../Products-extension/Cart'; 
+
+import { NotificationManager } from 'react-notifications'; // Import NotificationManager
+import { NotificationContainer } from 'react-notifications';
 
 const Product = () => {
   const [cart, setCart] = useState([]);
-  const [products, setProducts] = useState([]);
 
-  useEffect(() => {
-    fetchProducts();
-  }, []);
-
-  const fetchProducts = async () => {
-    try {
-      const response = await axios.get('your-backend-url/products');
-      setProducts(response.data);
-    } catch (error) {
-      console.error('Error fetching products:', error);
+  const products = [
+    { 
+      id: 1, 
+      name: 'Backpack', 
+      description: 'Durable backpack with multiple compartments and padded straps, ideal for carrying books and laptops.', 
+      price: 24.99, 
+      image: backpackImage 
+    },
+    { 
+      id: 2, 
+      name: 'Bluetooth Speaker', 
+      description: 'Portable Bluetooth speaker with high-fidelity sound and built-in microphone for hands-free calling.', 
+      price: 44.99, 
+      image: speakerImage
+    },
+    { 
+      id: 3, 
+      name: 'Water Bottle', 
+      description: 'Stay hydrated throughout the day with this water bottle.', 
+      price: 9.99, 
+      image: waterbottleImage
     }
-  };
+  ];
 
   const handleAddToCart = (product) => {
     const isItemInCart = cart.some(item => item.id === product.id);
@@ -32,48 +45,33 @@ const Product = () => {
     }
   };
 
-  // Implement functions for CRUD operations
-  const addProduct = async (newProduct) => {
-    try {
-      await axios.post('your-backend-url/products', newProduct);
-      fetchProducts(); // Refresh products after adding a new one
-      NotificationManager.success('Product added successfully', 'Success');
-    } catch (error) {
-      console.error('Error adding product:', error);
-      NotificationManager.error('Failed to add product', 'Error');
-    }
+  const removeFromCart = (itemToRemove) => {
+    setCart(cart.filter(item => item.id !== itemToRemove.id));
   };
 
-  const updateProduct = async (updatedProduct) => {
-    try {
-      await axios.put(`your-backend-url/products/${updatedProduct.id}`, updatedProduct);
-      fetchProducts(); // Refresh products after updating
-      NotificationManager.success('Product updated successfully', 'Success');
-    } catch (error) {
-      console.error('Error updating product:', error);
-      NotificationManager.error('Failed to update product', 'Error');
-    }
-  };
-
-  const deleteProduct = async (productId) => {
-    try {
-      await axios.delete(`your-backend-url/products/${productId}`);
-      fetchProducts(); // Refresh products after deleting
-      NotificationManager.success('Product deleted successfully', 'Success');
-    } catch (error) {
-      console.error('Error deleting product:', error);
-      NotificationManager.error('Failed to delete product', 'Error');
-    }
+  const clearCart = () => {
+    setCart([]);
+    NotificationManager.info('Cart cleared', 'Info');
   };
 
   return (
     <div className="product-catalogue">
-      <h1 className="product">Products</h1>
+      <h2 className="page-title">Product Catalogue</h2>
+      <div className="additional-content">
+        <p>
+          Explore our wide range of high-quality products. Find everything you need from durable backpacks to portable Bluetooth speakers and stylish water bottles.
+        </p>
+      </div>
       <div className="product-list">
         {products.map(product => (
           <div className="product-card" key={product.id}>
+            <img 
+              src={product.image} 
+              alt={product.name} 
+              className="product-image" 
+            />
             <div className="product-details">
-              <h2 className="product-name">{product.name}</h2>
+              <h3 className="product-name">{product.name}</h3>
               <p className="product-description">{product.description}</p>
               <p className="product-price">Price: ${product.price}</p>
               <button className="add-to-cart-btn" onClick={() => handleAddToCart(product)}>Add to Cart</button>
@@ -82,7 +80,7 @@ const Product = () => {
         ))}
       </div>
       <div className="cart-container">
-        <Cart cart={cart} />
+        <Cart cart={cart} removeFromCart={removeFromCart} clearCart={clearCart} />
       </div>
       <NotificationContainer />
     </div>
