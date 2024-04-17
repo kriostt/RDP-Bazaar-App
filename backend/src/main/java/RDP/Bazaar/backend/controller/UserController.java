@@ -23,7 +23,7 @@ public class UserController {
     UserService userService;
 
     // API endpoint for getting all users
-    @GetMapping("/")
+    @GetMapping("/users")
     public List<User> getALlUsers() {
         return userService.getAllUsers();
     }

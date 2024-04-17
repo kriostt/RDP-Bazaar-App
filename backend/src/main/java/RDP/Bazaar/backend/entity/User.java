@@ -1,5 +1,6 @@
 package RDP.Bazaar.backend.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
@@ -22,8 +23,17 @@ public class User {
     private String phone; // Phone number of the user
     private String email; // Email address of the user
     private String password; // Password of the user
+    private String imgurl; // Image URL
 
     // establish inverse relationship with Product entity
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Product> products;
+
+    @OneToMany(mappedBy = "senderUser", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<UserConversation> sentConversations;
+
+    @OneToMany(mappedBy = "receiverUser", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<UserConversation> receivedConversations;
 }
