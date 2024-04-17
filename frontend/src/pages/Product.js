@@ -75,6 +75,30 @@ const Product = () => {
     fetchProducts();
   }, []);
 
+  // function to increment clicks for specific product
+  const handleIncrementClicks = async (productId) => {
+    try {
+      const response = await axios.post(
+        // send a POST request to increment clicks for specified product
+        `http://localhost:9090/api/products/incrementClicks/${productId}`
+      );
+
+      // log when clicks are successfully incremented
+      console.log("Clicks incremented successfully:", response);
+    } catch (error) {
+      // handle errors if any occur during incrementing clicks
+      console.error("Error incrementing clicks: ", error);
+    }
+  };
+
+  // function to handle click events on product items
+  const handleClick = (productId) => {
+    // redirect to product details page
+
+    // increment product clicks
+    handleIncrementClicks(productId);
+  };
+  
   // JSX for product component
   return (
     <div>
@@ -159,7 +183,12 @@ const Product = () => {
       {/* map through products and render each one */}
       <div className="product-list text-center">
         {products.map((product) => (
-          <div key={product.id} className="product-item">
+          <div
+            key={product.productId}
+            className="product-item"
+            onClick={() => handleClick(product.productId)}
+            style={{ cursor: "pointer" }}
+          >
             <h2>{product.name}</h2>
             <p>{product.description}</p>
             <p>Price: {product.price}</p>
