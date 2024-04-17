@@ -42,9 +42,9 @@ public class ProductService {
         return productRepository.getClicksPerProductForUser(userId);
     }
 
-    // get total number of clicks per date for all products that belong to a specific user
-    public List<Object[]> getTotalClicksPerDateForUser(Long userId) {
-        return productRepository.getTotalClicksPerDateForUser(userId);
+    // get total number of clicks for all products that belong to a specific user
+    public Integer getTotalClicksForUser(Long userId) {
+        return productRepository.getTotalClicksForUser(userId);
     }
 
     // get products based on search and filter criteria
