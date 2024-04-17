@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaArrowLeft, FaEye, FaEyeSlash } from "react-icons/fa";
 import "./ChangePassword.css";
+import axios from "axios";
 
 const ChangePassword = () => {
   // State variables for old password, new password, confirmed password, error message, and current password
@@ -9,11 +10,31 @@ const ChangePassword = () => {
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
-  const [currentPassword] = useState("PhoebeandKC"); // Dummy current password for validation
   const [showOldPassword, setShowOldPassword] = useState(false); // State to show/hide old password
   const [showNewPassword, setShowNewPassword] = useState(false); // State to show/hide new password
   const [showConfirmPassword, setShowConfirmPassword] = useState(false); // State to show/hide confirm password
+  const [currentPassword, setCurrentPassword] = useState("");
   const navigate = useNavigate(); // Hook for navigation
+
+  // Function to fetch current password from backend
+  useEffect(() => {
+    const fetchCurrentPassword = async () => {
+      try {
+        // Fetch the current password from the backend using Axios
+        const response = await axios.get(
+          `http://localhost:9090/api/users/user/current-password/1`
+        );
+        // Update the current password state with the fetched data
+        setCurrentPassword(response.data);
+      } catch (error) {
+        // Log an error message if there's an error fetching the current password
+        console.error("Error fetching current password:", error);
+      }
+    };
+
+    // Invoke the fetchCurrentPassword function when the component mounts
+    fetchCurrentPassword();
+  }, []);
 
   // Function to handle input changes
   const handleChange = (e) => {
@@ -25,7 +46,7 @@ const ChangePassword = () => {
   };
 
   // Function to handle form submission
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     // Check if current password field is empty
@@ -67,9 +88,27 @@ const ChangePassword = () => {
       return;
     }
 
-    // If all validations pass, show success message and navigate to edit profile
-    alert("Password changed successfully!");
-    navigate("/");
+    try {
+      // Send a PUT request to change the user's password on the backend
+      const response = await axios.put(
+        `http://localhost:9090/api/users/user/change-password/1`,
+        {
+          currentPassword: oldPassword,
+          newPassword: newPassword,
+        }
+      );
+      // Display the response message in an alert
+      alert(response.data);
+      // Redirect the user to the homepage after successfully changing the password
+      navigate("/");
+    } catch (error) {
+      // Handle different error scenarios
+      if (error.response.status === 401) {
+        setError("Incorrect current password");
+      } else {
+        setError("Failed to change password. Please try again later.");
+      }
+    }
   };
 
   // JSX code for the component
