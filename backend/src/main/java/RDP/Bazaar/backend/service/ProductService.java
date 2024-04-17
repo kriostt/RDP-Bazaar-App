@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 
 // handles business logic related to Product entities
 @Service
@@ -25,6 +26,17 @@ public class ProductService {
         // remove user information from each product (PLACEHOLDER FOR HOW PRODUCT CATALOGUE FEATURE HANDLES THIS)
         products.forEach(product -> product.setUser(null));
         return products;
+    }
+
+    // Method to get a product by ID
+    public Product getProductById(Long productId) {
+        Optional<Product> productOptional = productRepository.findById(productId);
+        Product product = productOptional.orElse(null);
+        if (product != null) {
+            // Set the seller as null
+            product.setUser(null);
+        }
+        return product;
     }
 
     // increment number of clicks for specific product
