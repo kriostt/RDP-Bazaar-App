@@ -6,6 +6,7 @@ const Product = () => {
   // state variables to hold product data and filter parameters
   const [products, setProducts] = useState([]);
   const [search, setSearch] = useState("");
+  const [category, setCategory] = useState("");
   const [productCondition, setProductCondition] = useState("");
   const [minPrice, setMinPrice] = useState("");
   const [maxPrice, setMaxPrice] = useState("");
@@ -17,6 +18,7 @@ const Product = () => {
       // log the parameters being sent for fetching products
       console.log("Fetching products with parameters:", {
         search,
+        category,
         productCondition,
         minPrice,
         maxPrice,
@@ -27,7 +29,14 @@ const Product = () => {
       const response = await axios.get(
         "http://localhost:9090/api/products/searchAndFilter",
         {
-          params: { search, productCondition, minPrice, maxPrice, sortBy },
+          params: {
+            search,
+            category,
+            productCondition,
+            minPrice,
+            maxPrice,
+            sortBy,
+          },
         }
       );
 
@@ -45,11 +54,12 @@ const Product = () => {
   // effect hook to execute searchAndFilterProducts function when filter parameters change
   useEffect(() => {
     searchAndFilterProducts();
-  }, [search, productCondition, minPrice, maxPrice, sortBy]);
+  }, [search, category, productCondition, minPrice, maxPrice, sortBy]);
 
   // function to clear all filter parameters
   const handleClear = () => {
     setSearch("");
+    setCategory("");
     setProductCondition("");
     setMinPrice("");
     setMaxPrice("");
@@ -87,6 +97,22 @@ const Product = () => {
           value={search}
           onChange={(e) => setSearch(e.target.value)}
         />
+
+        {/* category dropdown */}
+        <select
+          className="form-select mt-2"
+          value={category}
+          onChange={(e) => setCategory(e.target.value)}
+        >
+          <option value="">All</option>
+          <option value="appliances">Appliances</option>
+          <option value="clothing">Clothing</option>
+          <option value="electronics">Electronics</option>
+          <option value="furniture">Furniture</option>
+          <option value="miscellaneous">Miscellaneous</option>
+          <option value="textbooks">Textbooks</option>
+          <option value="vehicles">Vehicles</option>
+        </select>
 
         {/* condition dropdown */}
         <select
@@ -162,6 +188,8 @@ const Product = () => {
           <div key={product.id} className="product-item">
             <h2>{product.name}</h2>
             <p>{product.description}</p>
+            <p>{product.category}</p>
+            <p>{product.productCondition}</p>
             <p>Price: {product.price}</p>
             {/* add more details if needed */}
           </div>
