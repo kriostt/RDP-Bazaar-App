@@ -43,7 +43,9 @@ public class ProductController {
     @GetMapping("/totalClicksPerDate/{userId}")
     public List<Object[]> getTotalClicksPerDateForUser(@PathVariable Long userId) {
         return productService.getTotalClicksPerDateForUser(userId);
-        
+
+    }
+    
     // API endpoint for searching and filtering products
     @GetMapping("/searchAndFilter")
     public List<Product> searchAndFilterProducts(@RequestParam(required = false) String search,
