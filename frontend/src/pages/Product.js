@@ -148,9 +148,9 @@ const Product = () => {
           >
             <option value="">All Conditions</option>
             <option value="new">New</option>
-            <option value="used-likeNew">Used - Like New</option>
-            <option value="used-good">Used - Good</option>
-            <option value="used-fair">Used - Fair</option>
+            <option value="used - like new">Used - Like New</option>
+            <option value="used - good">Used - Good</option>
+            <option value="used - fair">Used - Fair</option>
           </select>
 
           {/* price range filter */}
