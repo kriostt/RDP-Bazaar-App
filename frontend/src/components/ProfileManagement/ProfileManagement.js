@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Avatar from "react-avatar-edit";
 import { Link } from "react-router-dom";
 import { Dialog } from "primereact/dialog";
@@ -7,6 +7,7 @@ import { InputText } from "primereact/inputtext";
 import { FaKey, FaFile } from "react-icons/fa";
 import img from "../../minsi.png";
 import "./ProfileManagement.css";
+import axios from "axios";
 
 const ProfileManagement = () => {
   // State variables
@@ -18,12 +19,31 @@ const ProfileManagement = () => {
   const [errors, setErrors] = useState({}); // State variable for handling form validation errors
   const [profileData, setProfileData] = useState({
     // State for profile data
-    username: "alesandrahenriz",
-    firstName: "Alessandra Henriz",
-    lastName: "Vendicacion",
-    phoneNumber: "5878776955",
-    emailAddress: "ahavendicacion@gmail.com",
+    username: "",
+    firstName: "",
+    lastName: "",
+    phone: "",
+    email: "",
   });
+
+  // This effect fetches user data from the server when the component mounts
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        // Fetch user data from the server using Axios
+        const response = await axios.get(
+          `http://localhost:9090/api/users/user/1`
+        );
+        // Update the profile data state with the fetched data
+        setProfileData(response.data);
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    };
+
+    // Invoke the fetchUserData function when the component mounts
+    fetchUserData();
+  }, []);
 
   // Function to handle input changes in the form fields
   const handleInput = (e) => {
@@ -54,7 +74,16 @@ const ProfileManagement = () => {
       setErrors(errors); // Setting validation errors
       return; // Exit function if there are validation errors
     }
-    alert("Profile Data Updated Successfully");
+
+    try {
+      // Send a PUT request to update the user profile data on the server
+      await axios.put(`http://localhost:9090/api/users/user/1`, profileData);
+      // Display a success message if the profile data is updated successfully
+      alert("Profile Data Updated Successfully");
+    } catch (error) {
+      // Log an error message if there's an error updating the profile data
+      console.error("Error updating profile data:", error);
+    }
   };
 
   // Array to store cropped profile images
@@ -255,9 +284,9 @@ const ProfileManagement = () => {
             <input
               className="form-control form-control-sm"
               type="number"
-              id="phoneNumber"
-              name="phoneNumber"
-              value={profileData.phoneNumber}
+              id="phone"
+              name="phone"
+              value={profileData.phone}
               onChange={handleInput}
             />
           </div>
@@ -276,9 +305,9 @@ const ProfileManagement = () => {
             <input
               className="form-control form-control-sm"
               type="email"
-              id="emailAddress"
-              name="emailAddress"
-              value={profileData.emailAddress}
+              id="email"
+              name="email"
+              value={profileData.email}
               onChange={handleInput}
             />
           </div>
