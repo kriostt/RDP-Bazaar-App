@@ -1,4 +1,4 @@
-.product-catalogue {
+.product {
   font-family: Arial, sans-serif;
   padding: 20px;
 }
@@ -146,3 +146,4 @@
 .custom-notification.success {
   background-color: green;
 }
+

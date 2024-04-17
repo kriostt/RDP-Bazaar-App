@@ -3,18 +3,18 @@ import { NotificationContainer, NotificationManager } from 'react-notifications'
 import notificationIcon from '../images/notification-icon.png';
 import './Cart.css'; // Import CSS file for styling
 
-const CustomSuccessNotification = ({ message }) => {
+const CustomSuccessNotification = ({ id, message }) => {
   useEffect(() => {
     const timer = setTimeout(() => {
-      NotificationManager.remove(); // Remove the notification after 1 second
+      NotificationManager.remove(id); // Remove the notification after 1 second
     }, 1000); // Adjust timeout to 1000 milliseconds (1 second)
 
     return () => clearTimeout(timer); // Clear the timer on component unmount
-  }, []);
+  }, [id]);
 
   return (
-    <div className="custom-notification" style={{ background: 'green', color: 'white', padding: '10px', borderRadius: '5px', display: 'flex', alignItems: 'center' }}>
-      <img src={notificationIcon} alt="Notification" className="notification-icon" style={{ marginRight: '10px' }} />
+    <div className={`custom-notification ${message.includes("added to cart") ? 'success' : ''}`}>
+      <img src={notificationIcon} alt="Notification" className="notification-icon" />
       {message}
     </div>
   );
@@ -22,34 +22,32 @@ const CustomSuccessNotification = ({ message }) => {
 
 const Cart = ({ cart, removeFromCart, clearCart }) => {
   const [notifications, setNotifications] = useState([]);
-  const [clearNotification, setClearNotification] = useState(false);
-
-  useEffect(() => {
-    if (clearNotification) {
-      setTimeout(() => {
-        setClearNotification(false);
-        setNotifications([]);
-      }, 2000); // Adjust timeout to 2000 milliseconds (2 seconds)
-    }
-  }, [clearNotification]);
 
   const handleRemoveFromCart = (item) => {
     removeFromCart(item);
     const message = `${item.name} removed from cart`;
     addNotification(message, 'red');
-    setClearNotification(true);
-  };
-
-  const handleClearCart = () => {
-    clearCart();
-    const message = 'Cart cleared';
-    addNotification(message, 'red');
-    setClearNotification(true);
   };
 
   const addNotification = (message, color) => {
-    setNotifications([...notifications, { message, color }]);
+    // Check if the message is already in notifications
+    const existingNotification = notifications.find(notification => notification.message === message);
+    if (!existingNotification) {
+      // Add a new notification if it's not a duplicate
+      const id = notifications.length + 1; // Generate a unique ID
+      setNotifications([...notifications, { id, message, color }]);
+    }
   };
+
+  useEffect(() => {
+    if (notifications.length > 0) {
+      // Clear notifications after 2 seconds
+      const timer = setTimeout(() => {
+        setNotifications([]);
+      }, 2000);
+      return () => clearTimeout(timer);
+    }
+  }, [notifications]);
 
   return (
     <div className="cart">
@@ -70,11 +68,8 @@ const Cart = ({ cart, removeFromCart, clearCart }) => {
       </ul>
       {notifications.length > 0 && (
         <div className="notification-container">
-          {notifications.map((notification, index) => (
-            <div key={index} className="custom-notification" style={{ background: notification.color }}>
-              <img src={notificationIcon} alt="Notification" className="notification-icon" />
-              {notification.message}
-            </div>
+          {notifications.map(({ id, message }) => (
+            <CustomSuccessNotification key={id} id={id} message={message} />
           ))}
         </div>
       )}
