@@ -39,13 +39,12 @@ public class ProductController {
         return productService.getClicksPerProductForUser(userId);
     }
 
-    // API endpoint to get total number of clicks per date for all products that belong to specific user
-    @GetMapping("/totalClicksPerDate/{userId}")
-    public List<Object[]> getTotalClicksPerDateForUser(@PathVariable Long userId) {
-        return productService.getTotalClicksPerDateForUser(userId);
-
+    // API endpoint to get total number of clicks for all products that belong to specific user
+    @GetMapping("/totalClicks/{userId}")
+    public Integer getTotalClicksForUser(@PathVariable Long userId) {
+        return productService.getTotalClicksForUser(userId);
     }
-    
+
     // API endpoint for searching and filtering products
     @GetMapping("/searchAndFilter")
     public List<Product> searchAndFilterProducts(@RequestParam(required = false) String search,
