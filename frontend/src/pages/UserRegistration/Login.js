@@ -38,7 +38,7 @@ function Login() {
         sessionStorage.setItem("hashedPassword", user.password);
         sessionStorage.setItem("usrID", user.userId);
         console.log("user data loged", user);
-        navigator("/seller");
+        navigator("/products");
       }
 
       // Successful login
