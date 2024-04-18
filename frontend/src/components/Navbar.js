@@ -77,6 +77,17 @@ const Navbar = () => {
                   </Link>
                 </li>
 
+                <li className="nav-item">
+                  <Link 
+                  to ="/product-catalog"
+                  className="nav-link"
+                  aria-current="page"
+                  exact
+                  >
+                    Product Catalog
+                  </Link>
+                </li>
+
                 {/* "Insights" redirects to insights page that shows user interactions with application */}
                 <li className="nav-item">
                   <Link

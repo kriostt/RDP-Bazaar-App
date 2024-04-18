@@ -23,7 +23,7 @@ public class Product {
     private double price;
     private String category;
     private String productCondition;
-
+    private String productimgurl;
     private Date datePosted;
 
     // additional property for insights

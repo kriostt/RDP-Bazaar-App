@@ -18,7 +18,7 @@ import SellerProfile from "./pages/SellerProfile/SellerProfile";
 import Messaging from "./pages/Messaging/Home";
 import SellerCatalogue from "./pages/SellerCatalogue/SellerCatalogue";
 import ProductDetail from "./pages/ProductDetail";
-
+import ProductCatalog from "./components/ProductCatalog";
 function App() {
   // JSX for app component
   return (
@@ -38,6 +38,15 @@ function App() {
             </>
           }
         />
+        <Route 
+        path="/product-catalog" 
+        element={
+          <>
+          <Navbar/>
+          <ProductCatalog/>
+          </>
+        }
+        />
         <Route
           path="/products"
           element={
@@ -56,6 +65,7 @@ function App() {
             </>
           }
         />
+        
         <Route
           path="/sellers"
           element={

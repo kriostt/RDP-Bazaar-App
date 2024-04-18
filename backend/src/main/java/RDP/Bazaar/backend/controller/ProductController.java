@@ -2,6 +2,7 @@ package RDP.Bazaar.backend.controller;
 
 import RDP.Bazaar.backend.entity.Product;
 import RDP.Bazaar.backend.service.ProductService;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +23,15 @@ public class ProductController {
     public List<Product> getAllProducts() {
         return productService.getAllProducts();
     }
-
+   @PostMapping("/")
+   public ResponseEntity<Product> createProduct(@ModelAttribute Product product) {
+        try {
+            Product addedProduct = productService.addProduct(product);
+            return new ResponseEntity<>(addedProduct, HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+   }
     // API endpoint to get a product by ID
     @GetMapping("/{productId}")
     public ResponseEntity<Product> getProductById(@PathVariable Long productId) {
@@ -74,4 +83,6 @@ public class ProductController {
                                                  @RequestParam(required = false) String sortBy) {
         return productService.searchAndFilterProducts(search, category, productCondition, minPrice, maxPrice, sortBy);
     }
+
+
 }
