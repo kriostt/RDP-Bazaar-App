@@ -210,7 +210,7 @@ function SellerCatalogue() {
 
             {/* sort by dropdown */}
             <select
-              className="form-select mt-2"
+              className="form-select mt-3 mb-3"
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
             >
@@ -231,7 +231,7 @@ function SellerCatalogue() {
                           src={seller.imgurl}
                           alt={seller.firstName}
                           className="card-img-top"
-                          style={{ objectFit: "cover", height: "100%" }}
+                          style={{ objectFit: "cover", height: "350px" }}
                         />
                       </div>
                       <div className="col-md-8">
