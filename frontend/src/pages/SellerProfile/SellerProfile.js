@@ -3,6 +3,7 @@ import "./../../../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import bcrypt from "bcryptjs";
+import { useNavigate } from "react-router-dom";
 
 import { useState } from "react";
 
@@ -14,6 +15,7 @@ function SellerProfile() {
   const [phoneNumber, setphoneNumber] = useState();
   const [rating, setrating] = useState();
   const [studentID, setstudentID] = useState();
+  const navigate = useNavigate();
 
   const studentId = sessionStorage.getItem("studentId");
   const hashedPassword = sessionStorage.getItem("hashedPassword");
@@ -138,6 +140,14 @@ function SellerProfile() {
             </button> */}
           </div>
         </div>
+        <button
+          className="btn btn-secondary mt-3"
+          onClick={() =>
+            navigate(`/edit-profile/${sessionStorage.getItem("usrID")}`)
+          }
+        >
+          Edit Profile
+        </button>
       </div>
       <div className="container mt-5">
         <ul className="nav nav-tabs">

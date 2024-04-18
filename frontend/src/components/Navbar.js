@@ -7,7 +7,7 @@ const Navbar = () => {
   const studentId = sessionStorage.getItem("studentId");
   const hashedPassword = sessionStorage.getItem("hashedPassword");
   const usrID = sessionStorage.getItem("usrID");
-  const usrid = "/edit-profile/" + usrID;
+
   console.log("current user", sessionStorage.getItem("usrID"));
 
   const handleLogout = () => {
@@ -116,7 +116,7 @@ const Navbar = () => {
 
                 {/* person icon redirects to profile page */}
                 <Link
-                  to={usrid}
+                  to="/seller"
                   className="nav-link ms-3"
                   aria-current="page"
                   exact
