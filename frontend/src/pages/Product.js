@@ -202,7 +202,7 @@ const Product = () => {
 
           {/* clear button */}
           <div className="d-grid">
-            <button className="btn btn-secondary" onClick={handleClear}>
+            <button className="btn btn-secondary mb-3" onClick={handleClear}>
               Clear
             </button>
           </div>
