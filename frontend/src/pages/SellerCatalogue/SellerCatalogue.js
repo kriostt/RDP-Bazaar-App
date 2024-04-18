@@ -6,6 +6,41 @@ import StarRating from "../../components/StarRating";
 function SellerCatalogue() {
   const [sellers, setSellers] = useState([]); // Use state to store the seller information
   const [ratings, setRatings] = useState({});
+  const [search, setSearch] = useState("");
+  const [sortBy, setSortBy] = useState("");
+
+  // function to fetch sellers based on search and filter parameters
+  const searchAndFilterSellers = async () => {
+    try {
+      // log the parameters being sent for fetching sellers
+      console.log("Fetching sellers with parameters:", {
+        search,
+        sortBy,
+      });
+
+      // send a GET request to fetch sellers from the backend
+      const response = await axios.get(
+        "http://localhost:9090/api/users/searchAndFilter",
+        {
+          params: { search, sortBy },
+        }
+      );
+
+      // log the response data received from the backend
+      console.log("Response data:", response.data);
+
+      // update the state with the fetched sellers
+      setSellers(response.data);
+    } catch (error) {
+      // handle errors if any occur during fetching
+      console.error("Error fetching sellers: ", error);
+    }
+  };
+
+  // effect hook to execute searchAndFilterSellers function when filter parameters change
+  useEffect(() => {
+    searchAndFilterSellers();
+  }, [search, sortBy]);
 
   useEffect(() => {
     axios
@@ -155,68 +190,101 @@ function SellerCatalogue() {
           </li>
         </ul>
       </div>
+
       <div className="container mt-5">
         <h1>List of Sellers</h1>
       </div>
-      <div className="container mt-5">
-        {sellers.map((seller) => (
-          <div key={seller.userId} className="col-md-12 mb-4">
-            <div className="card" style={{ height: "300px" }}>
-              <div className="row g-0">
-                <div className="col-md-4">
-                  <img
-                    src={seller.imgurl}
-                    alt={seller.firstName}
-                    className="card-img-top"
-                    style={{ objectFit: "cover", height: "100%" }}
-                  />
-                </div>
-                <div className="col-md-8">
-                  <div className="card-body">
-                    <h5 className="card-title">
-                      {seller.firstName + " " + seller.lastName}
-                    </h5>
-                    <p className="card-text">
-                      <b>Rating:</b> {ratings[seller.userId]}
-                    </p>
-                    <p className="card-text">
-                      <b>Phone Number:</b> {seller.phone}
-                    </p>
-                    {/*  StarRating component  */}
-                    <StarRating
-                      rating={0}
-                      onRatingChange={(rating) =>
-                        handleRatingChange(seller.userId, rating)
-                      }
-                    />
-                    <input hidden id={`ratingValue-${seller.userId}`} />
-                    <div className="form-group">
-                      <label htmlFor={`review-${seller.userId}`}>
-                        Write a review:
-                      </label>
-                      <textarea
-                        className="form-control"
-                        id={`review-${seller.userId}`}
-                        rows="3"
-                        value={reviews[seller.userId] || ""}
-                        onChange={(e) =>
-                          handleReviewChange(seller.userId, e.target.value)
-                        }
-                      ></textarea>
-                    </div>
 
-                    <button
-                      className="btn btn-primary"
-                      onClick={() => handleSubmitReview(seller.userId)}
-                    >
-                      Submit Review
-                    </button>
+      <div className="container mt-4">
+        <div className="row">
+          {/* container for search and filter */}
+          <div className="col-md-2">
+            {/* search input */}
+            <input
+              type="text"
+              className="form-control"
+              placeholder="Search sellers"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
+
+            {/* sort by dropdown */}
+            <select
+              className="form-select mt-2"
+              value={sortBy}
+              onChange={(e) => setSortBy(e.target.value)}
+            >
+              <option value="">Sort By</option>
+              <option value="usernameAsc">Username: A to Z</option>
+              <option value="usernameDesc">Username: Z to A</option>
+            </select>
+          </div>
+
+          <div className="col-md-10">
+            <div className="seller-list d-flex flex-wrap justify-content-center">
+              {sellers.map((seller) => (
+                <div key={seller.userId} className="col-md-12 mb-4">
+                  <div className="card" style={{ height: "350px" }}>
+                    <div className="row g-0">
+                      <div className="col-md-4">
+                        <img
+                          src={seller.imgurl}
+                          alt={seller.firstName}
+                          className="card-img-top"
+                          style={{ objectFit: "cover", height: "100%" }}
+                        />
+                      </div>
+                      <div className="col-md-8">
+                        <div className="card-body">
+                          <h5 className="card-title">
+                            {seller.firstName + " " + seller.lastName}
+                          </h5>
+                          <p className="card-text">
+                            <b>Rating:</b> {ratings[seller.userId]}
+                          </p>
+                          <p className="card-text">
+                            <b>Phone Number:</b> {seller.phone}
+                          </p>
+                          {/*  StarRating component  */}
+                          <StarRating
+                            rating={0}
+                            onRatingChange={(rating) =>
+                              handleRatingChange(seller.userId, rating)
+                            }
+                          />
+                          <input hidden id={`ratingValue-${seller.userId}`} />
+                          <div className="form-group">
+                            <label htmlFor={`review-${seller.userId}`}>
+                              Write a review:
+                            </label>
+                            <textarea
+                              className="form-control"
+                              id={`review-${seller.userId}`}
+                              rows="3"
+                              value={reviews[seller.userId] || ""}
+                              onChange={(e) =>
+                                handleReviewChange(
+                                  seller.userId,
+                                  e.target.value
+                                )
+                              }
+                            ></textarea>
+                            <button
+                              className="btn btn-primary mt-3 mb-3"
+                              onClick={() => handleSubmitReview(seller.userId)}
+                            >
+                              Submit Review
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
-              </div>
+              ))}
             </div>
           </div>
-        ))}
+        </div>
       </div>
     </>
   );
