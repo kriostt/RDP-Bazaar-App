@@ -11,12 +11,15 @@ const Insight = () => {
   const [totalClicks, setTotalClicks] = useState([]);
   const [clicksPerCategory, setClicksPerCategory] = useState([]);
 
+  // variable to get the logged in user's id
+  const userId = sessionStorage.getItem("usrID");
+
   // function to fetch product count
   const fetchProductCount = async (userId) => {
     try {
       const response = await axios.get(
         // send a GET request to fetch product count from backend
-        `http://localhost:9090/api/products/productCount/${userId}`
+        `http://localhost:9090/api/products/productCount/` + userId
       );
 
       // update the state with the fetched product count
@@ -32,7 +35,7 @@ const Insight = () => {
     try {
       const response = await axios.get(
         // send a GET request to fetch clicks per product from backend
-        `http://localhost:9090/api/products/clicksPerProduct/${userId}`
+        `http://localhost:9090/api/products/clicksPerProduct/` + userId
       );
 
       // update the state with the fetched response
@@ -48,7 +51,7 @@ const Insight = () => {
     try {
       const response = await axios.get(
         // send a GET request to fetch total clicks from backend
-        `http://localhost:9090/api/products/totalClicks/${userId}`
+        `http://localhost:9090/api/products/totalClicks/` + userId
       );
 
       // update the state with the fetched response
