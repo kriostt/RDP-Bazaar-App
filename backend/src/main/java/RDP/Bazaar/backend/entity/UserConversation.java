@@ -1,19 +1,21 @@
 package RDP.Bazaar.backend.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
-@Entity
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Entity
+@Table(name = "User_Conversation")
 public class UserConversation {
     @Id
-    private long convoId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="convoid")
+    private Long convoid;
 
     @Column(length = 1000)
     private String message;

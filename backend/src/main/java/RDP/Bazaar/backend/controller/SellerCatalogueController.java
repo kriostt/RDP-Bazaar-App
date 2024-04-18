@@ -51,8 +51,15 @@ public class SellerCatalogueController {
         return ResponseEntity.ok(user);
     }
 
+//    @PostMapping
+//    public SellerCatalogue createCatalogue(@RequestBody SellerCatalogue catalogue) {
+//        return sellerCatalogueService.createCatalogue(catalogue);
+//    }
+
+    @CrossOrigin
     @PostMapping
-    public SellerCatalogue createCatalogue(@RequestBody SellerCatalogue catalogue) {
-        return sellerCatalogueService.createCatalogue(catalogue);
+    public SellerCatalogue createCatalog(@RequestBody SellerCatalogue catalog)
+    {
+        return sellerCatalogueService.createCatalogue(catalog);
     }
 }

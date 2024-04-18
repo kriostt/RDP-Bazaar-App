@@ -15,7 +15,7 @@ import java.util.Map;
 import java.util.Optional;
 
 @RestController // Indicates that this class is a controller and the methods return JSON responses
-@RequestMapping("api/users")
+@RequestMapping("/api/users")
 @CrossOrigin(origins = "http://localhost:3000")
 public class UserController {
 
@@ -37,7 +37,7 @@ public class UserController {
 
     // Endpoint to save a new user
     @PostMapping("/save")
-    public String saveUser(@RequestBody User user) {
+    public User saveUser(@RequestBody User user) {
         return userService.saveUser(user); // Delegate the saving operation to the UserService
     }
 

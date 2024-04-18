@@ -1,7 +1,9 @@
 package RDP.Bazaar.backend.controller;
 
+import RDP.Bazaar.backend.entity.User;
 import RDP.Bazaar.backend.entity.UserConversation;
 import RDP.Bazaar.backend.service.UserConversationService;
+import RDP.Bazaar.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,6 +14,14 @@ import java.util.List;
 public class UserConversationController {
     @Autowired
     private UserConversationService userConversationService;
+
+    @Autowired
+    private UserService userService;
+    @GetMapping("/users")
+    public List<User> getAllUsers()
+    {
+        return  userService.findAll();
+    }
 
     @GetMapping
     public List<UserConversation> getAllConversations() {

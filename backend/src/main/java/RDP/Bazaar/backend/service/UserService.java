@@ -44,9 +44,8 @@ public class UserService {
     }
 
     // Method to save a user
-    public String saveUser(User user) {
-        repository.save(user); // Save the user using the repository
-        return "User Saved";
+    public User saveUser(User user) {
+       return repository.save(user); // Save the user using the repository
     }
 
     // Method to get a user by ID
@@ -93,5 +92,9 @@ public class UserService {
         } else {
             return "User not found";
         }
+    }
+
+    public List<User> findAll() {
+        return repository.findAll();
     }
 }
