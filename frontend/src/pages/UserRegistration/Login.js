@@ -28,14 +28,13 @@ function Login() {
         return;
       }
 
-      // Compare passwords using bcrypt
-      const passwordMatch = await bcrypt.compare(password, user.password);
-      if (!passwordMatch) {
+      // Compare passwords
+      if (password !== user.password) {
         alert("Incorrect password ");
         return;
       } else {
         sessionStorage.setItem("studentId", user.username);
-        sessionStorage.setItem("hashedPassword", user.password);
+        sessionStorage.setItem("password", user.password);
         sessionStorage.setItem("usrID", user.userId);
         console.log("user data loged", user);
         navigator("/products");
@@ -83,7 +82,7 @@ function Login() {
           />
         </div>
         <button type="submit" className="btn btn-primary">
-          login
+          Login
         </button>
         &nbsp;&nbsp;
         <Link className="btn btn-secondary" to="/sign-up">

@@ -34,9 +34,6 @@ function UserRegistration() {
       setEmailError("Invalid email address");
       return;
     } else {
-      //  // Hash the password
-      const hashedPassword = await bcrypt.hash(password, 10); // 10 is the saltRounds
-
       console.log(
         firstName +
           " -> " +
@@ -52,13 +49,13 @@ function UserRegistration() {
       );
 
       //  uploadImage();
-      axiosPostData(hashedPassword);
+      axiosPostData();
     }
 
     setEmailError("image", img);
   };
 
-  const axiosPostData = async (hashedPassword) => {
+  const axiosPostData = async () => {
     try {
       if (img == null) return;
       const imageRef = ref(storage, `images/${img.name + v4()}`);
@@ -73,20 +70,17 @@ function UserRegistration() {
             lastName: lastName,
             phone: phone,
             email: email,
-            password: hashedPassword,
+            password: password,
             imgurl: url,
           };
 
           console.log("for insert", postData);
-
-          // axios.post('http://localhost:8080/api/bazaarUsers',postData)
           axios
             .post("http://localhost:9090/api/users/save", postData)
             .then((response) => {
               // Handle successful response
               const generatedId = response.data.userId;
               sessionStorage.setItem("studentId", username);
-              sessionStorage.setItem("hashedPassword", hashedPassword);
               sessionStorage.setItem("userId", generatedId);
               console.log("created user", response.data);
               alert("Successfully Signed Up");

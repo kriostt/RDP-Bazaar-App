@@ -111,65 +111,6 @@ const ProfileManagement = () => {
 
   return (
     <div className="profile-management">
-      {/* Displaying the current profile picture */}
-      <div className="text-center p-4">
-        <div className="flex flex-column justify-content-center align-items-center">
-          <img
-            style={{
-              width: "160px",
-              height: "160px",
-              borderRadius: "50%",
-              objectFit: "cover",
-              marginBottom: "20px",
-            }}
-            src={profileFinal.length ? profileFinal : img}
-            alt=""
-          />
-          {/* Button to trigger picture editing */}
-          <p className="edit-picture" onClick={() => setImageCrop(true)}>
-            Edit Picture
-          </p>
-          {/* Dialog for picture editing */}
-          <Dialog visible={imageCrop} onHide={() => setImageCrop(false)}>
-            <div className="dialog-content">
-              <div className="avatar-container">
-                <Avatar
-                  width={500}
-                  height={400}
-                  onCrop={onCrop}
-                  onClose={onClose}
-                  src={src}
-                />
-              </div>
-              <div className="d-flex flex-column align-items-center mt-4">
-                <div className="button-done">
-                  {/* Button to confirm picture edit */}
-                  <Button
-                    onClick={saveCropImage}
-                    className="btn btn-outline-secondary btn-md"
-                    label="Done"
-                  />
-                </div>
-              </div>
-            </div>
-          </Dialog>
-          {/* Input for uploading new profile picture */}
-          <InputText
-            type="file"
-            accept="image/*"
-            style={{ display: "none" }}
-            onChange={(e) => {
-              const file = e.target.files[0];
-              if (file && file.type.substring(0, 5) === "image") {
-                setImage(file);
-              } else {
-                setImage(null);
-              }
-            }}
-          />
-        </div>
-      </div>
-
       {/* Form for editing profile information */}
       <form onSubmit={handleSubmit}>
         {/* Username */}
