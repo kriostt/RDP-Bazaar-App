@@ -2,14 +2,16 @@ import React, { useState } from "react";
 
 
 function Chats({ conversations, onConversationSelect }) {
+
+    console.log("convo",conversations);
     // Group conversations by sender and receiver
     // console.log("onConversationSelect--->",onConversationSelect)
     const conversationsBySenderReceiver = {};
     const conversationsByReceiver={};
 
     conversations.forEach((conversation) => {
-        const senderId = conversation.senderUser.usrid;
-        const receiverId = conversation.receiverUser.usrid;
+        const senderId = conversation.senderUser.userId;
+        const receiverId = conversation.receiverUser.userId;
     
         const key = `${senderId}_${receiverId}`;
     
@@ -38,7 +40,7 @@ function Chats({ conversations, onConversationSelect }) {
     const handleChatItemClick = (receiverUserId) => {
         // Find the conversation based on the receiverUserId and pass it to the Chat component
         const selectedConversation = conversations.filter(
-            (conversation) => (conversation.receiverUser.usrid === receiverUserId || conversation.senderUser.usrid === receiverUserId) 
+            (conversation) => (conversation.receiverUser.userId === receiverUserId || conversation.senderUser.userId === receiverUserId) 
         );        
         // console.log("selected conversation",selectedConversation);
         setSelectedConversation(selectedConversation);
@@ -62,13 +64,13 @@ function Chats({ conversations, onConversationSelect }) {
                 
                
                  
-                if(conversations[0].receiverUser.usrid != sessionStorage.getItem('usrID') )
+                if(conversations[0].receiverUser.userId != sessionStorage.getItem('usrID') )
                 {               
-                    console.log(conversations[0].receiverUser.usrid+"!="+ sessionStorage.getItem('usrID'));
+                    console.log(conversations[0].receiverUser.userId+"!="+ sessionStorage.getItem('usrID'));
                     return (
                         <div key={lastMessage.receiverUser.receiveruserid} 
                             className="userChat"
-                            onClick={() => handleChatItemClick(lastMessage.receiverUser.usrid)}
+                            onClick={() => handleChatItemClick(lastMessage.receiverUser.userId)}
                         >
                             <img src={lastMessage.receiverUser.imgurl} alt="User Avatar" />
                             <div className="userChatInfo">

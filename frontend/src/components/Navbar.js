@@ -7,6 +7,8 @@ const Navbar = () => {
   const studentId = sessionStorage.getItem("studentId");
   const hashedPassword = sessionStorage.getItem("hashedPassword");
   const usrID = sessionStorage.getItem("usrID");
+  const usrid = "/edit-profile/" + usrID;
+  console.log("current user", sessionStorage.getItem("usrID"));
 
   const handleLogout = () => {
     const confirmLogout = window.confirm("Are you sure you want to log out?");
@@ -66,7 +68,7 @@ const Navbar = () => {
                 {/* "Sellers" redirects to seller catalogue */}
                 <li className="nav-item">
                   <Link
-                    to="/sellers"
+                    to="/sellersCatalog"
                     className="nav-link"
                     aria-current="page"
                     exact
@@ -114,7 +116,7 @@ const Navbar = () => {
 
                 {/* person icon redirects to profile page */}
                 <Link
-                  to="/edit-profile/:userId"
+                  to={usrid}
                   className="nav-link ms-3"
                   aria-current="page"
                   exact

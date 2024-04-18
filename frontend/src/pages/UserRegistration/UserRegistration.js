@@ -8,12 +8,12 @@ import { storage } from "../../firebase";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { v4 } from "uuid";
 
-function UserRegistrationCreationForm() {
-  const [fname, setfname] = useState("");
-  const [lname, setlname] = useState("");
+function UserRegistration() {
+  const [firstName, setfname] = useState("");
+  const [lastName, setlname] = useState("");
   const [email, setemail] = useState("");
-  const [phoneNumber, setphoneNumber] = useState("");
-  const [studentId, setStudId] = useState("");
+  const [phone, setphoneNumber] = useState("");
+  const [username, setStudId] = useState("");
   const [password, setPassword] = useState("");
   const [emailError, setEmailError] = useState("");
   const [error, setErrors] = useState([]);
@@ -38,15 +38,15 @@ function UserRegistrationCreationForm() {
       const hashedPassword = await bcrypt.hash(password, 10); // 10 is the saltRounds
 
       console.log(
-        fname +
+        firstName +
           " -> " +
-          lname +
+          lastName +
           " -> " +
           email +
           " -> " +
-          phoneNumber +
+          phone +
           " -> " +
-          studentId +
+          username +
           " -> " +
           password
       );
@@ -68,30 +68,38 @@ function UserRegistrationCreationForm() {
           // alert("Image Uploaded");
           console.log("the url is-> " + url);
           const postData = {
-            fname: fname,
-            lname: lname,
+            username: username,
+            firstName: firstName,
+            lastName: lastName,
+            phone: phone,
             email: email,
-            phone_number: phoneNumber,
-            student_id: studentId,
             password: hashedPassword,
             imgurl: url,
           };
+
+          console.log("for insert", postData);
 
           // axios.post('http://localhost:8080/api/bazaarUsers',postData)
           axios
             .post("http://localhost:9090/api/users/save", postData)
             .then((response) => {
-              const generatedId = response.data.userId; 
-              // alert("Generated ID:"+ generatedId);
-              // Store variables in session storage
-              sessionStorage.setItem("studentId", studentId);
+              // Handle successful response
+              const generatedId = response.data.userId;
+              sessionStorage.setItem("studentId", username);
               sessionStorage.setItem("hashedPassword", hashedPassword);
               sessionStorage.setItem("userId", generatedId);
-
               console.log("created user", response.data);
-
               alert("Successfully Signed Up");
               navigator("/seller");
+            })
+            .catch((error) => {
+              // Handle errors
+              console.error("Error while posting data:", error);
+              setErrors(
+                <p className="error">
+                  Failed to post data. Please try again later.
+                </p>
+              );
             });
         });
     } catch (error) {
@@ -127,7 +135,7 @@ function UserRegistrationCreationForm() {
             type="text"
             className="form-control"
             id="firstName"
-            value={fname}
+            value={firstName}
             onChange={(e) => setfname(e.target.value)}
           />
         </div>
@@ -139,7 +147,7 @@ function UserRegistrationCreationForm() {
             type="text"
             className="form-control"
             id="lastName"
-            value={lname}
+            value={lastName}
             onChange={(e) => setlname(e.target.value)}
           />
         </div>
@@ -157,26 +165,26 @@ function UserRegistrationCreationForm() {
           />
         </div>
         <div className="mb-3">
-          <label htmlFor="phoneNumber" className="form-label">
+          <label htmlFor="phone" className="form-label">
             Phone Number
           </label>
           <input
             type="tel"
             className="form-control"
-            id="phoneNumber"
-            value={phoneNumber}
+            id="phone"
+            value={phone}
             onChange={(e) => setphoneNumber(e.target.value)}
           />
         </div>
         <div className="mb-3">
-          <label htmlFor="studentId" className="form-label">
+          <label htmlFor="username" className="form-label">
             Username
           </label>
           <input
             type="text"
             className="form-control"
-            id="studentId"
-            value={studentId}
+            id="username"
+            value={username}
             onChange={(e) => setStudId(e.target.value)}
           />
         </div>
@@ -205,4 +213,4 @@ function UserRegistrationCreationForm() {
   );
 }
 
-export default UserRegistrationCreationForm;
+export default UserRegistration;

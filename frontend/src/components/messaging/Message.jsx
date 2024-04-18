@@ -22,7 +22,7 @@ const Message = ({ selectedConversation }) => {
     return (
         <div>
             {selectedConversation.map((conversation, index) => (
-                <div key={index} className={`message ${conversation.senderUser.usrid == sessionStorage.getItem('usrID') && "owner"}`}>
+                <div key={index} className={`message ${conversation.senderUser.userId == sessionStorage.getItem('usrID') && "owner"}`}>
                     <div className="messageInfo">
                         <img src={conversation.senderUser.imgurl} alt="User" />
                         <span>{formatDate(conversation.createdAt)}</span>

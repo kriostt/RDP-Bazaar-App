@@ -23,11 +23,11 @@ function Chat({ selectedConversation,onConversationSelect }) {
      
      
      
-    if (sessionStorage.getItem('usrID') == senderUser.usrid) {
-      receiverUsr = receiverUser.usrid;  
+    if (sessionStorage.getItem('usrID') == senderUser.userId) {
+      receiverUsr = receiverUser.userId;  
       senderImgUrl = senderUser.imgurl;  
     } else {
-      receiverUsr = senderUser.usrid// Assign receiver's first name to receiverUsr
+      receiverUsr = senderUser.userId// Assign receiver's first name to receiverUsr
       senderImgUrl = receiverUser.imgurl; // Assign sender's image URL to senderImgUrl
     }
     return (

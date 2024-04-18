@@ -20,10 +20,10 @@ function Input({ receiverUsrID,senderImg,receiverUser, onConversationSelect,sele
             message: text,
             createdAt: adjustedDateTime, // Current timestamp
             senderUser: {
-                usrid: sessionStorage.getItem('usrID') 
+                userId: sessionStorage.getItem('usrID') 
             },
             receiverUser: {
-                usrid: receiverUsrID
+                userId: receiverUsrID
             }
         };
 
@@ -34,18 +34,18 @@ function Input({ receiverUsrID,senderImg,receiverUser, onConversationSelect,sele
             // Invoke the onConversationSelect callback with the updated conversation
 
             const selectedConvo = selectedConversation.filter(
-                (conversation) => ((conversation.receiverUser.usrid === receiverUsrID || conversation.senderUser.usrid === sessionStorage.getItem('usrID')) || (conversation.receiverUser.usrid === sessionStorage.getItem('usrID')  || conversation.senderUser.usrid === receiverUsrID ) ) 
+                (conversation) => ((conversation.receiverUser.userId === receiverUsrID || conversation.senderUser.userId === sessionStorage.getItem('usrID')) || (conversation.receiverUser.userId === sessionStorage.getItem('usrID')  || conversation.senderUser.userId === receiverUsrID ) ) 
             );      
 
             const addeddata = {
                 message: text,
                 createdAt: "Just Now", // Current timestamp
                 senderUser: {
-                    usrid: sessionStorage.getItem('usrID'), 
+                    userId: sessionStorage.getItem('usrID'), 
                     imgurl:senderImg
                 },
                 receiverUser: {
-                    usrid: receiverUser.usrid
+                    userId: receiverUser.userId
                 }
             };
     

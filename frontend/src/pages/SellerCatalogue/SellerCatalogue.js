@@ -43,12 +43,12 @@ function SellerCatalogue() {
 
     // Preparing the data to send
     const reviewData = {
-      usrrater: usrid,
-      usrrated: sellerId,
+      userRater: usrid,
+      userRated: sellerId,
       rating: ratingVal,
       review: reviews[sellerId],
     };
-
+    console.log("rate value", reviewData);
     axios
       .post("http://localhost:9090/api/sellerCatalogue", reviewData)
       .then((response) => {
@@ -97,10 +97,10 @@ function SellerCatalogue() {
     // Fetch ratings for each seller when sellers state changes
     async function fetchRatings() {
       const ratingPromises = sellers.map(async (seller) => {
-        const rating = await getRating(seller.usrid);
+        const rating = await getRating(seller.userId);
         setRatings((prevRatings) => ({
           ...prevRatings,
-          [seller.usrid]: rating,
+          [seller.userId]: rating,
         }));
       });
       await Promise.all(ratingPromises);
@@ -160,13 +160,13 @@ function SellerCatalogue() {
       </div>
       <div className="container mt-5">
         {sellers.map((seller) => (
-          <div key={seller.usrid} className="col-md-12 mb-4">
+          <div key={seller.userId} className="col-md-12 mb-4">
             <div className="card" style={{ height: "300px" }}>
               <div className="row g-0">
                 <div className="col-md-4">
                   <img
                     src={seller.imgurl}
-                    alt={seller.fname}
+                    alt={seller.firstName}
                     className="card-img-top"
                     style={{ objectFit: "cover", height: "100%" }}
                   />
@@ -174,40 +174,40 @@ function SellerCatalogue() {
                 <div className="col-md-8">
                   <div className="card-body">
                     <h5 className="card-title">
-                      {seller.fname + " " + seller.lname}
+                      {seller.firstName + " " + seller.lastName}
                     </h5>
                     <p className="card-text">
-                      <b>Rating:</b> {ratings[seller.usrid]}
+                      <b>Rating:</b> {ratings[seller.userId]}
                     </p>
                     <p className="card-text">
-                      <b>Phone Number:</b> {seller.phone_number}
+                      <b>Phone Number:</b> {seller.phone}
                     </p>
                     {/*  StarRating component  */}
                     <StarRating
                       rating={0}
                       onRatingChange={(rating) =>
-                        handleRatingChange(seller.usrid, rating)
+                        handleRatingChange(seller.userId, rating)
                       }
                     />
-                    <input hidden id={`ratingValue-${seller.usrid}`} />
+                    <input hidden id={`ratingValue-${seller.userId}`} />
                     <div className="form-group">
-                      <label htmlFor={`review-${seller.usrid}`}>
+                      <label htmlFor={`review-${seller.userId}`}>
                         Write a review:
                       </label>
                       <textarea
                         className="form-control"
-                        id={`review-${seller.usrid}`}
+                        id={`review-${seller.userId}`}
                         rows="3"
-                        value={reviews[seller.usrid] || ""}
+                        value={reviews[seller.userId] || ""}
                         onChange={(e) =>
-                          handleReviewChange(seller.usrid, e.target.value)
+                          handleReviewChange(seller.userId, e.target.value)
                         }
                       ></textarea>
                     </div>
 
                     <button
                       className="btn btn-primary"
-                      onClick={() => handleSubmitReview(seller.usrid)}
+                      onClick={() => handleSubmitReview(seller.userId)}
                     >
                       Submit Review
                     </button>

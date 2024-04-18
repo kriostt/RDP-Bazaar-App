@@ -17,32 +17,32 @@ function SellerProfile() {
 
   const studentId = sessionStorage.getItem("studentId");
   const hashedPassword = sessionStorage.getItem("hashedPassword");
-  const usrID = sessionStorage.getItem("usrID");
-  console.log("current user id", usrID);
+  const userId = sessionStorage.getItem("usrID");
+  console.log("current user id", userId);
   useEffect(() => {
-    if (usrID) {
-      // Hash usrID using bcrypt (adjust salt rounds as needed)
+    if (userId) {
+      // Hash userId using bcrypt (adjust salt rounds as needed)
       // const saltRounds = 10;
-      // bcrypt.hash(usrID, saltRounds, (err, hashedUsrID) => {
+      // bcrypt.hash(userId, saltRounds, (err, hasheduserId) => {
       //     if (!err) {
-      //         sessionStorage.setItem('hashedUsrID', hashedUsrID);
+      //         sessionStorage.setItem('hasheduserId', hasheduserId);
       //     } else {
-      //         console.error('Error hashing usrID:', err);
+      //         console.error('Error hashing userId:', err);
       //     }
       // });
 
-      // const hashedPassword =   bcrypt.hash(usrID, 10);
-      sessionStorage.setItem("hashedUsrID", usrID);
+      // const hashedPassword =   bcrypt.hash(userId, 10);
+      sessionStorage.setItem("hashedUserId", userId);
     }
   }, []);
 
-  const hashedUsrID = sessionStorage.getItem("hashedUsrID");
-  // const url_messaging = `http://localhost:4000/?hashedUsrID=${encodeURIComponent(hashedUsrID)}`;
+  const hashedUserId = sessionStorage.getItem("hashedUserId");
+  // const url_messaging = `http://localhost:4000/?hasheduserId=${encodeURIComponent(hasheduserId)}`;
   const url_messaging = `/message`;
 
-  console.log("current userid", sessionStorage.getItem("usrID"));
+  console.log("current userid --", sessionStorage.getItem("usrID"));
 
-  const url = `http://localhost:9090/api/users/${usrID}`;
+  const url = `http://localhost:9090/api/users/${userId}`;
   axios
     .get(url)
     .then((response) => {
@@ -52,15 +52,15 @@ function SellerProfile() {
 
       // console.log("User first name:", userData.fname);
       // console.log("User email:", userData.email);
-      // console.log("User ID:", userData.usrID);
+      // console.log("User ID:", userData.userId);
 
       // console.log("image url is->"+imageUrl);
       setImgUrl(userData.imgurl);
-      setfirstName(userData.fname);
-      setlastName(userData.lname);
+      setfirstName(userData.firstName);
+      setlastName(userData.lastName);
       setemail(userData.email);
-      setphoneNumber(userData.phone_number);
-      setstudentID(userData.studentId);
+      setphoneNumber(userData.phone);
+      setstudentID(userData.username);
       setrating("5.0");
 
       // ... (rest of your code)
@@ -69,7 +69,7 @@ function SellerProfile() {
       console.error("API request failed:", error);
     });
 
-  //alert("student ->"+studentId+" hashed password->"+hashedPassword+ " usrID->"+usrID )
+  //alert("student ->"+studentId+" hashed password->"+hashedPassword+ " userId->"+userId )
   // Sample items that the user is selling
   const itemsForSale = [
     {

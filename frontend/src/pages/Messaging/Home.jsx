@@ -45,7 +45,7 @@ function Home() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get("http://localhost:9090/api/users/");
+                const response = await axios.get("http://localhost:9090/api/conversation/users");
                 setUsers(response.data); // Set users fetched from the API
             } catch (error) {
                 console.error("Error fetching users:", error);
@@ -70,9 +70,9 @@ function Home() {
                 //     setMatchingUsrID(user.usrid); // Set the matching usrid if found                    
                 //     break;
                 // }
-                if(hashedUsrID == user.usrid.toString())
+                if(hashedUsrID == user.userId.toString())
                 {
-                    setMatchingUsrID(user.usrid); // Set the matching usrid if found                    
+                    setMatchingUsrID(user.userId); // Set the matching usrid if found                    
                     break;
                 }
             }
@@ -86,6 +86,7 @@ function Home() {
                 if (matchingUsrID) {
                     // sessionStorage.setItem('decryptuserID', matchingUsrID);
                     const response = await axios.get(`http://localhost:9090/api/conversation/by-sender/${matchingUsrID}`);
+                    console.log("list of conversation",response.data)
                     setSenderConversations(response.data); // Set conversations fetched for the matching user                   
                     
                 }

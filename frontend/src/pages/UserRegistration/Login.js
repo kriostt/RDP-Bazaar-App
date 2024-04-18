@@ -15,13 +15,14 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      console.log("student id", studentId);
       // Get user data from the backend
       const url = `http://localhost:9090/api/users/`;
       const response = await axios.get(url);
       const userData = response.data;
       console.log("list of users", userData);
       // Find the user with the entered studentId
-      const user = userData.find((user) => user.student_id === studentId);
+      const user = userData.find((user) => user.username === studentId);
       if (!user) {
         alert("Invalid student ID");
         return;
@@ -33,9 +34,10 @@ function Login() {
         alert("Incorrect password ");
         return;
       } else {
-        sessionStorage.setItem("studentId", user.student_id);
+        sessionStorage.setItem("studentId", user.username);
         sessionStorage.setItem("hashedPassword", user.password);
-        sessionStorage.setItem("usrID", user.usrid);
+        sessionStorage.setItem("usrID", user.userId);
+        console.log("user data loged", user);
         navigator("/seller");
       }
 
