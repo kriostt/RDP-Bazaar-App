@@ -36,7 +36,7 @@ const Navbar = () => {
           <div className="container-fluid px-0">
             {/* logo takes user back to home page when clicked */}
             <Link
-              to="/"
+              to="/seller"
               className="navbar-brand ms-3"
               style={{
                 fontFamily: "Arial, sans-serif",
