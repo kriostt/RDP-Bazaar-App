@@ -57,10 +57,10 @@ public class SearchAndFilterService {
         users.forEach(user -> user.setProducts(null));
 
         // sort users based on provided sortBy parameter
-        if ("usernameAsc".equals(sortBy)) {
-            users.sort(Comparator.comparing(User::getUsername));
-        } else if ("usernameDesc".equals(sortBy)) {
-            users.sort(Comparator.comparing(User::getUsername).reversed());
+        if ("nameAsc".equals(sortBy)) {
+            users.sort(Comparator.comparing(User::getFirstName));
+        } else if ("nameDesc".equals(sortBy)) {
+            users.sort(Comparator.comparing(User::getFirstName).reversed());
         }
 
         return users;
