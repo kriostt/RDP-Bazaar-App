@@ -1,5 +1,5 @@
 // import necessary modules
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import useSearchAndFilterProducts from "../components/SearchAndFilter/useSearchAndFilterProducts";
@@ -18,7 +18,14 @@ const Product = () => {
   const navigate = useNavigate();
 
   // call custom hook to fetch products based on search and filter parameters
-  const products = useSearchAndFilterProducts(search, category, productCondition, minPrice, maxPrice, sortBy);
+  const products = useSearchAndFilterProducts(
+    search,
+    category,
+    productCondition,
+    minPrice,
+    maxPrice,
+    sortBy
+  );
 
   // function to increment clicks for specific product
   const handleIncrementClicks = async (productId) => {
@@ -47,37 +54,37 @@ const Product = () => {
 
   // JSX for product component
   return (
-    <div className="container mt-4">
+    <div className="container mt-4 px-4">
       <div className="row">
-        {/* Search and filter component */}
-        <SearchAndFilterProducts
-          search={search}
-          setSearch={setSearch}
-          category={category}
-          setCategory={setCategory}
-          productCondition={productCondition}
-          setProductCondition={setProductCondition}
-          minPrice={minPrice}
-          setMinPrice={setMinPrice}
-          maxPrice={maxPrice}
-          setMaxPrice={setMaxPrice}
-          sortBy={sortBy}
-          setSortBy={setSortBy}
-          handleClear={() => {
-            setSearch("");
-            setCategory("");
-            setProductCondition("");
-            setMinPrice("");
-            setMaxPrice("");
-            setSortBy("");
-          }}
-        />
+        <div className="col-lg-3 col-md-4 mb-3 ">
+          {/* Search and filter component */}
+          <SearchAndFilterProducts
+            search={search}
+            setSearch={setSearch}
+            category={category}
+            setCategory={setCategory}
+            productCondition={productCondition}
+            setProductCondition={setProductCondition}
+            minPrice={minPrice}
+            setMinPrice={setMinPrice}
+            maxPrice={maxPrice}
+            setMaxPrice={setMaxPrice}
+            sortBy={sortBy}
+            setSortBy={setSortBy}
+            handleClear={() => {
+              setSearch("");
+              setCategory("");
+              setProductCondition("");
+              setMinPrice("");
+              setMaxPrice("");
+              setSortBy("");
+            }}
+          />
+        </div>
 
         {/* container for product catalogue */}
-        <div className="col-md-10">
+        <div className="col-lg-9 col-md-8">
           {/* !!!!!!!!!!!!!!!!!!!!!!!!!! --- PLACEHOLDER FOR PRODUCT CATALOGUE --- !!!!!!!!!!!!!!!!!!!!!!!!!! */}
-          {/* title for product component */}
-          <h1 className="product">Products</h1>
 
           {/* map through products and render each one */}
           <div className="product-list d-flex flex-wrap justify-content-center">
@@ -86,7 +93,7 @@ const Product = () => {
                 key={product.productId}
                 className="product-item border mb-3 p-3"
                 onClick={() => handleClick(product.productId)}
-                style={{ cursor: "pointer", width: "500px" }}
+                style={{ cursor: "pointer", width: "300px", margin: "7px" }}
               >
                 <h2>{product.name}</h2>
                 <p>{product.description}</p>

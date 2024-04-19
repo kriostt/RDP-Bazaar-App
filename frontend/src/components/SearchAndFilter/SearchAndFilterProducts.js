@@ -17,7 +17,7 @@ const SearchAndFilterProducts = ({
   handleClear,
 }) => {
   return (
-    <div className="col-md-2">
+    <>
       {/* search input */}
       <input
         type="text"
@@ -101,12 +101,12 @@ const SearchAndFilterProducts = ({
       </select>
 
       {/* clear button */}
-      <div className="d-grid">
+      <div className="d-flex justify-content-end">
         <button className="btn btn-secondary mb-3" onClick={handleClear}>
           Clear
         </button>
       </div>
-    </div>
+    </>
   );
 };
 
