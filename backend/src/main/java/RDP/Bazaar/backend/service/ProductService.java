@@ -36,30 +36,4 @@ public class ProductService {
         }
         return product;
     }
-
-    // get products based on search and filter criteria
-    public List<Product> searchAndFilterProducts(
-            String search, String category, String productCondition, Double minPrice, Double maxPrice, String sortBy) {
-
-        // find products based on search and filter criteria using specifications
-        List<Product> products = productRepository.findAll(
-                ProductSpecifications.searchAndFilterProducts(search, category, productCondition, minPrice, maxPrice)
-        );
-
-        // remove user information from each product
-        products.forEach(product -> product.setUser(null));
-
-        // sort products based on provided sortBy parameter
-        if ("priceAsc".equals(sortBy)) {
-            products.sort(Comparator.comparing(Product::getPrice));
-        } else if ("priceDesc".equals(sortBy)) {
-            products.sort(Comparator.comparing(Product::getPrice).reversed());
-        } else if ("datePostedAsc".equals(sortBy)) {
-            products.sort(Comparator.comparing(Product::getDatePosted));
-        } else if ("datePostedDesc".equals(sortBy)) {
-            products.sort(Comparator.comparing(Product::getDatePosted).reversed());
-        }
-
-        return products;
-    }
 }
