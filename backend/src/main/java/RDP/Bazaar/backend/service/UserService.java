@@ -29,11 +29,10 @@ public class UserService {
 
     // Method to get a user by ID
     public User getUserById(Long id) {
-        return repository.findById(id)
-                .map(user -> {
-                    user.setProducts(null); // Clear products to avoid unnecessary data exposure
-                    return user;
-                })
+        return repository.findAll().stream()
+                .filter(user -> Long.valueOf(user.getUserId()).equals(id))
+                .peek(user -> user.setProducts(null)) // Clear products to avoid unnecessary data exposure
+                .findFirst()
                 .orElse(null); // Return null if user with the given ID doesn't exist
     }
 

@@ -9,6 +9,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -36,8 +37,11 @@ public class UserServiceTest {
         Long userId = 1L;
         // Create an existing user with an empty product list
         User existingUser = new User();
+        existingUser.setUserId(userId); // setting the user ID for matching
         existingUser.setProducts(new ArrayList<>());
-        given(repository.findById(userId)).willReturn(Optional.of(existingUser));
+
+        // Mocking the repository to return the existing user when findAll() is called
+        given(repository.findAll()).willReturn(List.of(existingUser));
 
         // Act
         User user = userService.getUserById(userId);
@@ -48,7 +52,6 @@ public class UserServiceTest {
         assertNull(user.getProducts());
         // Verify the returned user matches the expected existing user
         assertEquals(existingUser, user);
-
     }
 
     @Test
