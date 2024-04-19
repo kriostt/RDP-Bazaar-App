@@ -11,7 +11,7 @@ const useSearchAndFilterSellers = (search, sortBy) => {
     try {
       // send a GET request to fetch sellers from the backend
       const response = await axios.get(
-        "http://localhost:9090/api/users/searchAndFilter",
+        "http://localhost:9090/api/searchAndFilter/users",
         {
           params: { search, sortBy },
         }
