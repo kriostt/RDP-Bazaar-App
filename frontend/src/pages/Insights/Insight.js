@@ -168,45 +168,47 @@ const Insight = () => {
       {/* display total products */}
       <p className="lead text-center">Total Products: {productCount}</p>
 
-      <div className="table-responsive mx-3">
-        {/* display table of products owned by user */}
-        <table className="table table-bordered mb-5">
-          {/* table column titles */}
-          <thead className="thead-dark">
-            <tr>
-              <th className="column-header text-center col-1" scope="col">
-                #
-              </th>
-              <th className="column-header text-center col-3" scope="col">
-                Name
-              </th>
-              <th className="column-header text-center col-2" scope="col">
-                Price
-              </th>
-              <th className="column-header text-center col-3" scope="col">
-                Category
-              </th>
-              <th className="column-header text-center col-3" scope="col">
-                Date Posted
-              </th>
-            </tr>
-          </thead>
-
-          {/* table rows */}
-          <tbody>
-            {/* map through products owned by user and display each in table row */}
-            {products.map((product, index) => (
-              <tr key={product.productId}>
-                <td className="text-center">{index + 1}</td>
-                <td className="text-center">{product[1]}</td>
-                <td className="text-center">${product[2].toFixed(2)}</td>
-                <td className="text-center">{product[3]}</td>
-                <td className="text-center">{formatDate(product[4])}</td>
+      {products.length > 0 && (
+        <div className="table-responsive mx-3">
+          {/* display table of products owned by user */}
+          <table className="table table-bordered mb-5">
+            {/* table column titles */}
+            <thead className="thead-dark">
+              <tr>
+                <th className="column-header text-center col-1" scope="col">
+                  #
+                </th>
+                <th className="column-header text-center col-3" scope="col">
+                  Name
+                </th>
+                <th className="column-header text-center col-2" scope="col">
+                  Price
+                </th>
+                <th className="column-header text-center col-3" scope="col">
+                  Category
+                </th>
+                <th className="column-header text-center col-3" scope="col">
+                  Date Posted
+                </th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+            </thead>
+
+            {/* table rows */}
+            <tbody>
+              {/* map through products owned by user and display each in table row */}
+              {products.map((product, index) => (
+                <tr key={product.productId}>
+                  <td className="text-center">{index + 1}</td>
+                  <td className="text-center">{product[1]}</td>
+                  <td className="text-center">${product[2].toFixed(2)}</td>
+                  <td className="text-center">{product[3]}</td>
+                  <td className="text-center">{formatDate(product[4])}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
 
       {/* display total clicks */}
       {productCount > 0 ? (
