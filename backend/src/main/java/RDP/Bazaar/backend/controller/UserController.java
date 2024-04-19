@@ -28,13 +28,6 @@ public class UserController {
         return userService.getAllUsers();
     }
 
-    // API endpoint for searching and filtering users
-    @GetMapping("/searchAndFilter")
-    public List<User> searchAndFilterUsers(@RequestParam(required = false) String search,
-                                           @RequestParam(required = false) String sortBy) {
-        return userService.searchAndFilterUsers(search, sortBy);
-    }
-
     // Endpoint to save a new user
     @PostMapping("/save")
     public User saveUser(@RequestBody User user) {

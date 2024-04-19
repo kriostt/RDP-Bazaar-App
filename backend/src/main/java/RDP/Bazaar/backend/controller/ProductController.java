@@ -33,15 +33,4 @@ public class ProductController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
-
-    // API endpoint for searching and filtering products
-    @GetMapping("/searchAndFilter")
-    public List<Product> searchAndFilterProducts(@RequestParam(required = false) String search,
-                                                 @RequestParam(required = false) String category,
-                                                 @RequestParam(required = false) String productCondition,
-                                                 @RequestParam(required = false) Double minPrice,
-                                                 @RequestParam(required = false) Double maxPrice,
-                                                 @RequestParam(required = false) String sortBy) {
-        return productService.searchAndFilterProducts(search, category, productCondition, minPrice, maxPrice, sortBy);
-    }
 }
