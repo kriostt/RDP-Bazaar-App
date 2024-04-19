@@ -215,8 +215,9 @@ const Insight = () => {
         <p className="lead text-center">Total Clicks: N/A</p>
       )}
 
-      {/* container for doughtnut chart */}
+      {/* row for charts */}
       <div className="row">
+        {/* container for doughtnut chart */}
         <div className="col-md-6">
           <div className="card mb-4 mx-3">
             <div className="card-body">
@@ -244,6 +245,7 @@ const Insight = () => {
                         },
                       },
                       aspectRatio: 1,
+                      maintainAspectRatio: false,
                     }}
                   />
                 ) : (
@@ -294,6 +296,7 @@ const Insight = () => {
                           },
                         },
                       },
+                      maintainAspectRatio: false,
                     }}
                   />
                 ) : (
