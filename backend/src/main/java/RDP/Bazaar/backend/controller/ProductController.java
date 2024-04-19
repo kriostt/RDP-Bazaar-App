@@ -21,34 +21,34 @@ public class ProductController {
         return productService.getAllProducts();
     }
 
-    // API endpoint to increment click count of specific product
+    // API endpoint to increment number of clicks for specific product
     @PostMapping("/incrementClicks/{productId}")
     public void incrementClicks(@PathVariable Long productId) {
         productService.incrementClicks(productId);
     }
 
-    // API endpoint to count total number of products that belong to specific user
+    // API endpoint to get the total number of products that belong to a user
     @GetMapping("/productCount/{userId}")
     public int countProductsByUserId(@PathVariable Long userId) {
         return productService.countProductsByUserId(userId);
     }
 
-    // API endpoint to get number of clicks per product for specific user
+    // API endpoint to get the total number of clicks for each product owned by a user
     @GetMapping("/clicksPerProduct/{userId}")
     public List<Object[]> getClicksPerProductForUser(@PathVariable Long userId) {
         return productService.getClicksPerProductForUser(userId);
     }
 
-    // API endpoint to get total number of clicks for all products that belong to specific user
+    // API endpoint to get the total number of clicks for all products that belong to a user
     @GetMapping("/totalClicks/{userId}")
     public Integer getTotalClicksForUser(@PathVariable Long userId) {
         return productService.getTotalClicksForUser(userId);
     }
 
-    // API endpoint to get total number of clicks per product category
-    @GetMapping("/totalClicksPerCategory")
-    public List<Object[]> getClicksPerCategory() {
-        return productService.getTotalClicksByCategory();
+    // API endpoint to get the total number of clicks for each product category for a specific user
+    @GetMapping("/clicksPerCategory/{userId}")
+    public List<Object[]> getClicksPerCategory(@PathVariable Long userId) {
+        return productService.getTotalClicksByCategoryForUser(userId);
     }
 
     // API endpoint for searching and filtering products

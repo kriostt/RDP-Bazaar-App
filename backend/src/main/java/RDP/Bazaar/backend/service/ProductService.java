@@ -30,24 +30,24 @@ public class ProductService {
         productRepository.incrementClicks(productId);
     }
 
-    // count total number of products that belong to a specific user
+    // get the total number of products that belong to a user
     public int countProductsByUserId(Long userId) {
         return productRepository.countByUserUserId(userId);
     }
 
-    // get total number of clicks per products for a specific user
+    // get the total number of clicks for each product owned by a user
     public List<Object[]> getClicksPerProductForUser(Long userId) {
         return productRepository.getClicksPerProductForUser(userId);
     }
 
-    // get total number of clicks for all products that belong to a specific user
+    // get the total number of clicks for all products that belong to a user
     public Integer getTotalClicksForUser(Long userId) {
         return productRepository.getTotalClicksForUser(userId);
     }
 
-    // get total number of clicks per product category
-    public List<Object[]> getTotalClicksByCategory() {
-        return productRepository.getTotalClicksByCategory();
+    // get the total number of clicks for each product category for a specific user
+    public List<Object[]> getTotalClicksByCategoryForUser(Long userId) {
+        return productRepository.getTotalClicksByCategoryForUser(userId);
     }
 
     // get products based on search and filter criteria
