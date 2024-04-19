@@ -166,8 +166,8 @@ function SellerCatalogue() {
         <h1>List of Sellers</h1>
       </div>
 
-      <div className="container mt-4">
-        <div className="row">
+      <div className="container mt-4 px-md-5">
+        <div className="col-md-12">
           {/* container for search and filter */}
           <SearchAndFilterSellers
             search={search}
@@ -179,70 +179,67 @@ function SellerCatalogue() {
               setSortBy("");
             }}
           />
+        </div>
 
-          <div className="col-md-10">
-            <div className="seller-list d-flex flex-wrap justify-content-center">
-              {sellers.map((seller) => (
-                <div key={seller.userId} className="col-md-12 mb-4">
-                  <div className="card" style={{ height: "350px" }}>
-                    <div className="row g-0">
-                      <div className="col-md-4">
-                        <img
-                          src={seller.imgurl}
-                          alt={seller.firstName}
-                          className="card-img-top"
-                          style={{ objectFit: "cover", height: "350px" }}
+        <div className="col-md-12">
+          <div className="seller-list d-flex flex-wrap justify-content-center">
+            {sellers.map((seller) => (
+              <div key={seller.userId} className="col-md-12 mb-4">
+                <div className="card" >
+                  <div className="row g-0">
+                    <div className="col-md-4">
+                      <img
+                        src={seller.imgurl}
+                        alt={seller.firstName}
+                        className="card-img-top"
+                        style={{ objectFit: "cover", height: "100%" }}
+                      />
+                    </div>
+                    <div className="col-md-8">
+                      <div className="card-body">
+                        <h5 className="card-title">
+                          {seller.firstName + " " + seller.lastName}
+                        </h5>
+                        <p className="card-text">
+                          <b>Rating:</b> {ratings[seller.userId]}
+                        </p>
+                        <p className="card-text">
+                          <b>Phone Number:</b> {seller.phone}
+                        </p>
+                        {/*  StarRating component  */}
+                        <StarRating
+                          rating={0}
+                          onRatingChange={(rating) =>
+                            handleRatingChange(seller.userId, rating)
+                          }
                         />
-                      </div>
-                      <div className="col-md-8">
-                        <div className="card-body">
-                          <h5 className="card-title">
-                            {seller.firstName + " " + seller.lastName}
-                          </h5>
-                          <p className="card-text">
-                            <b>Rating:</b> {ratings[seller.userId]}
-                          </p>
-                          <p className="card-text">
-                            <b>Phone Number:</b> {seller.phone}
-                          </p>
-                          {/*  StarRating component  */}
-                          <StarRating
-                            rating={0}
-                            onRatingChange={(rating) =>
-                              handleRatingChange(seller.userId, rating)
+                        <input hidden id={`ratingValue-${seller.userId}`} />
+                        <div className="form-group">
+                          <label htmlFor={`review-${seller.userId}`}>
+                            Write a review:
+                          </label>
+                          <textarea
+                            className="form-control"
+                            id={`review-${seller.userId}`}
+                            rows="3"
+                            value={reviews[seller.userId] || ""}
+                            onChange={(e) =>
+                              handleReviewChange(seller.userId, e.target.value)
                             }
-                          />
-                          <input hidden id={`ratingValue-${seller.userId}`} />
-                          <div className="form-group">
-                            <label htmlFor={`review-${seller.userId}`}>
-                              Write a review:
-                            </label>
-                            <textarea
-                              className="form-control"
-                              id={`review-${seller.userId}`}
-                              rows="3"
-                              value={reviews[seller.userId] || ""}
-                              onChange={(e) =>
-                                handleReviewChange(
-                                  seller.userId,
-                                  e.target.value
-                                )
-                              }
-                            ></textarea>
-                            <button
-                              className="btn btn-primary mt-3 mb-3"
-                              onClick={() => handleSubmitReview(seller.userId)}
-                            >
-                              Submit Review
-                            </button>
-                          </div>
+                          ></textarea>
+                          <button
+                            className="btn btn-primary mt-3 mb-3"
+                            onClick={() => handleSubmitReview(seller.userId)}
+                          >
+                            Submit Review
+                          </button>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              ))}
-            </div>
+              </div>
+            ))}
           </div>
         </div>
       </div>
