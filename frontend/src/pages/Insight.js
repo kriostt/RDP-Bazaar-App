@@ -16,7 +16,7 @@ const Insight = () => {
     try {
       const response = await axios.get(
         // send a GET request to fetch product count from backend
-        `http://localhost:9090/api/products/productCount/${userId}`
+        `http://localhost:9090/api/insights/productCount/` + userId
       );
 
       // update the state with the fetched product count
@@ -32,7 +32,7 @@ const Insight = () => {
     try {
       const response = await axios.get(
         // send a GET request to fetch clicks per product from backend
-        `http://localhost:9090/api/products/clicksPerProduct/${userId}`
+        `http://localhost:9090/api/insights/clicksPerProduct/` + userId
       );
 
       // update the state with the fetched response
@@ -48,7 +48,7 @@ const Insight = () => {
     try {
       const response = await axios.get(
         // send a GET request to fetch total clicks from backend
-        `http://localhost:9090/api/products/totalClicks/${userId}`
+        `http://localhost:9090/api/insights/totalClicks/` + userId
       );
 
       // update the state with the fetched response
@@ -60,11 +60,11 @@ const Insight = () => {
   };
 
   // function to fetch total clicks per category
-  const fetchClicksPerCategory = async () => {
+  const fetchClicksPerCategory = async (userId) => {
     try {
       const response = await axios.get(
         // send a GET request to getch clicks per category from backend
-        "http://localhost:9090/api/products/totalClicksPerCategory"
+        `http://localhost:9090/api/insights/clicksPerCategory/` + userId
       );
 
       // update the state with the fetched response
@@ -77,13 +77,10 @@ const Insight = () => {
 
   // effect hook to fetch data when component mounts
   useEffect(() => {
-    // !!! GET USER ID FOR LOGGED IN USER !!!
-
-    const userId = 1; // placeholder for user id
     fetchProductCount(userId);
     fetchClicksPerProduct(userId);
     fetchTotalClicks(userId);
-    fetchClicksPerCategory();
+    fetchClicksPerCategory(userId);
   }, []);
 
   // data for doughnut chart displaying clicks per product
