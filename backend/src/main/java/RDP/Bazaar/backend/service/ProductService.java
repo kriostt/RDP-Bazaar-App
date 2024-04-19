@@ -25,31 +25,6 @@ public class ProductService {
         return products;
     }
 
-    // increment number of clicks for specific product
-    public void incrementClicks(Long productId) {
-        productRepository.incrementClicks(productId);
-    }
-
-    // get the total number of products that belong to a user
-    public int countProductsByUserId(Long userId) {
-        return productRepository.countByUserUserId(userId);
-    }
-
-    // get the total number of clicks for each product owned by a user
-    public List<Object[]> getClicksPerProductForUser(Long userId) {
-        return productRepository.getClicksPerProductForUser(userId);
-    }
-
-    // get the total number of clicks for all products that belong to a user
-    public Integer getTotalClicksForUser(Long userId) {
-        return productRepository.getTotalClicksForUser(userId);
-    }
-
-    // get the total number of clicks for each product category for a specific user
-    public List<Object[]> getTotalClicksByCategoryForUser(Long userId) {
-        return productRepository.getTotalClicksByCategoryForUser(userId);
-    }
-
     // get products based on search and filter criteria
     public List<Product> searchAndFilterProducts(
             String search, String category, String productCondition, Double minPrice, Double maxPrice, String sortBy) {

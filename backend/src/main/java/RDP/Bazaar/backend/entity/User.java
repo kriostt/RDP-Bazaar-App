@@ -15,6 +15,7 @@ import java.util.List;
 @AllArgsConstructor // Generates a constructor with all arguments
 public class User {
     @Id // Indicates the primary key of the entity
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long userId; // Unique identifier for the user
     private String username; // Username of the user
     private String firstName; // First Name of the user
