@@ -221,6 +221,9 @@ const Insight = () => {
                             display: true,
                             text: "Clicks",
                           },
+                          ticks: {
+                            stepSize: 1,
+                          },
                         },
                       },
                     }}
