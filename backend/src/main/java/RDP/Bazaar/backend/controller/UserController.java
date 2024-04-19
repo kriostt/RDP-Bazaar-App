@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
-import java.util.Optional;
 
 @RestController // Indicates that this class is a controller and the methods return JSON responses
 @RequestMapping("/api/users")
@@ -37,24 +36,34 @@ public class UserController {
     // Endpoint to retrieve a user by ID
     @GetMapping("/{id}")
     public ResponseEntity<User> getUserById(@PathVariable Long id) {
-        User user = userService.getUserById(id);
+        User user = userService.getUserById(id); // Retrieve user by ID from UserService
         if (user != null ) {
-            return new ResponseEntity<>(user, HttpStatus.OK);
+            return ResponseEntity.ok(user); // Return user if found
         } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return ResponseEntity.notFound().build();
         }
     }
 
     // Endpoint to update a user by ID
     @PutMapping("/user/{id}")
-    public User updateUserById(@PathVariable Long id, @RequestBody User updatedUser) {
-        return userService.updateUser(id, updatedUser); // Delegate the update operation to the UserService
+    public ResponseEntity<User> updateUserById(@PathVariable Long id, @RequestBody User updatedUser) {
+        User user = userService.updateUser(id, updatedUser); // Update user by ID using UserService
+        if (user != null) {
+            return ResponseEntity.ok(user); // Return updated user if successful
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     // Endpoint to retrieve the current password of a user by ID
     @GetMapping("/user/current-password/{id}")
-    public String getCurrentPassword(@PathVariable Long id) {
-        return userService.getCurrentPassword(id);
+    public ResponseEntity<String> getCurrentPassword(@PathVariable Long id) {
+        String currentPassword = userService.getCurrentPassword(id); // Retrieve current password by user ID
+        if (currentPassword != null) {
+            return ResponseEntity.ok(currentPassword); // Return current password if found
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     // Endpoint to change the password of a user by ID

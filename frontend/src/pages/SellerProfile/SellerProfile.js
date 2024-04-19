@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import "./../../../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import bcrypt from "bcryptjs";
 import { useNavigate } from "react-router-dom";
 import { storage } from "../../firebase";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
@@ -22,29 +21,15 @@ function SellerProfile() {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
-  const studentId = sessionStorage.getItem("studentId");
-  const hashedPassword = sessionStorage.getItem("hashedPassword");
   const userId = sessionStorage.getItem("usrID");
   console.log("current user id", userId);
   useEffect(() => {
     if (userId) {
-      // Hash userId using bcrypt (adjust salt rounds as needed)
-      // const saltRounds = 10;
-      // bcrypt.hash(userId, saltRounds, (err, hasheduserId) => {
-      //     if (!err) {
-      //         sessionStorage.setItem('hasheduserId', hasheduserId);
-      //     } else {
-      //         console.error('Error hashing userId:', err);
-      //     }
-      // });
-
-      // const hashedPassword =   bcrypt.hash(userId, 10);
       sessionStorage.setItem("hashedUserId", userId);
     }
   }, []);
 
   const hashedUserId = sessionStorage.getItem("hashedUserId");
-  // const url_messaging = `http://localhost:4000/?hasheduserId=${encodeURIComponent(hasheduserId)}`;
   const url_messaging = `/message`;
 
   console.log("current userid --", sessionStorage.getItem("usrID"));
@@ -55,13 +40,6 @@ function SellerProfile() {
     .then((response) => {
       const userData = response.data;
 
-      // Access user data based on ID from receivedData
-
-      // console.log("User first name:", userData.fname);
-      // console.log("User email:", userData.email);
-      // console.log("User ID:", userData.userId);
-
-      // console.log("image url is->"+imageUrl);
       setImgUrl(userData.imgurl);
       setfirstName(userData.firstName);
       setlastName(userData.lastName);
@@ -70,8 +48,6 @@ function SellerProfile() {
       setstudentID(userData.username);
       setPassword(userData.password);
       setrating("5.0");
-
-      // ... (rest of your code)
     })
     .catch((error) => {
       console.error("API request failed:", error);
@@ -112,7 +88,7 @@ function SellerProfile() {
             .then((response) => {
               console.log("Image URL updated successfully:", url);
               setImgUrl(url); // Update state with the new image URL
-              alert("Image URL updated successfully.");
+              alert("Image updated successfully.");
             })
             .catch((error) => {
               console.error("Failed to update image URL:", error);
@@ -125,37 +101,33 @@ function SellerProfile() {
     }
   };
 
-  //alert("student ->"+studentId+" hashed password->"+hashedPassword+ " userId->"+userId )
   // Sample items that the user is selling
   const itemsForSale = [
     {
       id: 1,
       title: "Product 1",
       price: "$20",
-      image: require("../../images/tumbler.jpg"), // Replace with the actual URL of the product image
+      image: require("../../images/tumbler.jpg"),
     },
     {
       id: 2,
       title: "Product 2",
       price: "$30",
-      image: require("../../images/jacket.jpg"), // Replace with the actual URL of the product image
+      image: require("../../images/jacket.jpg"),
     },
     {
       id: 3,
       title: "Product 1",
       price: "$20",
-      image: require("../../images/book.jpg"), // Replace with the actual URL of the product image
+      image: require("../../images/book.jpg"),
     },
     {
       id: 4,
       title: "Product 2",
       price: "$30",
-      image: require("../../images/bag.jpg"), // Replace with the actual URL of the product image
+      image: require("../../images/bag.jpg"),
     },
-    // Add more items as needed
   ];
-  const hi = 123;
-  // ... (previous code)
 
   return (
     <div className="">
@@ -209,13 +181,7 @@ function SellerProfile() {
               </div>
             </div>
           </div>
-          <div className="col-md-8 d-flex ">
-            {/* <button className="btn btn-primary">                 
-                <Link to={url_messaging} className="btn btn-primary">
-                   <i className="fas fa-envelope mr-2"></i>&nbsp; Message
-                </Link>
-            </button> */}
-          </div>
+          <div className="col-md-8 d-flex "></div>
         </div>
       </div>
       <div className="container mt-5">

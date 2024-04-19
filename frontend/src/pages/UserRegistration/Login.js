@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import axios from "axios";
-import bcrypt from "bcryptjs";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 

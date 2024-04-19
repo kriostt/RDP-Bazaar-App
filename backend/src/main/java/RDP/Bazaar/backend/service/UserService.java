@@ -4,11 +4,7 @@ import RDP.Bazaar.backend.repository.IUserRepository;
 import RDP.Bazaar.backend.repository.UserSpecifications;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import java.util.Comparator;
 import java.util.List;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-
-import java.util.Optional;
 
 @Service // Indicates that this class is a service component in the Spring application context
 public class UserService {
@@ -33,13 +29,12 @@ public class UserService {
 
     // Method to get a user by ID
     public User getUserById(Long id) {
-        Optional<User> userOptional = repository.findById(id);
-        User user = userOptional.orElse(null);
-        if (user != null ) {
-            // Set the products as null
-            user.setProducts(null);
-        }
-        return user;
+        return repository.findById(id)
+                .map(user -> {
+                    user.setProducts(null); // Clear products to avoid unnecessary data exposure
+                    return user;
+                })
+                .orElse(null); // Return null if user with the given ID doesn't exist
     }
 
     // Method to update a user by ID
@@ -54,8 +49,9 @@ public class UserService {
 
     // Method to get the current password of a user by ID
     public String getCurrentPassword(Long id) {
-        User user = repository.findById(id).orElse(null);
-        return (user != null) ? user.getPassword() : null;
+        return repository.findById(id)
+                .map(User::getPassword) // Retrieve the password if the user exists
+                .orElse(null); // Return null if user with the given ID doesn't exist
     }
 
     // Method to change user's password

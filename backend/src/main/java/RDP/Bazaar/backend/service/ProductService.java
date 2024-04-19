@@ -28,12 +28,10 @@ public class ProductService {
 
     // Method to get a product by ID
     public Product getProductById(Long productId) {
-        Optional<Product> productOptional = productRepository.findById(productId);
-        Product product = productOptional.orElse(null);
-        if (product != null) {
-            // Set the seller as null
-            product.setUser(null);
-        }
-        return product;
+        return productRepository.findAll().stream()
+                .filter(product -> Long.valueOf(product.getProductId()).equals(productId))
+                .peek(product -> product.setUser(null))
+                .findFirst()
+                .orElse(null);
     }
 }
