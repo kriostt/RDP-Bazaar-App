@@ -141,7 +141,11 @@ const Insight = () => {
       <p className="lead text-center">Total Products: {productCount}</p>
 
       {/* display total clicks */}
-      <p className="lead text-center">Total Clicks: {totalClicks}</p>
+      {productCount > 0 ? (
+        <p className="lead text-center">Total Clicks: {totalClicks}</p>
+      ) : (
+        <p className="lead text-center">Total Clicks: N/A</p>
+      )}
 
       {/* container for doughtnut chart */}
       <div className="row">
@@ -158,21 +162,25 @@ const Insight = () => {
                 style={{ height: "300px" }}
               >
                 {/* render doughnut chart */}
-                <Doughnut
-                  data={clicksPerProductData}
-                  options={{
-                    plugins: {
-                      legend: {
-                        position: "bottom",
-                        labels: {
-                          boxWidth: 20,
-                          fontSize: 12,
+                {clicksPerProduct.length > 0 ? (
+                  <Doughnut
+                    data={clicksPerProductData}
+                    options={{
+                      plugins: {
+                        legend: {
+                          position: "bottom",
+                          labels: {
+                            boxWidth: 20,
+                            fontSize: 12,
+                          },
                         },
                       },
-                    },
-                    aspectRatio: 1,
-                  }}
-                />
+                      aspectRatio: 1,
+                    }}
+                  />
+                ) : (
+                  <p>No products available.</p>
+                )}
               </div>
             </div>
           </div>
@@ -192,30 +200,34 @@ const Insight = () => {
                 style={{ height: "300px" }}
               >
                 {/* render bar chart */}
-                <Bar
-                  data={clicksPerCategoryData}
-                  options={{
-                    plugins: {
-                      legend: {
-                        display: false,
-                      },
-                    },
-                    scales: {
-                      x: {
-                        title: {
-                          display: true,
-                          text: "Categories",
+                {clicksPerCategory.length > 0 ? (
+                  <Bar
+                    data={clicksPerCategoryData}
+                    options={{
+                      plugins: {
+                        legend: {
+                          display: false,
                         },
                       },
-                      y: {
-                        title: {
-                          display: true,
-                          text: "Clicks",
+                      scales: {
+                        x: {
+                          title: {
+                            display: true,
+                            text: "Categories",
+                          },
+                        },
+                        y: {
+                          title: {
+                            display: true,
+                            text: "Clicks",
+                          },
                         },
                       },
-                    },
-                  }}
-                />
+                    }}
+                  />
+                ) : (
+                  <p>No data available.</p>
+                )}
               </div>
             </div>
           </div>
