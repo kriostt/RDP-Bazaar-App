@@ -23,6 +23,11 @@ public class InsightService {
         return insightRepository.countByUserUserId(userId);
     }
 
+    // get all products that belong to a user
+    public List<Object[]> getAllProductsByUserId(Long userId) {
+        return insightRepository.getAllProductsByUserId(userId);
+    }
+
     // get the total number of clicks for each product owned by a user
     public List<Object[]> getClicksPerProductForUser(Long userId) {
         return insightRepository.getClicksPerProductForUser(userId);

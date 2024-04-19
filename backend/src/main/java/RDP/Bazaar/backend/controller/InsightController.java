@@ -26,6 +26,12 @@ public class InsightController {
         return insightService.countProductsByUserId(userId);
     }
 
+    // API endpoint to get all products that belong to a user
+    @GetMapping("/products/{userId}")
+    public List<Object[]> getAllProductsByUserId(@PathVariable Long userId) {
+        return insightService.getAllProductsByUserId(userId);
+    }
+
     // API endpoint to get the total number of clicks for each product owned by a user
     @GetMapping("/clicksPerProduct/{userId}")
     public List<Object[]> getClicksPerProductForUser(@PathVariable Long userId) {
