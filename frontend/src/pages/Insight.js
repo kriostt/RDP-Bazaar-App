@@ -7,8 +7,9 @@ import { Doughnut, Bar } from "react-chartjs-2";
 const Insight = () => {
   // state variables to hold insight data
   const [productCount, setProductCount] = useState(0);
+  const [products, setProducts] = useState([]);
   const [clicksPerProduct, setClicksPerProduct] = useState([]);
-  const [totalClicks, setTotalClicks] = useState([]);
+  const [totalClicks, setTotalClicks] = useState(0);
   const [clicksPerCategory, setClicksPerCategory] = useState([]);
 
   // variable to get the logged in user's id
@@ -27,6 +28,25 @@ const Insight = () => {
     } catch (error) {
       // handle errors if any occur during fetching
       console.error("Error fetching product count: ", error);
+    }
+  };
+
+  // function to fetch all products owned by user
+  const fetchProducts = async (userId) => {
+    try {
+      const response = await axios.get(
+        // send a GET request to fetch products owned by user from backend
+        `http://localhost:9090/api/insights/products/` + userId
+      );
+
+      // log the response
+      console.log(response);
+
+      // update the state with the fetched products
+      setProducts(response.data);
+    } catch (error) {
+      // handle errors if any occur during fetching
+      console.error("Error fetching products owned by user: ", error);
     }
   };
 
@@ -81,6 +101,7 @@ const Insight = () => {
   // effect hook to fetch data when component mounts
   useEffect(() => {
     fetchProductCount(userId);
+    fetchProducts(userId);
     fetchClicksPerProduct(userId);
     fetchTotalClicks(userId);
     fetchClicksPerCategory(userId);
@@ -132,6 +153,13 @@ const Insight = () => {
     ],
   };
 
+  // function to format date
+  const formatDate = (timestamp) => {
+    const date = new Date(timestamp);
+    const options = { year: "numeric", month: "short", day: "2-digit" };
+    return date.toLocaleDateString("en-US", options);
+  };
+
   // JSX for insight component
   return (
     <div className="container mt-5">
@@ -139,6 +167,46 @@ const Insight = () => {
 
       {/* display total products */}
       <p className="lead text-center">Total Products: {productCount}</p>
+
+      <div className="table-responsive mx-3">
+        {/* display table of products owned by user */}
+        <table className="table table-bordered mb-5">
+          {/* table column titles */}
+          <thead className="thead-dark">
+            <tr>
+              <th className="column-header text-center col-1" scope="col">
+                #
+              </th>
+              <th className="column-header text-center col-3" scope="col">
+                Name
+              </th>
+              <th className="column-header text-center col-2" scope="col">
+                Price
+              </th>
+              <th className="column-header text-center col-3" scope="col">
+                Category
+              </th>
+              <th className="column-header text-center col-3" scope="col">
+                Date Posted
+              </th>
+            </tr>
+          </thead>
+
+          {/* table rows */}
+          <tbody>
+            {/* map through products owned by user and display each in table row */}
+            {products.map((product, index) => (
+              <tr key={product.productId}>
+                <td className="text-center">{index + 1}</td>
+                <td className="text-center">{product[1]}</td>
+                <td className="text-center">${product[2].toFixed(2)}</td>
+                <td className="text-center">{product[3]}</td>
+                <td className="text-center">{formatDate(product[4])}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
 
       {/* display total clicks */}
       {productCount > 0 ? (
