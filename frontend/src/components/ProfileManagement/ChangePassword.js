@@ -22,7 +22,8 @@ const ChangePassword = () => {
       try {
         // Fetch the current password from the backend using Axios
         const response = await axios.get(
-          `http://localhost:9090/api/users/user/current-password/1`
+          `http://localhost:9090/api/users/user/current-password/` +
+            sessionStorage.getItem("usrID")
         );
         // Update the current password state with the fetched data
         setCurrentPassword(response.data);
@@ -91,7 +92,8 @@ const ChangePassword = () => {
     try {
       // Send a PUT request to change the user's password on the backend
       const response = await axios.put(
-        `http://localhost:9090/api/users/user/change-password/1`,
+        `http://localhost:9090/api/users/user/change-password/` +
+          sessionStorage.getItem("usrID"),
         {
           currentPassword: oldPassword,
           newPassword: newPassword,
@@ -100,7 +102,7 @@ const ChangePassword = () => {
       // Display the response message in an alert
       alert(response.data);
       // Redirect the user to the homepage after successfully changing the password
-      navigate("/");
+      navigate("/edit-profile/:userId");
     } catch (error) {
       // Handle different error scenarios
       if (error.response.status === 401) {

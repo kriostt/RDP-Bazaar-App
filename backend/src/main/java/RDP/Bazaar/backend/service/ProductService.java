@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 
 // handles business logic related to Product entities
 @Service
@@ -25,24 +26,15 @@ public class ProductService {
         return products;
     }
 
-    // increment number of clicks for specific product
-    public void incrementClicks(Long productId) {
-        productRepository.incrementClicks(productId);
-    }
-
-    // count total number of products that belong to a specific user
-    public int countProductsByUserId(Long userId) {
-        return productRepository.countByUserUserId(userId);
-    }
-
-    // get number of clicks per products for a specific user
-    public List<Object[]> getClicksPerProductForUser(Long userId) {
-        return productRepository.getClicksPerProductForUser(userId);
-    }
-
-    // get total number of clicks for all products that belong to a specific user
-    public Integer getTotalClicksForUser(Long userId) {
-        return productRepository.getTotalClicksForUser(userId);
+    // Method to get a product by ID
+    public Product getProductById(Long productId) {
+        Optional<Product> productOptional = productRepository.findById(productId);
+        Product product = productOptional.orElse(null);
+        if (product != null) {
+            // Set the seller as null
+            product.setUser(null);
+        }
+        return product;
     }
 
     // get products based on search and filter criteria

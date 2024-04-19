@@ -15,7 +15,7 @@ import java.util.Map;
 import java.util.Optional;
 
 @RestController // Indicates that this class is a controller and the methods return JSON responses
-@RequestMapping("api/users")
+@RequestMapping("/api/users")
 @CrossOrigin(origins = "http://localhost:3000")
 public class UserController {
 
@@ -37,14 +37,19 @@ public class UserController {
 
     // Endpoint to save a new user
     @PostMapping("/save")
-    public String saveUser(@RequestBody User user) {
+    public User saveUser(@RequestBody User user) {
         return userService.saveUser(user); // Delegate the saving operation to the UserService
     }
 
     // Endpoint to retrieve a user by ID
-    @GetMapping("/user/{id}")
-    public Optional<User> getUserById(@PathVariable Long id) {
-        return userService.getUserById(id);  // Delegate the retrieval operation to the UserService
+    @GetMapping("/{id}")
+    public ResponseEntity<User> getUserById(@PathVariable Long id) {
+        User user = userService.getUserById(id);
+        if (user != null ) {
+            return new ResponseEntity<>(user, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     // Endpoint to update a user by ID

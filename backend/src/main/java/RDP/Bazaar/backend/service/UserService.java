@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.Comparator;
 import java.util.List;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.Optional;
 
@@ -44,14 +45,19 @@ public class UserService {
     }
 
     // Method to save a user
-    public String saveUser(User user) {
-        repository.save(user); // Save the user using the repository
-        return "User Saved";
+    public User saveUser(User user) {
+       return repository.save(user); // Save the user using the repository
     }
 
     // Method to get a user by ID
-    public Optional<User> getUserById(Long id) {
-        return repository.findById(id); // Retrieve the user by ID using the repository
+    public User getUserById(Long id) {
+        Optional<User> userOptional = repository.findById(id);
+        User user = userOptional.orElse(null);
+        if (user != null ) {
+            // Set the products as null
+            user.setProducts(null);
+        }
+        return user;
     }
 
     // Method to update a user by ID
@@ -87,5 +93,9 @@ public class UserService {
         } else {
             return "User not found";
         }
+    }
+
+    public List<User> findAll() {
+        return repository.findAll();
     }
 }

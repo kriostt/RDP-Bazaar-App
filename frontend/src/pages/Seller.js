@@ -1,6 +1,7 @@
 // import necessary modules
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 const Seller = () => {
   // state variables to hold seller data and filter parameters

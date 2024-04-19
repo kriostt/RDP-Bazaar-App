@@ -11,6 +11,9 @@ const Insight = () => {
   const [totalClicks, setTotalClicks] = useState([]);
   const [clicksPerCategory, setClicksPerCategory] = useState([]);
 
+  // variable to get the logged in user's id
+  const userId = sessionStorage.getItem("usrID");
+
   // function to fetch product count
   const fetchProductCount = async (userId) => {
     try {
