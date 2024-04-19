@@ -1,5 +1,6 @@
 // import necessary modules
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const Product = () => {
@@ -11,6 +12,7 @@ const Product = () => {
   const [minPrice, setMinPrice] = useState("");
   const [maxPrice, setMaxPrice] = useState("");
   const [sortBy, setSortBy] = useState("");
+  const navigate = useNavigate();
 
   // function to fetch products based on search and filter parameters
   const searchAndFilterProducts = async () => {
@@ -104,6 +106,7 @@ const Product = () => {
   // function to handle click events on product items
   const handleClick = (productId) => {
     // redirect to product details page
+    navigate(`/product/${productId}`);
 
     // increment product clicks
     handleIncrementClicks(productId);
@@ -199,7 +202,7 @@ const Product = () => {
 
           {/* clear button */}
           <div className="d-grid">
-            <button className="btn btn-secondary" onClick={handleClear}>
+            <button className="btn btn-secondary mb-3" onClick={handleClear}>
               Clear
             </button>
           </div>

@@ -32,7 +32,7 @@ const ProfileManagement = () => {
       try {
         // Fetch user data from the server using Axios
         const response = await axios.get(
-          `http://localhost:9090/api/users/user/1`
+          `http://localhost:9090/api/users/` + sessionStorage.getItem("usrID")
         );
         // Update the profile data state with the fetched data
         setProfileData(response.data);
@@ -77,7 +77,11 @@ const ProfileManagement = () => {
 
     try {
       // Send a PUT request to update the user profile data on the server
-      await axios.put(`http://localhost:9090/api/users/user/1`, profileData);
+      await axios.put(
+        `http://localhost:9090/api/users/user/` +
+          sessionStorage.getItem("usrID"),
+        profileData
+      );
       // Display a success message if the profile data is updated successfully
       alert("Profile Data Updated Successfully");
     } catch (error) {
@@ -107,65 +111,6 @@ const ProfileManagement = () => {
 
   return (
     <div className="profile-management">
-      {/* Displaying the current profile picture */}
-      <div className="text-center p-4">
-        <div className="flex flex-column justify-content-center align-items-center">
-          <img
-            style={{
-              width: "160px",
-              height: "160px",
-              borderRadius: "50%",
-              objectFit: "cover",
-              marginBottom: "20px",
-            }}
-            src={profileFinal.length ? profileFinal : img}
-            alt=""
-          />
-          {/* Button to trigger picture editing */}
-          <p className="edit-picture" onClick={() => setImageCrop(true)}>
-            Edit Picture
-          </p>
-          {/* Dialog for picture editing */}
-          <Dialog visible={imageCrop} onHide={() => setImageCrop(false)}>
-            <div className="dialog-content">
-              <div className="avatar-container">
-                <Avatar
-                  width={500}
-                  height={400}
-                  onCrop={onCrop}
-                  onClose={onClose}
-                  src={src}
-                />
-              </div>
-              <div className="d-flex flex-column align-items-center mt-4">
-                <div className="button-done">
-                  {/* Button to confirm picture edit */}
-                  <Button
-                    onClick={saveCropImage}
-                    className="btn btn-outline-secondary btn-md"
-                    label="Done"
-                  />
-                </div>
-              </div>
-            </div>
-          </Dialog>
-          {/* Input for uploading new profile picture */}
-          <InputText
-            type="file"
-            accept="image/*"
-            style={{ display: "none" }}
-            onChange={(e) => {
-              const file = e.target.files[0];
-              if (file && file.type.substring(0, 5) === "image") {
-                setImage(file);
-              } else {
-                setImage(null);
-              }
-            }}
-          />
-        </div>
-      </div>
-
       {/* Form for editing profile information */}
       <form onSubmit={handleSubmit}>
         {/* Username */}
