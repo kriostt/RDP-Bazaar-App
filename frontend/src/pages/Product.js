@@ -92,7 +92,7 @@ const Product = () => {
     try {
       const response = await axios.post(
         // send a POST request to increment clicks for specified product
-        `http://localhost:9090/api/products/incrementClicks/${productId}`
+        `http://localhost:9090/api/insights/incrementClicks/${productId}`
       );
 
       // log when clicks are successfully incremented
