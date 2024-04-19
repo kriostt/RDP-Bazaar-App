@@ -23,6 +23,17 @@ public class ProductController {
         return productService.getAllProducts();
     }
 
+    // API endpoint to get a product by ID
+    @GetMapping("/{productId}")
+    public ResponseEntity<Product> getProductById(@PathVariable Long productId) {
+        Product product = productService.getProductById(productId);
+        if (product != null) {
+            return new ResponseEntity<>(product, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
     // API endpoint for searching and filtering products
     @GetMapping("/searchAndFilter")
     public List<Product> searchAndFilterProducts(@RequestParam(required = false) String search,
