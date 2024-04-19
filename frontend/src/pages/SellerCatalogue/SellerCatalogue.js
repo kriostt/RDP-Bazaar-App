@@ -2,58 +2,29 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import StarRating from "../../components/StarRating";
+import SearchAndFilterSellers from "../../components/SearchAndFilter/SearchAndFilterSellers";
+import useSearchAndFilterSellers from "../../components/SearchAndFilter/useSearchAndFilterSellers";
 
 function SellerCatalogue() {
-  const [sellers, setSellers] = useState([]); // Use state to store the seller information
   const [ratings, setRatings] = useState({});
   const [search, setSearch] = useState("");
   const [sortBy, setSortBy] = useState("");
 
-  // function to fetch sellers based on search and filter parameters
-  const searchAndFilterSellers = async () => {
-    try {
-      // log the parameters being sent for fetching sellers
-      console.log("Fetching sellers with parameters:", {
-        search,
-        sortBy,
-      });
+  // call the custom hook to fetch sellers based on search and filter parameters
+  const sellers = useSearchAndFilterSellers(search, sortBy);
 
-      // send a GET request to fetch sellers from the backend
-      const response = await axios.get(
-        "http://localhost:9090/api/users/searchAndFilter",
-        {
-          params: { search, sortBy },
-        }
-      );
-
-      // log the response data received from the backend
-      console.log("Response data:", response.data);
-
-      // update the state with the fetched sellers
-      setSellers(response.data);
-    } catch (error) {
-      // handle errors if any occur during fetching
-      console.error("Error fetching sellers: ", error);
-    }
-  };
-
-  // effect hook to execute searchAndFilterSellers function when filter parameters change
-  useEffect(() => {
-    searchAndFilterSellers();
-  }, [search, sortBy]);
-
-  useEffect(() => {
-    axios
-      .get("http://localhost:9090/api/users/")
-      .then((response) => {
-        const userList = response.data;
-        setSellers(userList); // Update the state with the fetched seller information
-      })
-      .catch((error) => {
-        console.error("API request failed:", error);
-      });
-  }, []);
-  console.log(sellers);
+  // useEffect(() => {
+  //   axios
+  //     .get("http://localhost:9090/api/users/")
+  //     .then((response) => {
+  //       const userList = response.data;
+  //       setSellers(userList); // Update the state with the fetched seller information
+  //     })
+  //     .catch((error) => {
+  //       console.error("API request failed:", error);
+  //     });
+  // }, []);
+  // console.log(sellers);
 
   // ------------------text area for the review-----------------------
 
@@ -198,27 +169,16 @@ function SellerCatalogue() {
       <div className="container mt-4">
         <div className="row">
           {/* container for search and filter */}
-          <div className="col-md-2">
-            {/* search input */}
-            <input
-              type="text"
-              className="form-control"
-              placeholder="Search sellers"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-            />
-
-            {/* sort by dropdown */}
-            <select
-              className="form-select mt-3 mb-3"
-              value={sortBy}
-              onChange={(e) => setSortBy(e.target.value)}
-            >
-              <option value="">Sort By</option>
-              <option value="usernameAsc">Username: A to Z</option>
-              <option value="usernameDesc">Username: Z to A</option>
-            </select>
-          </div>
+          <SearchAndFilterSellers
+            search={search}
+            setSearch={setSearch}
+            sortBy={sortBy}
+            setSortBy={setSortBy}
+            handleClear={() => {
+              setSearch("");
+              setSortBy("");
+            }}
+          />
 
           <div className="col-md-10">
             <div className="seller-list d-flex flex-wrap justify-content-center">
