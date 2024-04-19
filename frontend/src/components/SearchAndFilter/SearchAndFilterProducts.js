@@ -110,4 +110,5 @@ const SearchAndFilterProducts = ({
   );
 };
 
+// export component
 export default SearchAndFilterProducts;
