@@ -39,7 +39,7 @@ public class InsightService {
     }
 
     // get the total number of clicks for each product category for a specific user
-    public List<Object[]> getTotalClicksByCategoryForUser(Long userId) {
-        return insightRepository.getTotalClicksByCategoryForUser(userId);
+    public List<Object[]> getClicksPerCategoryForUser(Long userId) {
+        return insightRepository.getClicksPerCategoryForUser(userId);
     }
 }

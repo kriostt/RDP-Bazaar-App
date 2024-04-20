@@ -159,7 +159,7 @@ public class InsightServiceTest {
     }
 
     @Test
-    void getTotalClicksByCategoryForUserTest_ShouldReturnTotalClicksByCategory() {
+    void getClicksPerCategoryForUserTest_ShouldReturnClicksPerCategoryOfUser() {
         // create sample user
         User user = new User();
         user.setUserId((1L));
@@ -185,10 +185,10 @@ public class InsightServiceTest {
         Long userId = 1L;
 
         // // mock the behaviour of insightRepository to return expected clicks per categpry
-        given(insightRepository.getTotalClicksByCategoryForUser(userId)).willReturn(expectedClicksPerCategory);
+        given(insightRepository.getClicksPerCategoryForUser(userId)).willReturn(expectedClicksPerCategory);
 
         // call the getTotalClicksByCategoryForUser method
-        List<Object[]> actualClicksPerCategory = insightService.getTotalClicksByCategoryForUser(userId);
+        List<Object[]> actualClicksPerCategory = insightService.getClicksPerCategoryForUser(userId);
 
         // --- assertions ---
         assertEquals(expectedClicksPerCategory.size(), actualClicksPerCategory.size());

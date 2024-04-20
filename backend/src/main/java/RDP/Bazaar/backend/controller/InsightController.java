@@ -46,7 +46,7 @@ public class InsightController {
 
     // API endpoint to get the total number of clicks for each product category for a specific user
     @GetMapping("/clicksPerCategory/{userId}")
-    public List<Object[]> getClicksPerCategory(@PathVariable Long userId) {
-        return insightService.getTotalClicksByCategoryForUser(userId);
+    public List<Object[]> getClicksPerCategoryForUser(@PathVariable Long userId) {
+        return insightService.getClicksPerCategoryForUser(userId);
     }
 }

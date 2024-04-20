@@ -37,5 +37,5 @@ public interface IInsightRepository extends JpaRepository<Product, Long> {
 
     // get the total number of clicks for each product category for a specific user
     @Query("SELECT p.category, SUM(p.clicks) FROM Product p WHERE p.user.userId = :userId GROUP BY p.category")
-    List<Object[]> getTotalClicksByCategoryForUser(Long userId);
+    List<Object[]> getClicksPerCategoryForUser(Long userId);
 }
