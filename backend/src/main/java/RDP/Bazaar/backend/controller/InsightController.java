@@ -32,21 +32,21 @@ public class InsightController {
         return insightService.getAllProductsByUserId(userId);
     }
 
+    // API endpoint to get the total number of clicks for all products that belong to a user
+    @GetMapping("/totalClicks/{userId}")
+    public int getTotalClicksForUser(@PathVariable Long userId) {
+        return insightService.getTotalClicksForUser(userId);
+    }
+
     // API endpoint to get the total number of clicks for each product owned by a user
     @GetMapping("/clicksPerProduct/{userId}")
     public List<Object[]> getClicksPerProductForUser(@PathVariable Long userId) {
         return insightService.getClicksPerProductForUser(userId);
     }
 
-    // API endpoint to get the total number of clicks for all products that belong to a user
-    @GetMapping("/totalClicks/{userId}")
-    public Integer getTotalClicksForUser(@PathVariable Long userId) {
-        return insightService.getTotalClicksForUser(userId);
-    }
-
     // API endpoint to get the total number of clicks for each product category for a specific user
     @GetMapping("/clicksPerCategory/{userId}")
-    public List<Object[]> getClicksPerCategory(@PathVariable Long userId) {
-        return insightService.getTotalClicksByCategoryForUser(userId);
+    public List<Object[]> getClicksPerCategoryForUser(@PathVariable Long userId) {
+        return insightService.getClicksPerCategoryForUser(userId);
     }
 }
