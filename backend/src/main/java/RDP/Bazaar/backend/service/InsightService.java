@@ -28,14 +28,14 @@ public class InsightService {
         return insightRepository.getAllProductsByUserId(userId);
     }
 
-    // get the total number of clicks for each product owned by a user
-    public List<Object[]> getClicksPerProductForUser(Long userId) {
-        return insightRepository.getClicksPerProductForUser(userId);
-    }
-
     // get the total number of clicks for all products that belong to a user
     public Integer getTotalClicksForUser(Long userId) {
         return insightRepository.getTotalClicksForUser(userId);
+    }
+    
+    // get the total number of clicks for each product owned by a user
+    public List<Object[]> getClicksPerProductForUser(Long userId) {
+        return insightRepository.getClicksPerProductForUser(userId);
     }
 
     // get the total number of clicks for each product category for a specific user
