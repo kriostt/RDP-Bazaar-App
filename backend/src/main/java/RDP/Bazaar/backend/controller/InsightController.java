@@ -34,7 +34,7 @@ public class InsightController {
 
     // API endpoint to get the total number of clicks for all products that belong to a user
     @GetMapping("/totalClicks/{userId}")
-    public Integer getTotalClicksForUser(@PathVariable Long userId) {
+    public int getTotalClicksForUser(@PathVariable Long userId) {
         return insightService.getTotalClicksForUser(userId);
     }
 

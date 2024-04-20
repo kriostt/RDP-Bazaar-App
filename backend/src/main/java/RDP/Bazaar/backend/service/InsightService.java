@@ -29,7 +29,7 @@ public class InsightService {
     }
 
     // get the total number of clicks for all products that belong to a user
-    public Integer getTotalClicksForUser(Long userId) {
+    public int getTotalClicksForUser(Long userId) {
         return insightRepository.getTotalClicksForUser(userId);
     }
     
