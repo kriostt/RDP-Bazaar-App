@@ -2,7 +2,6 @@ package RDP.Bazaar.backend.service;
 
 import RDP.Bazaar.backend.entity.Product;
 import RDP.Bazaar.backend.entity.User;
-import RDP.Bazaar.backend.entity.UserConversation;
 import RDP.Bazaar.backend.repository.IProductRepository;
 import RDP.Bazaar.backend.repository.IUserRepository;
 import org.junit.jupiter.api.BeforeEach;
