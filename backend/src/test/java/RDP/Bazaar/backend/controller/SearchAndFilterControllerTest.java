@@ -2,7 +2,8 @@ package RDP.Bazaar.backend.controller;
 
 import RDP.Bazaar.backend.entity.Product;
 import RDP.Bazaar.backend.entity.User;
-import RDP.Bazaar.backend.service.SearchAndFilterService;
+import RDP.Bazaar.backend.service.SearchAndFilterProductService;
+import RDP.Bazaar.backend.service.SearchAndFilterUserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -25,9 +26,13 @@ public class SearchAndFilterControllerTest {
     // initialize the MockMvc instance
     private MockMvc mockMvc;
 
-    // mock the SearchAndFilterService dependency
+    // mock the SearchAndFilterProductService dependency
     @Mock
-    private SearchAndFilterService searchAndFilterService;
+    private SearchAndFilterProductService searchAndFilterProductService;
+
+    // mock the SearchAndFilterUserService dependency
+    @Mock
+    private SearchAndFilterUserService searchAndFilterUserService;
 
     // inject the mocked SearchAndFilterService into the SearchAndFilterController
     @InjectMocks
@@ -63,7 +68,7 @@ public class SearchAndFilterControllerTest {
         expectedProducts.add(product);
 
         // mock the behaviour of searchAndFilterService.searchAndFilterProducts() to return expected products
-        given(searchAndFilterService
+        given(searchAndFilterProductService
                 .searchAndFilterProducts(any(), any(),any(), any(), any(), any()))
                 .willReturn(expectedProducts);
 
@@ -107,7 +112,7 @@ public class SearchAndFilterControllerTest {
         expectedUsers.add(user);
 
         // mock the behaviour of searchAndFilterService.searchAndFilterUsers() to return expected users
-        given(searchAndFilterService
+        given(searchAndFilterUserService
                 .searchAndFilterUsers(any(), any()))
                 .willReturn(expectedUsers);
 
