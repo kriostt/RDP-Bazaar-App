@@ -116,11 +116,13 @@ const Insight = () => {
   // JSX for insight component
   return (
     <div className="container mt-5">
+      {/* title */}
       <h1 className="display-4 text-center mb-5">Insights</h1>
 
       {/* display total products */}
       <p className="lead text-center">Total Products: {productCount}</p>
 
+      {/* conditional rendering basd on if products have data */}
       {products.length > 0 && (
         <div className="table-responsive mx-3">
           {/* display table of products owned by user */}
@@ -163,8 +165,9 @@ const Insight = () => {
         </div>
       )}
 
-      {/* display total clicks */}
+      {/* conditional rendering based on if product count > 0 */}
       {productCount > 0 ? (
+        // display total clicks
         <p className="lead text-center">Total Clicks: {totalClicks}</p>
       ) : (
         <p className="lead text-center">Total Clicks: N/A</p>

@@ -1,6 +1,7 @@
 // import necessary modules
 import React from "react";
 
+// component for search and filter of sellers
 const SearchAndFilterSellers = ({
   search,
   setSearch,
@@ -10,6 +11,7 @@ const SearchAndFilterSellers = ({
 }) => {
   return (
     <>
+    {/* row containing search input and sort by dropdown */}
       <div className="row">
         {/* search input */}
         <div className="col-lg-9 col-md-8 mb-3">
@@ -29,6 +31,7 @@ const SearchAndFilterSellers = ({
             value={sortBy}
             onChange={(e) => setSortBy(e.target.value)}
           >
+            {/* options for different sorting options */}
             <option value="">Sort By</option>
             <option value="nameAsc">Name: A to Z</option>
             <option value="nameDesc">Name: Z to A</option>

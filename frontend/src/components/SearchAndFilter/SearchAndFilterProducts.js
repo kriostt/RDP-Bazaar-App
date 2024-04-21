@@ -1,6 +1,7 @@
 // import necessary modules
 import React from "react";
 
+// component for search and filter of products
 const SearchAndFilterProducts = ({
   search,
   setSearch,
@@ -33,6 +34,7 @@ const SearchAndFilterProducts = ({
         value={category}
         onChange={(e) => setCategory(e.target.value)}
       >
+        {/* options for different categories */}
         <option value="">All Categories</option>
         <option value="appliances">Appliances</option>
         <option value="clothing">Clothing</option>
@@ -49,6 +51,7 @@ const SearchAndFilterProducts = ({
         value={productCondition}
         onChange={(e) => setProductCondition(e.target.value)}
       >
+        {/* options for different product conditions */}
         <option value="">All Conditions</option>
         <option value="new">New</option>
         <option value="used - like new">Used - Like New</option>
@@ -60,6 +63,7 @@ const SearchAndFilterProducts = ({
       <div className="input-group mb-3">
         <span className="input-group-text">$</span>
 
+        {/* input for minimum price */}
         <input
           type="text"
           className="form-control"
@@ -74,6 +78,7 @@ const SearchAndFilterProducts = ({
 
         <span className="input-group-text">to</span>
 
+        {/* input for maximum price */}
         <input
           type="text"
           className="form-control"
@@ -93,6 +98,7 @@ const SearchAndFilterProducts = ({
         value={sortBy}
         onChange={(e) => setSortBy(e.target.value)}
       >
+        {/* options for different sorting options */}
         <option value="">Sort By</option>
         <option value="priceAsc">Price: Low to High</option>
         <option value="priceDesc">Price: High to Low</option>

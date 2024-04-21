@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 
+// custom hook for searching and filtering sellers
 const useSearchAndFilterSellers = (search, sortBy) => {
   // state variables to hold seller data
   const [sellers, setSellers] = useState([]);
@@ -13,6 +14,7 @@ const useSearchAndFilterSellers = (search, sortBy) => {
       const response = await axios.get(
         "http://localhost:9090/api/searchAndFilter/users",
         {
+          // pass filter parameters as query parameters
           params: { search, sortBy },
         }
       );
@@ -30,6 +32,7 @@ const useSearchAndFilterSellers = (search, sortBy) => {
     searchAndFilterSellers();
   }, [search, sortBy]);
 
+  // return the sellers state variable
   return sellers;
 };
 

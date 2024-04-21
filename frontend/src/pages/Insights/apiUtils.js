@@ -1,3 +1,4 @@
+// import necessary modules
 import axios from "axios";
 
 // function to fetch data from the API
