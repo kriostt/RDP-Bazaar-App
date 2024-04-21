@@ -48,6 +48,7 @@ public class SearchAndFilterControllerTest {
         mockMvc = standaloneSetup(searchAndFilterController).build();
     }
 
+    // test for searchAndFilterProducts method
     @Test
     void searchAndFilterProductsTest_ShouldReturnSpecificProducts() throws Exception {
         // create sample product
@@ -90,6 +91,7 @@ public class SearchAndFilterControllerTest {
                 );
     }
 
+    // test for searchAndFilterUsers method
     @Test
     void searchAndFilterUsersTest_ShouldReturnSpecificUsers() throws Exception {
         // create sample user

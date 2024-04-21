@@ -31,6 +31,7 @@ public class SearchAndFilterUserServiceTest {
         MockitoAnnotations.openMocks(this);
     }
 
+    // test for searchAndFilterUsers method - sorting by name ascending
     @Test
     void searchAndFilterUsersTest_SortByNameAsc_ShouldReturnSpecificUsersOrderedByNameAsc() {
         // create sample users
@@ -100,6 +101,7 @@ public class SearchAndFilterUserServiceTest {
         assertEquals("Josh3", actualUsers.get(1).getFirstName());
     }
 
+    // test for searchAndFilterUsers method - sorting by name descending
     @Test
     void searchAndFilterUsersTest_SortByNameDesc_ShouldReturnSpecificUsersOrderedByNameDesc() {
         // create sample users
@@ -169,6 +171,7 @@ public class SearchAndFilterUserServiceTest {
         assertEquals("Josh1", actualUsers.get(1).getFirstName());
     }
 
+    // test for searchAndFilterUsers method - sorting by default (user ID)
     @Test
     void searchAndFilterUsersTest_SortByDefault_ShouldReturnSpecificUsersOrderedByUserId() {
         // create sample users

@@ -41,7 +41,7 @@ public class SearchAndFilterUserService {
             case "nameDesc":
                 return Comparator.comparing(User::getFirstName).reversed();
             default:
-                // default sorting by user ID
+                // default sorting by user ID if sortBy parameter is not provided
                 return Comparator.comparing(User::getUserId);
         }
     }

@@ -33,6 +33,7 @@ public class SearchAndFilterProductServiceTest {
         MockitoAnnotations.openMocks(this);
     }
 
+    // test for searchAndFilterProducts method - sorting by price ascending
     @Test
     void searchAndFilterProductsTest_SortByPriceAsc_ShouldReturnSpecificProductsOrderedByPriceAsc() {
         // create sample products
@@ -100,6 +101,7 @@ public class SearchAndFilterProductServiceTest {
         assertEquals("Product 3", actualProducts.get(1).getName());
     }
 
+    // test for searchAndFilterProducts method - sorting by price descending
     @Test
     void searchAndFilterProductsTest_SortByPriceDesc_ShouldReturnSpecificProductsOrderedByPriceDesc() {
         // create sample products
@@ -167,6 +169,7 @@ public class SearchAndFilterProductServiceTest {
         assertEquals("Product 1", actualProducts.get(1).getName());
     }
 
+    // test for searchAndFilterProducts method - sorting by date posted ascending
     @Test
     void searchAndFilterProductsTest_SortByDatePostedAsc_ShouldReturnSpecificProductsOrderedByDatePostedAsc() {
         // create sample products
@@ -234,6 +237,7 @@ public class SearchAndFilterProductServiceTest {
         assertEquals("Product 3", actualProducts.get(1).getName());
     }
 
+    // test for searchAndFilterProducts method - sorting by date posted descending
     @Test
     void searchAndFilterProductsTest_SortByDatePostedDesc_ShouldReturnSpecificProductsOrderedByDatePostedDesc() {
         // create sample products
@@ -301,6 +305,7 @@ public class SearchAndFilterProductServiceTest {
         assertEquals("Product 1", actualProducts.get(1).getName());
     }
 
+    // test for searchAndFilterProducts method - sorting by default (product ID)
     @Test
     void searchAndFilterProductsTest_SortByDefault_ShouldReturnSpecificProductsOrderedByProductId() {
         // create sample products

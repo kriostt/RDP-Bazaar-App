@@ -37,6 +37,7 @@ public class SearchAndFilterProductService {
         return products;
     }
 
+    // generates comparator for sorting products based on sortBy parameter
     private Comparator<Product> getProductComparator(String sortBy) {
         switch (sortBy) {
             case "priceAsc":
@@ -48,6 +49,7 @@ public class SearchAndFilterProductService {
             case "datePostedDesc":
                 return Comparator.comparing(Product::getDatePosted).reversed();
             default:
+                // default sorting by productId if sortBy parameter is not provided
                 return Comparator.comparing(Product::getProductId);
         }
     }

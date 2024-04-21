@@ -45,6 +45,7 @@ public class InsightControllerTest {
         mockMvc = standaloneSetup(insightController).build();
     }
 
+    // test for incrementClicks method
     @Test
     void incrementClicksTest() throws Exception {
         // create productId for testing
@@ -59,6 +60,7 @@ public class InsightControllerTest {
         verify(insightService, times(1)).incrementClicks(productId);
     }
 
+    // test for countProdudctsByUserId method
     @Test
     void countProductsByUserIdTest_ShouldReturnProductCountOfUser() throws Exception {
         // create userId and expectedCount for testing
@@ -78,6 +80,7 @@ public class InsightControllerTest {
                 .andExpect(content().string(String.valueOf(expectedCount)));
     }
 
+    // test for getAllProductsByUserId method
     @Test
     void getAllProductsByUserIdTest_ShouldReturnProductsOfUser() throws Exception {
         // create sample user
@@ -119,6 +122,7 @@ public class InsightControllerTest {
                 .andExpect(content().json(expectedProductsJson));
     }
 
+    // test for getTotalClicksForUser method
     @Test
     void getTotalClicksForUserTest_ShouldReturnTotalClicksOfUser() throws Exception {
         // create userId and expectedTotalClicks for testing
@@ -138,6 +142,7 @@ public class InsightControllerTest {
                 .andExpect(content().string(String.valueOf(expectedTotalClicks)));
     }
 
+    // test for getClicksPerProductForUser method
     @Test
     void getClicksPerProductForUserTest_ShouldReturnClicksPerProductOfUser() throws Exception {
         // create sample user
@@ -179,6 +184,7 @@ public class InsightControllerTest {
                 .andExpect(content().json(expectedClicksPerProductJson));
     }
 
+    // test for getClicksPerCategoryForUser method
     @Test
     void getClicksPerCategoryForUserTest_ShouldReturnClicksPerCategoryOfUser() throws Exception {
         // create sample user

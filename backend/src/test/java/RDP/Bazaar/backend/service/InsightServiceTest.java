@@ -34,6 +34,7 @@ public class InsightServiceTest {
         MockitoAnnotations.openMocks(this);
     }
 
+    // test for incrementClicks method
     @Test
     void incrementClicksTest() {
         // create productId for testing
@@ -46,6 +47,7 @@ public class InsightServiceTest {
         verify(insightRepository, times(1)).incrementClicks(productId);
     }
 
+    // test for countProductsByUserId method
     @Test
     void countProductsByUserIdTest_ShouldReturnProductCountOfUser() {
         // create userId and expectedCount for testing
@@ -62,6 +64,7 @@ public class InsightServiceTest {
         assertEquals(expectedCount, actualCount);
     }
 
+    // test for getAllProductsByUserId method
     @Test
     void getAllProductsByUserIdTest_ShouldReturnProductsOfUser() {
         // create sample user
@@ -103,6 +106,7 @@ public class InsightServiceTest {
         }
     }
 
+    // test for getTotalClicksForUser method
     @Test
     void getTotalClicksForUserTest_ShouldReturnTotalClicksOfUser() {
         // create userId and expectedTotalClicks for testing
@@ -119,6 +123,7 @@ public class InsightServiceTest {
         assertEquals(expectedTotalClicks, actualTotalClicks);
     }
 
+    // test for getClicksPerProductForUser method
     @Test
     void getClicksPerProductForUserTest_ShouldReturnClicksPerProductOfUser() {
         // create sample user
@@ -158,6 +163,7 @@ public class InsightServiceTest {
         }
     }
 
+    // test for getClicksPerCategoryForUser method
     @Test
     void getClicksPerCategoryForUserTest_ShouldReturnClicksPerCategoryOfUser() {
         // create sample user
