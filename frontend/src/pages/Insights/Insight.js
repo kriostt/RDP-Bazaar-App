@@ -1,8 +1,8 @@
 // import necessary modules
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import { Chart as ChartJS } from "chart.js/auto"; // needed to render charts
 import { Doughnut, Bar } from "react-chartjs-2";
+import { fetchData } from "./apiUtils";
 
 const Insight = () => {
   // state variables to hold insight data
@@ -12,99 +12,52 @@ const Insight = () => {
   const [totalClicks, setTotalClicks] = useState(0);
   const [clicksPerCategory, setClicksPerCategory] = useState([]);
 
-  // variable to get the logged in user's id
-  const userId = sessionStorage.getItem("usrID");
+  // function to fetch data from the API
+  const fetchDataFromApi = async () => {
+    // get the userId from session storage
+    const userId = sessionStorage.getItem("usrID");
 
-  // function to fetch product count
-  const fetchProductCount = async (userId) => {
     try {
-      const response = await axios.get(
-        // send a GET request to fetch product count from backend
+      // fetch product count
+      const productCountData = await fetchData(
         `http://localhost:9090/api/insights/productCount/` + userId
       );
 
-      // update the state with the fetched product count
-      setProductCount(response.data);
-    } catch (error) {
-      // handle errors if any occur during fetching
-      console.error("Error fetching product count: ", error);
-    }
-  };
-
-  // function to fetch all products owned by user
-  const fetchProducts = async (userId) => {
-    try {
-      const response = await axios.get(
-        // send a GET request to fetch products owned by user from backend
+      // fetch all products owned by user
+      const productsData = await fetchData(
         `http://localhost:9090/api/insights/products/` + userId
       );
 
-      // log the response
-      console.log(response);
-
-      // update the state with the fetched products
-      setProducts(response.data);
-    } catch (error) {
-      // handle errors if any occur during fetching
-      console.error("Error fetching products owned by user: ", error);
-    }
-  };
-
-  // function to fetch clicks per product
-  const fetchClicksPerProduct = async (userId) => {
-    try {
-      const response = await axios.get(
-        // send a GET request to fetch clicks per product from backend
+      // fetch clicks per product
+      const clicksPerProductData = await fetchData(
         `http://localhost:9090/api/insights/clicksPerProduct/` + userId
       );
 
-      // update the state with the fetched response
-      setClicksPerProduct(response.data);
-    } catch (error) {
-      // handle errors if any occur during fetching
-      console.error("Error fetching clicks per product: ", error);
-    }
-  };
-
-  // function to fetch total clicks
-  const fetchTotalClicks = async (userId) => {
-    try {
-      const response = await axios.get(
-        // send a GET request to fetch total clicks from backend
+      // fetch total clicks
+      const totalClicksData = await fetchData(
         `http://localhost:9090/api/insights/totalClicks/` + userId
       );
 
-      // update the state with the fetched response
-      setTotalClicks(response.data);
-    } catch (error) {
-      // handle errors if any occur during fetching
-      console.error("Error fetching total clicks: ", error);
-    }
-  };
-
-  // function to fetch total clicks per category
-  const fetchClicksPerCategory = async (userId) => {
-    try {
-      const response = await axios.get(
-        // send a GET request to getch clicks per category from backend
+      // fetch total clicks per category
+      const clicksPerCategoryData = await fetchData(
         `http://localhost:9090/api/insights/clicksPerCategory/` + userId
       );
 
-      // update the state with the fetched response
-      setClicksPerCategory(response.data);
+      // update state variables with fetched data
+      setProductCount(productCountData);
+      setProducts(productsData);
+      setClicksPerProduct(clicksPerProductData);
+      setTotalClicks(totalClicksData);
+      setClicksPerCategory(clicksPerCategoryData);
     } catch (error) {
       // handle errors if any occur during fetching
-      console.error("Error fetching clicks per category: ", error);
+      console.error("Error fetching data: ", error);
     }
   };
 
   // effect hook to fetch data when component mounts
   useEffect(() => {
-    fetchProductCount(userId);
-    fetchProducts(userId);
-    fetchClicksPerProduct(userId);
-    fetchTotalClicks(userId);
-    fetchClicksPerCategory(userId);
+    fetchDataFromApi();
   }, []);
 
   // data for doughnut chart displaying clicks per product
