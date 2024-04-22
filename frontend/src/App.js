@@ -5,10 +5,8 @@ import "./App.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import Navbar from "./components/Navbar";
 
-import Home from "./pages/Home";
 import Product from "./pages/Product";
-import Seller from "./pages/Seller";
-import Insight from "./pages/Insight";
+import Insight from "./pages/Insights/Insight";
 import Notification from "./pages/Notification";
 import EditProfile from "./components/ProfileManagement/EditProfile";
 import ChangePassword from "./components/ProfileManagement/ChangePassword";
@@ -17,7 +15,7 @@ import UserRegistration from "./pages/UserRegistration/UserRegistration";
 import SellerProfile from "./pages/SellerProfile/SellerProfile";
 import Messaging from "./pages/Messaging/Home";
 import SellerCatalogue from "./pages/SellerCatalogue/SellerCatalogue";
-import ProductDetail from "./pages/ProductDetail";
+import ProductDetail from "./pages/ProductDetails/ProductDetail";
 
 function App() {
   // JSX for app component
@@ -29,15 +27,6 @@ function App() {
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/sign-up" element={<UserRegistration />} />
-        <Route
-          path="/home"
-          element={
-            <>
-              <Navbar />
-              <Home />{" "}
-            </>
-          }
-        />
         <Route
           path="/products"
           element={
@@ -53,15 +42,6 @@ function App() {
             <>
               <Navbar />
               <ProductDetail />
-            </>
-          }
-        />
-        <Route
-          path="/sellers"
-          element={
-            <>
-              <Navbar />
-              <Seller />
             </>
           }
         />

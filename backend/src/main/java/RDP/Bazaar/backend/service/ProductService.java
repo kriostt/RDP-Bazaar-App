@@ -62,13 +62,8 @@ public class ProductService {
     public Product getProductById(Long productId) {
         Optional<Product> productOptional = productRepository.findById(productId);
         Product product = productOptional.orElse(null);
-//        if (product != null) {
-//            // Set the seller as null
-//            product.setUser(null);
-//        }
         return product;
     }
-
 
 
     // increment number of clicks for specific product

@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import axios from "axios";
-import bcrypt from "bcryptjs";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
@@ -53,7 +52,7 @@ function Login() {
 
   return (
     <div className="container mt-5 bg">
-      <h2>Login</h2>
+      <h2 className="text-light">Login</h2>
       <form className="contactForm" onSubmit={handleSubmit}>
         <div className="mb-3">
           <label htmlFor="studentId" className="form-label">

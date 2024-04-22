@@ -1,7 +1,7 @@
 // import necessary modules
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import productImage from "../assets/hydroflask.jpg";
+import productImage from "../../assets/placeholder.png";
 import "./ProductDetail.css";
 
 // Functional component for Product Detail
