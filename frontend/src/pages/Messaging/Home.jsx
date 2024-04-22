@@ -18,7 +18,7 @@ function Home() {
     const handleConversationSelect = (conversation) => {
         setSelectedConversation(conversation);       
        
-        console.log("updated convo",senderConversations);       
+       // console.log("updated convo",senderConversations);       
     };
 
     
@@ -79,31 +79,76 @@ function Home() {
         }
     }, [hashedUsrID, users]);
 
-    console.log("user logged in messaging",matchingUsrID)
+   // console.log("user logged in messaging",matchingUsrID)
+    // useEffect(() => {
+    //     const fetchSenderConversations = async () => {
+    //         try {
+    //             if (matchingUsrID) {
+    //                 // sessionStorage.setItem('decryptuserID', matchingUsrID);
+    //                 const response = await axios.get(`http://localhost:9090/api/conversation/by-sender/${matchingUsrID}`);
+    //                 console.log("list of conversation",response.data)
+    //                 setSenderConversations(response.data); // Set conversations fetched for the matching user                   
+                    
+    //             }
+    //         } catch (error) {
+    //             console.error("Error fetching sender conversations:", error);
+    //         }
+    //     };
+
+    //     fetchSenderConversations();
+        
+    //     // Set up polling with setInterval
+    //     const intervalId = setInterval(fetchSenderConversations, POLLING_INTERVAL);
+
+    //     // Clean up the interval on component unmount
+    //     return () => clearInterval(intervalId);
+    // }, [matchingUsrID,selectedConversation]); // Fetch sender conversations when matchingUsrID changes
+    // console.log("ka chat niya",senderConversations);
     useEffect(() => {
         const fetchSenderConversations = async () => {
             try {
                 if (matchingUsrID) {
-                    // sessionStorage.setItem('decryptuserID', matchingUsrID);
                     const response = await axios.get(`http://localhost:9090/api/conversation/by-sender/${matchingUsrID}`);
-                    console.log("list of conversation",response.data)
-                    setSenderConversations(response.data); // Set conversations fetched for the matching user                   
+                    //console.log("list of conversation", response.data);
+    
+                    // Filter conversations based on senderUser and receiverUser conditions
+                    const filteredConversations = response.data.filter(conversation => {
+                        const { senderUser, receiverUser } = conversation;
+                        const loggedInUserId = sessionStorage.getItem('usrID');
+                        const receiverUserId = sessionStorage.getItem('recieverUserId');
+                        // console.log("senderUser",senderUser.userId)
+                        // console.log("loggedInUserId",loggedInUserId);
+                        // console.log("receiverUserId",receiverUserId);
+    
+                        // Check if senderUser is equal to loggedInUserId and receiverUser is equal to receiverUserId
+                        const condition1 = senderUser.userId == loggedInUserId && receiverUser.userId == receiverUserId;
+    
+                        // Check if senderUser is equal to receiverUserId and receiverUser is equal to loggedInUserId
+                        const condition2 = senderUser.userId == receiverUserId && receiverUser.userId == loggedInUserId;
+    
+                        return condition1 || condition2;
+                    });
+    
+                    setSenderConversations(filteredConversations);
+                    // console.log("fetch from axios",response)
+                    // console.log("sender and receiver convo",senderConversations)
                     
                 }
             } catch (error) {
                 console.error("Error fetching sender conversations:", error);
             }
         };
-
+    
         fetchSenderConversations();
-        
+    
         // Set up polling with setInterval
         const intervalId = setInterval(fetchSenderConversations, POLLING_INTERVAL);
-
+    
         // Clean up the interval on component unmount
         return () => clearInterval(intervalId);
-    }, [matchingUsrID,selectedConversation]); // Fetch sender conversations when matchingUsrID changes
-    // console.log("ka chat niya",senderConversations);
+    }, [matchingUsrID,selectedConversation ,sessionStorage.getItem('usrID'), sessionStorage.getItem('recieverUserId')]);
+    
+
      
     
     
@@ -111,8 +156,8 @@ function Home() {
     return (
         <div className='home'>
             <div className="container">              
-                <Sidebar conversations={senderConversations} onConversationSelect={handleConversationSelect }  />                     
-                <Chat selectedConversation = {selectedConversation}  onConversationSelect={handleConversationSelect } />
+                {/* <Sidebar conversations={senderConversations} onConversationSelect={handleConversationSelect }  />                      */}
+                <Chat selectedConversation = {senderConversations}  onConversationSelect={handleConversationSelect } />
                 
             </div>
         </div>

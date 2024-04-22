@@ -4,7 +4,7 @@ import axios from "axios";
 function Input({ receiverUsrID,senderImg,receiverUser, onConversationSelect,selectedConversation}) {
     const [text, setText] = useState("");
     const [currentTime,setCurrTime] = useState("");
-    console.log("receiver user",receiverUsrID);
+    // console.log("receiver user",receiverUsrID);
     
     //  console.log("selected conversationss in INput Component",selectedConversation);
      const [convo, setSelectedConversation] = useState(null);
@@ -75,7 +75,11 @@ function Input({ receiverUsrID,senderImg,receiverUser, onConversationSelect,sele
         }
     };
 
-    
+    const handleKeyPress = (e) => {
+        if (e.key === "Enter") {
+          handleSendClick();
+        }
+      };
 
     return (
         <div className="input">
@@ -84,6 +88,7 @@ function Input({ receiverUsrID,senderImg,receiverUser, onConversationSelect,sele
                 placeholder="Type something..."
                 onChange={(e) => setText(e.target.value)}
                 value={text}
+                onKeyPress={handleKeyPress}
             />
             <div className="send">               
                 <button onClick={handleSendClick}>Send</button>

@@ -7,7 +7,7 @@ const Navbar = () => {
   const studentId = sessionStorage.getItem("studentId");
   const hashedPassword = sessionStorage.getItem("hashedPassword");
   const usrID = sessionStorage.getItem("usrID");
-  const usrid = "/edit-profile/" + usrID;
+
   console.log("current user", sessionStorage.getItem("usrID"));
 
   const handleLogout = () => {
@@ -20,8 +20,28 @@ const Navbar = () => {
       sessionStorage.removeItem("hashedPassword");
       sessionStorage.removeItem("usrID");
       sessionStorage.removeItem("decryptuserID");
+      sessionStorage.removeItem("recieverUserId");
+      sessionStorage.removeItem("recieverimgurl");
+      sessionStorage.removeItem("senderimgurl");
+
       navigator("/");
     }
+  };
+
+  const handleProfile = () => {
+    sessionStorage.removeItem("recieverUserId");
+    sessionStorage.removeItem("recieverimgurl");
+    sessionStorage.removeItem("allItems", "all");
+    // navigator("/seller");
+    window.location.href = "/seller";
+  };
+
+  const handleAllItemSeller = () => {
+    sessionStorage.removeItem("recieverUserId");
+    sessionStorage.removeItem("recieverimgurl");
+    sessionStorage.setItem("allItems", "all");
+    // navigator("/products");
+    window.location.href = "/products";
   };
 
   if (!studentId) {
@@ -36,7 +56,7 @@ const Navbar = () => {
           <div className="container-fluid px-0">
             {/* logo takes user back to home page when clicked */}
             <Link
-              to="/"
+              to="/products"
               className="navbar-brand ms-3"
               style={{
                 fontFamily: "Arial, sans-serif",
@@ -55,14 +75,13 @@ const Navbar = () => {
               <ul className="navbar-nav me-auto mb-2 mb-lg-0 ms-3">
                 {/* "Products" redirects to product catalogue */}
                 <li className="nav-item">
-                  <Link
-                    to="/products"
-                    className="nav-link"
-                    aria-current="page"
-                    exact
+                  <button
+                    className="nav-link ms-3"
+                    aria-label="Logout"
+                    onClick={handleAllItemSeller}
                   >
                     Products
-                  </Link>
+                  </button>
                 </li>
 
                 {/* "Sellers" redirects to seller catalogue */}
@@ -126,14 +145,12 @@ const Navbar = () => {
                 </Link>
 
                 {/* person icon redirects to profile page */}
-                <Link
-                  to={usrid}
-                  className="nav-link ms-3"
-                  aria-current="page"
-                  exact
+                <button
+                  className="nav-link ms-3 btn btn-link"
+                  onClick={handleProfile}
                 >
                   <i className="bi bi-person"></i>
-                </Link>
+                </button>
 
                 <button
                   className="nav-link ms-3"

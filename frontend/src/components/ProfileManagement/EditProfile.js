@@ -8,7 +8,9 @@ const EditProfile = () => {
   const { userId } = useParams();
   return (
     <div className="App">
-      <h2 className="profile-heading">My Profile</h2>
+      <h2 className="profile-heading" style={{ marginBottom: "60px" }}>
+        My Profile
+      </h2>
       <ProfileManagement userId={userId} />
     </div>
   );

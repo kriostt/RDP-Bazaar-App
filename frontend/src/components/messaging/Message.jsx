@@ -1,11 +1,22 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 const Message = ({ selectedConversation }) => {
     const messagesEndRef = useRef(null);
+    const [previousConversation, setPreviousConversation] = useState([]);
 
     // Scroll to the bottom of the messages container when selectedConversation changes
     useEffect(() => {
-        scrollToBottom();
+        if (selectedConversation && selectedConversation.length > 0) {
+               
+            if(previousConversation.length != selectedConversation.length)     
+            {
+                scrollToBottom();
+            } 
+            console.log("previous convo",previousConversation.length);
+            console.log("current convo",selectedConversation.length);   
+            setPreviousConversation(selectedConversation);
+        }
+        
     }, [selectedConversation]);
 
     const scrollToBottom = () => {
@@ -16,7 +27,7 @@ const Message = ({ selectedConversation }) => {
 
     // Check if selectedConversation exists and contains messages
     if (!selectedConversation || selectedConversation.length === 0) {
-        return <div className="message">No messages available</div>;
+        return <div className="message">Start Conversation with {sessionStorage.getItem("recieverfirstName")} by sending a message</div>;
     }
 
     return (

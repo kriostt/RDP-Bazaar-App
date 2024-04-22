@@ -2,10 +2,62 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import StarRating from "../../components/StarRating";
+import SearchAndFilterSellers from "../../components/SearchAndFilter/SearchAndFilterSellers";
+import useSearchAndFilterSellers from "../../components/SearchAndFilter/useSearchAndFilterSellers";
 
 function SellerCatalogue() {
-  const [sellers, setSellers] = useState([]); // Use state to store the seller information
+  const [sellers_, setSellers] = useState([]);
   const [ratings, setRatings] = useState({});
+  const [search, setSearch] = useState("");
+  const [sortBy, setSortBy] = useState("");
+
+  // call the custom hook to fetch sellers based on search and filter parameters
+  const sellers = useSearchAndFilterSellers(search, sortBy);
+
+  // function to fetch sellers based on search and filter parameters
+  const searchAndFilterSellers = async () => {
+    try {
+      // send a GET request to fetch sellers from the backend
+      const response = await axios.get(
+        "http://localhost:9090/api/users/searchAndFilter",
+        {
+          params: { search, sortBy },
+        }
+      );
+
+      // log the response data received from the backend
+      console.log("Response data:", response.data);
+
+      // Filter out sellers whose userId matches sessionStorage.getItem("usrID")
+      const filteredSellers = response.data.filter(
+        (seller) => seller.userId != sessionStorage.getItem("usrID")
+      );
+
+      // update the state with the filtered sellers
+      setSellers(filteredSellers);
+    } catch (error) {
+      // handle errors if any occur during fetching
+      console.error("Error fetching sellers: ", error);
+    }
+  };
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:9090/api/bazaarUsers")
+      .then((response) => {
+        const userList = response.data;
+        setSellers(userList); // Update the state with the fetched seller information
+      })
+      .catch((error) => {
+        console.error("API request failed:", error);
+      });
+  }, []);
+  console.log(sellers);
+
+  // effect hook to execute searchAndFilterSellers function when filter parameters change
+  useEffect(() => {
+    searchAndFilterSellers();
+  }, [search, sortBy]);
 
   useEffect(() => {
     axios
@@ -18,7 +70,6 @@ function SellerCatalogue() {
         console.error("API request failed:", error);
       });
   }, []);
-  console.log(sellers);
 
   // ------------------text area for the review-----------------------
 
@@ -132,91 +183,127 @@ function SellerCatalogue() {
     }
   }
 
-  console.log("sellers", sellers);
+  //console.log("sellers", sellers);
+
+  const handleSendMessage = (userId, receiverimgurl, firstName) => {
+    sessionStorage.setItem("recieverUserId", userId);
+    sessionStorage.setItem("recieverimgurl", receiverimgurl);
+    sessionStorage.setItem("recieverfirstName", firstName);
+    const recieverUserId = sessionStorage.getItem("recieverUserId");
+    console.log("user clicked", recieverUserId);
+    window.location.assign("/message");
+  };
+
+  const handleViewProfile = (userId, receiverimgurl, firstName) => {
+    sessionStorage.setItem("recieverUserId", userId);
+    sessionStorage.setItem("recieverimgurl", receiverimgurl);
+    sessionStorage.setItem("recieverfirstName", firstName);
+    sessionStorage.removeItem("allItems", "all");
+    const recieverUserId = sessionStorage.getItem("recieverUserId");
+    console.log("user clicked", recieverUserId);
+    window.location.assign("/seller");
+  };
+
+  console.log("current user id logged in", sessionStorage.getItem("usrID"));
 
   return (
     <>
       <div className="container mt-5">
-        <ul className="nav nav-tabs">
-          <li className="nav-item">
-            <Link to="/Seller" className="nav-link">
-              Items
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link to="/sellersCatalog" className="nav-link">
-              Sellers Catalog
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link to="/reviews" className="nav-link">
-              Reviews
-            </Link>
-          </li>
-        </ul>
-      </div>
-      <div className="container mt-5">
         <h1>List of Sellers</h1>
       </div>
-      <div className="container mt-5">
-        {sellers.map((seller) => (
-          <div key={seller.userId} className="col-md-12 mb-4">
-            <div className="card" style={{ height: "300px" }}>
-              <div className="row g-0">
-                <div className="col-md-4">
-                  <img
-                    src={seller.imgurl}
-                    alt={seller.firstName}
-                    className="card-img-top"
-                    style={{ objectFit: "cover", height: "100%" }}
-                  />
-                </div>
-                <div className="col-md-8">
-                  <div className="card-body">
-                    <h5 className="card-title">
-                      {seller.firstName + " " + seller.lastName}
-                    </h5>
-                    <p className="card-text">
-                      <b>Rating:</b> {ratings[seller.userId]}
-                    </p>
-                    <p className="card-text">
-                      <b>Phone Number:</b> {seller.phone}
-                    </p>
-                    {/*  StarRating component  */}
-                    <StarRating
-                      rating={0}
-                      onRatingChange={(rating) =>
-                        handleRatingChange(seller.userId, rating)
-                      }
-                    />
-                    <input hidden id={`ratingValue-${seller.userId}`} />
-                    <div className="form-group">
-                      <label htmlFor={`review-${seller.userId}`}>
-                        Write a review:
-                      </label>
-                      <textarea
-                        className="form-control"
-                        id={`review-${seller.userId}`}
-                        rows="3"
-                        value={reviews[seller.userId] || ""}
-                        onChange={(e) =>
-                          handleReviewChange(seller.userId, e.target.value)
-                        }
-                      ></textarea>
-                    </div>
 
-                    <button
-                      className="btn btn-primary"
-                      onClick={() => handleSubmitReview(seller.userId)}
-                    >
-                      Submit Review
-                    </button>
+      <div className="container mt-4 px-md-5">
+        <div className="col-md-12">
+          {/* container for search and filter */}
+          <SearchAndFilterSellers
+            search={search}
+            setSearch={setSearch}
+            sortBy={sortBy}
+            setSortBy={setSortBy}
+            handleClear={() => {
+              setSearch("");
+              setSortBy("");
+            }}
+          />
+        </div>
+
+        <div className="col-md-12">
+          <div className="seller-list d-flex flex-wrap justify-content-center">
+            {sellers.map((seller) => (
+              <div key={seller.userId} className="col-md-12 mb-4">
+                <div className="card">
+                  <div className="row g-0">
+                    <div className="col-md-4">
+                      <img
+                        src={seller.imgurl}
+                        alt={seller.firstName}
+                        className="card-img-top"
+                        style={{ objectFit: "cover", height: "100%" }}
+                      />
+                    </div>
+                    <div className="col-md-8">
+                      <div className="card-body">
+                        <h5 className="card-title">
+                          {seller.firstName + " " + seller.lastName}
+                        </h5>
+                        <p className="card-text">
+                          <b>Rating:</b> {ratings[seller.userId]}
+                        </p>
+                        <p className="card-text">
+                          <b>Phone Number:</b> {seller.phone}
+                        </p>
+                        {/*  StarRating component  */}
+                        <StarRating
+                          rating={0}
+                          onRatingChange={(rating) =>
+                            handleRatingChange(seller.userId, rating)
+                          }
+                        />
+                        <input hidden id={`ratingValue-${seller.userId}`} />
+                        <div className="form-group">
+                          <label htmlFor={`review-${seller.userId}`}>
+                            Write a review:
+                          </label>
+                          <textarea
+                            className="form-control"
+                            id={`review-${seller.userId}`}
+                            rows="3"
+                            value={reviews[seller.userId] || ""}
+                            onChange={(e) =>
+                              handleReviewChange(seller.userId, e.target.value)
+                            }
+                          ></textarea>
+                          <button
+                            className="btn btn-primary mt-3 mb-3"
+                            onClick={() => handleSubmitReview(seller.userId)}
+                          >
+                            Submit Review
+                          </button>
+                        </div>
+                        <div className="col-sm-3">
+                          <Link
+                            className="nav-link"
+                            onClick={() =>
+                              handleSendMessage(
+                                seller.userId,
+                                seller.imgurl,
+                                seller.firstName
+                              )
+                            }
+                          >
+                            <button className="btn btn-success mt-3 mb-3">
+                              Message
+                            </button>
+                          </Link>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
+            ))}
           </div>
-        ))}
+        </div>
       </div>
     </>
   );

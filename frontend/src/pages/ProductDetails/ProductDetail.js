@@ -1,7 +1,7 @@
 // import necessary modules
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import productImage from "../assets/hydroflask.jpg";
+import productImage from "../../assets/placeholder.png";
 import "./ProductDetail.css";
 
 // Functional component for Product Detail
@@ -66,7 +66,7 @@ const ProductDetail = () => {
       <div className="container" style={{ width: "700px" }}>
         <div className="product-detail-container">
           <div className="product-detail-image">
-            <img src={productImage} alt={product.name} />
+            <img src={product.imgurl} alt={product.name} />
           </div>
           <div className="product-detail-info">
             <h2>{product.name}</h2>

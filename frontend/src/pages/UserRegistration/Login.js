@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import axios from "axios";
-import bcrypt from "bcryptjs";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
@@ -28,17 +27,17 @@ function Login() {
         return;
       }
 
-      // Compare passwords using bcrypt
-      const passwordMatch = await bcrypt.compare(password, user.password);
-      if (!passwordMatch) {
+      // Compare passwords
+      if (password !== user.password) {
         alert("Incorrect password ");
         return;
       } else {
         sessionStorage.setItem("studentId", user.username);
-        sessionStorage.setItem("hashedPassword", user.password);
+        sessionStorage.setItem("password", user.password);
         sessionStorage.setItem("usrID", user.userId);
+        sessionStorage.setItem("allItems", "all");
         console.log("user data loged", user);
-        navigator("/seller");
+        navigator("/products");
       }
 
       // Successful login
@@ -54,7 +53,7 @@ function Login() {
 
   return (
     <div className="container mt-5 bg">
-      <h2>Login</h2>
+      <h2 className="text-light">Login</h2>
       <form className="contactForm" onSubmit={handleSubmit}>
         <div className="mb-3">
           <label htmlFor="studentId" className="form-label">
@@ -83,7 +82,7 @@ function Login() {
           />
         </div>
         <button type="submit" className="btn btn-primary">
-          login
+          Login
         </button>
         &nbsp;&nbsp;
         <Link className="btn btn-secondary" to="/sign-up">

@@ -1,21 +1,11 @@
 import React, { useEffect, useState } from "react";
-import Avatar from "react-avatar-edit";
 import { Link } from "react-router-dom";
-import { Dialog } from "primereact/dialog";
-import { Button } from "primereact/button";
-import { InputText } from "primereact/inputtext";
 import { FaKey, FaFile } from "react-icons/fa";
-import img from "../../minsi.png";
 import "./ProfileManagement.css";
 import axios from "axios";
 
 const ProfileManagement = () => {
   // State variables
-  const [imageCrop, setImageCrop] = useState(false); // State for image cropping
-  const [image, setImage] = useState(""); // State for uploaded image
-  const [src, setSrc] = useState(false); // State for image source
-  const [profile, setProfile] = useState([]); // State for user profile
-  const [preview, setPreview] = useState(false); // State for image preview
   const [errors, setErrors] = useState({}); // State variable for handling form validation errors
   const [profileData, setProfileData] = useState({
     // State for profile data
@@ -90,86 +80,11 @@ const ProfileManagement = () => {
     }
   };
 
-  // Array to store cropped profile images
-  const profileFinal = profile.map((item) => item.preview);
-
-  // Function to handle closing of the image preview dialog
-  const onClose = () => {
-    setPreview(null);
-  };
-
-  // Function to handle image cropping
-  const onCrop = (view) => {
-    setPreview(view);
-  };
-
-  // Function to save cropped image
-  const saveCropImage = () => {
-    setProfile([{ preview }]);
-    setImageCrop(false);
-  };
-
   return (
     <div className="profile-management">
-      {/* Displaying the current profile picture */}
       <div className="text-center p-4">
-        <div className="flex flex-column justify-content-center align-items-center">
-          <img
-            style={{
-              width: "160px",
-              height: "160px",
-              borderRadius: "50%",
-              objectFit: "cover",
-              marginBottom: "20px",
-            }}
-            src={profileFinal.length ? profileFinal : img}
-            alt=""
-          />
-          {/* Button to trigger picture editing */}
-          <p className="edit-picture" onClick={() => setImageCrop(true)}>
-            Edit Picture
-          </p>
-          {/* Dialog for picture editing */}
-          <Dialog visible={imageCrop} onHide={() => setImageCrop(false)}>
-            <div className="dialog-content">
-              <div className="avatar-container">
-                <Avatar
-                  width={500}
-                  height={400}
-                  onCrop={onCrop}
-                  onClose={onClose}
-                  src={src}
-                />
-              </div>
-              <div className="d-flex flex-column align-items-center mt-4">
-                <div className="button-done">
-                  {/* Button to confirm picture edit */}
-                  <Button
-                    onClick={saveCropImage}
-                    className="btn btn-outline-secondary btn-md"
-                    label="Done"
-                  />
-                </div>
-              </div>
-            </div>
-          </Dialog>
-          {/* Input for uploading new profile picture */}
-          <InputText
-            type="file"
-            accept="image/*"
-            style={{ display: "none" }}
-            onChange={(e) => {
-              const file = e.target.files[0];
-              if (file && file.type.substring(0, 5) === "image") {
-                setImage(file);
-              } else {
-                setImage(null);
-              }
-            }}
-          />
-        </div>
+        <div className="flex flex-column justify-content-center align-items-center"></div>
       </div>
-
       {/* Form for editing profile information */}
       <form onSubmit={handleSubmit}>
         {/* Username */}

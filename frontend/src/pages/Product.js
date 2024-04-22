@@ -1,33 +1,66 @@
 // import necessary modules
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import useSearchAndFilterProducts from "../components/SearchAndFilter/useSearchAndFilterProducts";
+import SearchAndFilterProducts from "../components/SearchAndFilter/SearchAndFilterProducts";
 
 const Product = () => {
   // state variables to hold product data and filter parameters
-  const [products, setProducts] = useState([]);
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("");
   const [productCondition, setProductCondition] = useState("");
   const [minPrice, setMinPrice] = useState("");
   const [maxPrice, setMaxPrice] = useState("");
   const [sortBy, setSortBy] = useState("");
+
+  // hook for navigation
   const navigate = useNavigate();
 
-  // function to fetch products based on search and filter parameters
+  // call custom hook to fetch products based on search and filter parameters
+  const products = useSearchAndFilterProducts(
+    search,
+    category,
+    productCondition,
+    minPrice,
+    maxPrice,
+    sortBy
+  );
+
+  let currentUserFilter = "";
+  let prodFetchAPI = "";
+  let showUploadEditButton = "show";
+
+  if (sessionStorage.getItem("allItems") != null) {
+    prodFetchAPI = "http://localhost:9090/api/products/";
+    showUploadEditButton = "hidden";
+  } else if (sessionStorage.getItem("recieverUserId") == null) {
+    currentUserFilter = sessionStorage.getItem("usrID");
+    prodFetchAPI = `http://localhost:9090/api/products/by-user/${currentUserFilter}`;
+  } else {
+    currentUserFilter = sessionStorage.getItem("recieverUserId");
+    prodFetchAPI = `http://localhost:9090/api/products/by-user/${currentUserFilter}`;
+    showUploadEditButton = "hidden";
+  }
+
+  console.log("current user product filter", prodFetchAPI);
+
+  const fetchProductBySeller = async (currentUserFilter) => {
+    try {
+      const response = await axios.get(
+        `http://localhost:9090/api/products/by-user/${currentUserFilter}`
+      );
+
+      return response.data; // Extract and return an array of product IDs
+    } catch (error) {
+      console.error("Error fetching filtered product IDs: ", error);
+      return []; // Return empty array if there's an error
+    }
+  };
+
   const searchAndFilterProducts = async () => {
     try {
-      // log the parameters being sent for fetching products
-      console.log("Fetching products with parameters:", {
-        search,
-        category,
-        productCondition,
-        minPrice,
-        maxPrice,
-        sortBy,
-      });
-
-      // send a GET request to fetch products from the backend
+      // Send a GET request to fetch products from the backend
       const response = await axios.get(
         "http://localhost:9090/api/products/searchAndFilter",
         {
@@ -42,13 +75,51 @@ const Product = () => {
         }
       );
 
-      // log the response data received from the backend
-      console.log("Response data:", response.data);
+      // Log the response data received from the backend
+      console.log("Response data for search:", response.data);
 
-      // update the state with the fetched products
-      setProducts(response.data);
+      // Retrieve product IDs from the response
+      const productIds = response.data.map((product) => product.productId);
+
+      // Check if sessionStorage has 'allItems'
+      if (sessionStorage.getItem("allItems") == null) {
+        // Fetch filtered product IDs using the retrieved currentUserFilter
+        const filteredProductIds = await fetchProductBySeller(
+          currentUserFilter
+        );
+
+        const filteredProducts = [];
+
+        response.data.forEach((product) => {
+          // Initialize a flag to track if the product should be included
+          let includeProduct = false;
+
+          // Iterate over filteredProductIds to check if the current product's productid exists
+          filteredProductIds.forEach((filteredProduct) => {
+            if (filteredProduct.productid === product.productid) {
+              includeProduct = true;
+              // If a match is found, you can break out of the forEach loop
+              return;
+            }
+          });
+
+          // If includeProduct is true, add the product to the filteredProducts array
+          if (includeProduct) {
+            filteredProducts.push(product);
+          }
+        });
+
+        console.log("Filtered products:", filteredProducts);
+
+        // Update the state or perform other actions with the filtered products
+        setProducts(filteredProducts);
+
+        console.log("Selected a specific seller");
+      } else {
+        setProducts(response.data);
+      }
     } catch (error) {
-      // handle errors if any occur during fetching
+      // Handle errors if any occur during fetching
       console.error("Error fetching products: ", error);
     }
   };
@@ -72,8 +143,10 @@ const Product = () => {
   const fetchProducts = async () => {
     try {
       // send a GET request to fetch products from the backend
-      const response = await axios.get("http://localhost:9090/api/products/");
 
+      const response = await axios.get(prodFetchAPI);
+
+      console.log("items", products);
       // update the state with the fetched products
       setProducts(response.data);
     } catch (error) {
@@ -92,7 +165,7 @@ const Product = () => {
     try {
       const response = await axios.post(
         // send a POST request to increment clicks for specified product
-        `http://localhost:9090/api/products/incrementClicks/${productId}`
+        `http://localhost:9090/api/insights/incrementClicks/${productId}`
       );
 
       // log when clicks are successfully incremented
@@ -114,17 +187,31 @@ const Product = () => {
 
   // JSX for product component
   return (
-    <div className="container mt-4">
+    <div className="container mt-4 px-4">
       <div className="row">
-        {/* container for search and filter  */}
-        <div className="col-md-2">
-          {/* search input */}
-          <input
-            type="text"
-            className="form-control mb-3"
-            placeholder="Search products"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
+        <div className="col-lg-3 col-md-4 mb-3 ">
+          {/* Search and filter component */}
+          <SearchAndFilterProducts
+            search={search}
+            setSearch={setSearch}
+            category={category}
+            setCategory={setCategory}
+            productCondition={productCondition}
+            setProductCondition={setProductCondition}
+            minPrice={minPrice}
+            setMinPrice={setMinPrice}
+            maxPrice={maxPrice}
+            setMaxPrice={setMaxPrice}
+            sortBy={sortBy}
+            setSortBy={setSortBy}
+            handleClear={() => {
+              setSearch("");
+              setCategory("");
+              setProductCondition("");
+              setMinPrice("");
+              setMaxPrice("");
+              setSortBy("");
+            }}
           />
 
           {/* category dropdown */}
@@ -202,17 +289,23 @@ const Product = () => {
 
           {/* clear button */}
           <div className="d-grid">
-            <button className="btn btn-secondary" onClick={handleClear}>
+            <button className="btn btn-secondary mb-3" onClick={handleClear}>
               Clear
             </button>
+            <Link to="/productForm" className="nav-link">
+              <button
+                className="btn btn-info mb-3"
+                style={{ visibility: showUploadEditButton }}
+              >
+                Add New Item
+              </button>
+            </Link>
           </div>
         </div>
 
         {/* container for product catalogue */}
-        <div className="col-md-10">
+        <div className="col-lg-9 col-md-8">
           {/* !!!!!!!!!!!!!!!!!!!!!!!!!! --- PLACEHOLDER FOR PRODUCT CATALOGUE --- !!!!!!!!!!!!!!!!!!!!!!!!!! */}
-          {/* title for product component */}
-          <h1 className="product">Products</h1>
 
           {/* map through products and render each one */}
           <div className="product-list d-flex flex-wrap justify-content-center">
@@ -220,10 +313,16 @@ const Product = () => {
               <div
                 key={product.productId}
                 className="product-item border mb-3 p-3"
-                onClick={() => handleClick(product.productId)}
-                style={{ cursor: "pointer", width: "500px"}}
+                onClick={() => handleClick(product.productid)}
+                style={{ cursor: "pointer", width: "500px" }} // dito dapat ma-map through yung products with image na
               >
-                <h2>{product.name}</h2>
+                <img
+                  src={product.imgurl}
+                  alt={product.firstName}
+                  className="card-img-top"
+                  style={{ objectFit: "cover", height: "350px" }}
+                />
+                <h2>{product.name} -</h2>
                 <p>{product.description}</p>
                 <p>{product.category}</p>
                 <p>{product.productCondition}</p>

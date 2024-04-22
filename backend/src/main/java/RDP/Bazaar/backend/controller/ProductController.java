@@ -2,7 +2,7 @@ package RDP.Bazaar.backend.controller;
 
 import RDP.Bazaar.backend.entity.Product;
 import RDP.Bazaar.backend.service.ProductService;
-import org.apache.coyote.Response;
+import RDP.Bazaar.backend.service.ProductSrv;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,29 +18,65 @@ public class ProductController {
     @Autowired
     private ProductService productService;
 
+    @Autowired
+    private ProductSrv productSrv;
+
     // API endpoint for getting all products
+    @GetMapping("/all")
+    public List<Product> getAllProductsItem() {
+        return productSrv.getAllItems();
+    }
+
     @GetMapping("/")
     public List<Product> getAllProducts() {
         return productService.getAllProducts();
     }
-   @PostMapping("/")
-   public ResponseEntity<Product> createProduct(@ModelAttribute Product product) {
+
+    @GetMapping("/by-user/{userId}") // Path variable {userId}
+    public List<Product> getProductsByUser(@PathVariable Long userId) {
+        return productSrv.getProductsByUserId(userId);
+    }
+
+    @PostMapping("/save")
+    public Product saveUser(@RequestBody Product items) {
+        return productService.saveItem(items); // Delegate the saving operation to the UserService
+    }
+
+    @PutMapping("/update/{productId}")
+    public ResponseEntity<Product> updateProduct(@PathVariable Long productId, @RequestBody Product updatedProduct) {
         try {
-            Product addedProduct = productService.addProduct(product);
-            return new ResponseEntity<>(addedProduct, HttpStatus.CREATED);
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            // Set the product ID for the updated product
+            updatedProduct.setProductid(productId);
+
+            // Call the service method to update the product
+            Product updatedItem = productService.updateItem(updatedProduct);
+            return ResponseEntity.ok(updatedItem);
+        } catch (RuntimeException e) {
+            // Handle exception if the product is not found
+            return ResponseEntity.notFound().build();
         }
-   }
+    }
+
     // API endpoint to get a product by ID
     @GetMapping("/{productId}")
     public ResponseEntity<Product> getProductById(@PathVariable Long productId) {
         Product product = productService.getProductById(productId);
         if (product != null) {
-            return new ResponseEntity<>(product, HttpStatus.OK);
+            return ResponseEntity.ok(product);
         } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return ResponseEntity.notFound().build();
         }
+    }
+
+    @GetMapping("/find-byprod/{productid}")
+    public ResponseEntity<Product> getProdByProdID(@PathVariable Long productid) {
+        List<Product> products = productSrv.findProductById(productid);
+
+        if (products.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND); // Product not found
+        }
+
+        return new ResponseEntity<>(products.get(0), HttpStatus.OK); // Return the found product
     }
 
     // API endpoint to increment click count of specific product
@@ -61,7 +97,8 @@ public class ProductController {
         return productService.getClicksPerProductForUser(userId);
     }
 
-    // API endpoint to get total number of clicks for all products that belong to specific user
+    // API endpoint to get total number of clicks for all products that belong to
+    // specific user
     @GetMapping("/totalClicks/{userId}")
     public Integer getTotalClicksForUser(@PathVariable Long userId) {
         return productService.getTotalClicksForUser(userId);
@@ -76,13 +113,12 @@ public class ProductController {
     // API endpoint for searching and filtering products
     @GetMapping("/searchAndFilter")
     public List<Product> searchAndFilterProducts(@RequestParam(required = false) String search,
-                                                 @RequestParam(required = false) String category,
-                                                 @RequestParam(required = false) String productCondition,
-                                                 @RequestParam(required = false) Double minPrice,
-                                                 @RequestParam(required = false) Double maxPrice,
-                                                 @RequestParam(required = false) String sortBy) {
+            @RequestParam(required = false) String category,
+            @RequestParam(required = false) String productCondition,
+            @RequestParam(required = false) Double minPrice,
+            @RequestParam(required = false) Double maxPrice,
+            @RequestParam(required = false) String sortBy) {
         return productService.searchAndFilterProducts(search, category, productCondition, minPrice, maxPrice, sortBy);
     }
-
 
 }
