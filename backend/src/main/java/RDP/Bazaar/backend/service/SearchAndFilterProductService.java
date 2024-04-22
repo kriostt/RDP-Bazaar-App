@@ -30,7 +30,6 @@ public class SearchAndFilterProductService {
         Comparator<Product> productComparator = getProductComparator(sortBy);
         products = products.stream()
                 // remove user information from each product to avoid unnecessary data exposure
-                .peek(product -> product.setUser(null))
                 .sorted(productComparator)
                 .collect(Collectors.toList());
 
@@ -50,7 +49,7 @@ public class SearchAndFilterProductService {
                 return Comparator.comparing(Product::getDatePosted).reversed();
             default:
                 // default sorting by productId if sortBy parameter is not provided
-                return Comparator.comparing(Product::getProductId);
+                return Comparator.comparing(Product::getProductid);
         }
     }
 }

@@ -19,8 +19,8 @@ public class InsightService {
     }
 
     // get the total number of products that belong to a user
-    public int countProductsByUserId(Long userId) {
-        return insightRepository.countByUserUserId(userId);
+    public int countProductsByUserId(Long sellerid) {
+        return insightRepository.countBysellerid(sellerid);
     }
 
     // get all products that belong to a user

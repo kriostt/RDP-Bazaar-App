@@ -89,15 +89,14 @@ public class InsightControllerTest {
 
         // create sample product
         Product product = new Product(
-                1,
-                "Product 1",
-                "Description 1",
-                10.00,
-                "Clothing",
-                "New",
-                new Date(),
-                0,
-                user
+//                1,
+//                "Product 1",
+//                "Description 1",
+//                10.00,
+//                "Clothing",
+//                "New",
+//                new Date(),
+//                0
         );
 
         // create a list containing the sample products
@@ -151,15 +150,15 @@ public class InsightControllerTest {
 
         // create sample product
         Product product = new Product(
-                1,
-                "Product 1",
-                "Description 1",
-                10.00,
-                "Clothing",
-                "New",
-                new Date(),
-                1,
-                user
+//                1,
+//                "Product 1",
+//                "Description 1",
+//                10.00,
+//                "Clothing",
+//                "New",
+//                new Date(),
+//                1,
+//                user
         );
 
         // create a list containing the expected clicks per product
@@ -193,15 +192,15 @@ public class InsightControllerTest {
 
         // create sample product
         Product product = new Product(
-                1,
-                "Product 1",
-                "Description 1",
-                10.00,
-                "Clothing",
-                "New",
-                new Date(),
-                1,
-                user
+//                1,
+//                "Product 1",
+//                "Description 1",
+//                10.00,
+//                "Clothing",
+//                "New",
+//                new Date(),
+//                1,
+//                user
         );
 
         // create a list containing the expected clicks per category

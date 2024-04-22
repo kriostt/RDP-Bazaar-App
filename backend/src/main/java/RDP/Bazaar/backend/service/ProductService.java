@@ -60,9 +60,10 @@ public class ProductService {
 
     // Method to get a product by ID
     public Product getProductById(Long productId) {
-        Optional<Product> productOptional = productRepository.findById(productId);
-        Product product = productOptional.orElse(null);
-        return product;
+        return productRepository.findAll().stream()
+                .filter(product -> Long.valueOf(product.getProductid()).equals(productId))
+                .findFirst()
+                .orElse(null);
     }
 
 

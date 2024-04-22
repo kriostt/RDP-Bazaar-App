@@ -38,7 +38,6 @@ public class UserServiceTest {
         // Create an existing user with an empty product list
         User existingUser = new User();
         existingUser.setUserId(userId); // setting the user ID for matching
-        existingUser.setProducts(new ArrayList<>());
 
         // Mocking the repository to return the existing user when findAll() is called
         given(repository.findAll()).willReturn(List.of(existingUser));
@@ -49,7 +48,6 @@ public class UserServiceTest {
         // Assert
         assertNotNull(user);
         // Ensure the products list is null (cleared to avoid unnecessary data exposure)
-        assertNull(user.getProducts());
         // Verify the returned user matches the expected existing user
         assertEquals(existingUser, user);
     }

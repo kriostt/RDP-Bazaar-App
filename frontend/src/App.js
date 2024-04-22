@@ -16,7 +16,6 @@ import SellerProfile from "./pages/SellerProfile/SellerProfile";
 import Messaging from "./pages/Messaging/Home";
 import SellerCatalogue from "./pages/SellerCatalogue/SellerCatalogue";
 import ProductDetail from "./pages/ProductDetails/ProductDetail";
-import ProductDetail from "./pages/ProductDetail";
 import ProductForm from "./pages/Product/ProductForm";
 
 function App() {

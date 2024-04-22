@@ -26,7 +26,6 @@ public class SearchAndFilterUserService {
         Comparator<User> userComparator = getUserComparator(sortBy);
         users = users.stream()
                 // remove product list from user to avoid unnecessary data exposure
-                .peek(user -> user.setProducts(null))
                 .sorted(userComparator)
                 .collect(Collectors.toList());
 

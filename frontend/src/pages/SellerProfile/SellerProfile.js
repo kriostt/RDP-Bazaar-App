@@ -20,8 +20,15 @@ function SellerProfile() {
   const [img, setImg] = useState(null); // State variable to hold the selected image file
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+  const [showUploadEditButton, setshowUploadEditButton] = useState("visible");
 
   const userId = sessionStorage.getItem("usrID");
+
+  if (sessionStorage.getItem("recieverUserId") != null) {
+    userId = sessionStorage.getItem("recieverUserId");
+    setshowUploadEditButton("hidden");
+  }
+
   console.log("current user id", userId);
   useEffect(() => {
     if (userId) {

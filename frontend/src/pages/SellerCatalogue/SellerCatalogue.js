@@ -6,6 +6,7 @@ import SearchAndFilterSellers from "../../components/SearchAndFilter/SearchAndFi
 import useSearchAndFilterSellers from "../../components/SearchAndFilter/useSearchAndFilterSellers";
 
 function SellerCatalogue() {
+  const [sellers_, setSellers] = useState([]);
   const [ratings, setRatings] = useState({});
   const [search, setSearch] = useState("");
   const [sortBy, setSortBy] = useState("");
@@ -39,6 +40,19 @@ function SellerCatalogue() {
       console.error("Error fetching sellers: ", error);
     }
   };
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:9090/api/bazaarUsers")
+      .then((response) => {
+        const userList = response.data;
+        setSellers(userList); // Update the state with the fetched seller information
+      })
+      .catch((error) => {
+        console.error("API request failed:", error);
+      });
+  }, []);
+  console.log(sellers);
 
   // effect hook to execute searchAndFilterSellers function when filter parameters change
   useEffect(() => {
@@ -265,6 +279,22 @@ function SellerCatalogue() {
                           >
                             Submit Review
                           </button>
+                        </div>
+                        <div className="col-sm-3">
+                          <Link
+                            className="nav-link"
+                            onClick={() =>
+                              handleSendMessage(
+                                seller.userId,
+                                seller.imgurl,
+                                seller.firstName
+                              )
+                            }
+                          >
+                            <button className="btn btn-success mt-3 mb-3">
+                              Message
+                            </button>
+                          </Link>
                         </div>
                       </div>
                     </div>

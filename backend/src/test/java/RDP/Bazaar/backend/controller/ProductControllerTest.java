@@ -34,20 +34,20 @@ public class ProductControllerTest {
     @Test
     void getProductById_existingProduct_shouldReturnProduct() throws Exception {
         // Arrange
-        Long productId = 1L;
+        Long productid = 1L;
         Product product = new Product();
-        product.setProductId(productId);
+        product.setProductid(productid);
         product.setName("Product 1");
         product.setDescription("Description 1");
         product.setPrice(10.0);
 
-        given(productService.getProductById(productId)).willReturn(product);
+        given(productService.getProductById(productid)).willReturn(product);
 
         // Act & Assert
-        mockMvc.perform(get("/api/products/{productId}", productId))
+        mockMvc.perform(get("/api/products/{productId}", productid))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(content().json("{\"productId\":1,\"name\":\"Product 1\",\"description\":\"Description 1\",\"price\":10.0}"));
+                .andExpect(content().json("{\"productid\":1,\"name\":\"Product 1\",\"description\":\"Description 1\",\"price\":10.0}"));
     }
 
     @Test

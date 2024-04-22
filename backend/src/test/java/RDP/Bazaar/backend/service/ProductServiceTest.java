@@ -33,11 +33,10 @@ public class ProductServiceTest {
         // Arrange
         Long productId = 1L;
         Product product = new Product();
-        product.setProductId(productId);
+        product.setProductid(productId);
         product.setName("Product 1");
         product.setDescription("Description 1");
         product.setPrice(10.0);
-        product.setUser(new User());
 
         List<Product> productList = new ArrayList<>();
         productList.add(product);
