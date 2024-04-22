@@ -19,8 +19,13 @@ const useSearchAndFilterSellers = (search, sortBy) => {
         }
       );
 
+      // filter out sellers whose userId matches sessionStorage.getItem("usrID")
+      const filteredSellers = response.data.filter(
+        (seller) => seller.userId != sessionStorage.getItem("usrID")
+      );
+
       // update the state with the fetched sellers
-      setSellers(response.data);
+      setSellers(filteredSellers);
     } catch (error) {
       // handle errors if any occur during fetching
       console.error("Error fetching sellers: ", error);

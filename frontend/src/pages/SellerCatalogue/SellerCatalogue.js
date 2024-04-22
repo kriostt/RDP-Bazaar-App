@@ -14,33 +14,6 @@ function SellerCatalogue() {
   // call the custom hook to fetch sellers based on search and filter parameters
   const sellers = useSearchAndFilterSellers(search, sortBy);
 
-  // function to fetch sellers based on search and filter parameters
-  const searchAndFilterSellers = async () => {
-    try {
-      // send a GET request to fetch sellers from the backend
-      const response = await axios.get(
-        "http://localhost:9090/api/users/searchAndFilter",
-        {
-          params: { search, sortBy },
-        }
-      );
-
-      // log the response data received from the backend
-      console.log("Response data:", response.data);
-
-      // Filter out sellers whose userId matches sessionStorage.getItem("usrID")
-      const filteredSellers = response.data.filter(
-        (seller) => seller.userId != sessionStorage.getItem("usrID")
-      );
-
-      // update the state with the filtered sellers
-      setSellers(filteredSellers);
-    } catch (error) {
-      // handle errors if any occur during fetching
-      console.error("Error fetching sellers: ", error);
-    }
-  };
-
   useEffect(() => {
     axios
       .get("http://localhost:9090/api/bazaarUsers")
@@ -53,11 +26,6 @@ function SellerCatalogue() {
       });
   }, []);
   console.log(sellers);
-
-  // effect hook to execute searchAndFilterSellers function when filter parameters change
-  useEffect(() => {
-    searchAndFilterSellers();
-  }, [search, sortBy]);
 
   useEffect(() => {
     axios
