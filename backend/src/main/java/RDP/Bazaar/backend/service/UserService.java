@@ -20,21 +20,6 @@ public class UserService {
         return users;
     }
 
-    // get users based on search and filter criteria
-    public List<User> searchAndFilterUsers(String search, String sortBy) {
-        // find users based on search and filter criteria using specifications
-        List<User> users = repository.findAll(UserSpecifications.searchAndFilterUsers(search));
-
-        // sort users based on provided sortBy parameter
-        if ("usernameAsc".equals(sortBy)) {
-            users.sort(Comparator.comparing(User::getUsername));
-        } else if ("usernameDesc".equals(sortBy)) {
-            users.sort(Comparator.comparing(User::getUsername).reversed());
-        }
-
-        return users;
-    }
-
     // Method to save a user
     public User saveUser(User user) {
         return repository.save(user); // Save the user using the repository

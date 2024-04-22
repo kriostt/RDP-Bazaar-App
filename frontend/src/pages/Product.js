@@ -63,7 +63,7 @@ const Product = () => {
     try {
       // Send a GET request to fetch products from the backend
       const response = await axios.get(
-        "http://localhost:9090/api/products/searchAndFilter",
+        "http://localhost:9090/api/searchAndFilter/products",
         {
           params: {
             search,
