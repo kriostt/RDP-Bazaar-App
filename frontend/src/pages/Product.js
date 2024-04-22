@@ -7,6 +7,7 @@ import SearchAndFilterProducts from "../components/SearchAndFilter/SearchAndFilt
 
 const Product = () => {
   // state variables to hold product data and filter parameters
+  const [products_, setProducts] = useState([]);
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("");
   const [productCondition, setProductCondition] = useState("");
@@ -128,16 +129,6 @@ const Product = () => {
   useEffect(() => {
     searchAndFilterProducts();
   }, [search, category, productCondition, minPrice, maxPrice, sortBy]);
-
-  // function to clear all filter parameters
-  const handleClear = () => {
-    setSearch("");
-    setCategory("");
-    setProductCondition("");
-    setMinPrice("");
-    setMaxPrice("");
-    setSortBy("");
-  };
 
   // function to fetch all products
   const fetchProducts = async () => {
