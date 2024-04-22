@@ -80,37 +80,6 @@ public class ProductController {
         return new ResponseEntity<>(products.get(0), HttpStatus.OK); // Return the found product
     }
 
-
-    // API endpoint to increment click count of specific product
-    @PostMapping("/incrementClicks/{productId}")
-    public void incrementClicks(@PathVariable Long productId) {
-        productService.incrementClicks(productId);
-    }
-
-    // API endpoint to count total number of products that belong to specific user
-    @GetMapping("/productCount/{userId}")
-    public int countProductsByUserId(@PathVariable Long userId) {
-        return productService.countProductsByUserId(userId);
-    }
-
-    // API endpoint to get number of clicks per product for specific user
-    @GetMapping("/clicksPerProduct/{userId}")
-    public List<Object[]> getClicksPerProductForUser(@PathVariable Long userId) {
-        return productService.getClicksPerProductForUser(userId);
-    }
-
-    // API endpoint to get total number of clicks for all products that belong to specific user
-    @GetMapping("/totalClicks/{userId}")
-    public Integer getTotalClicksForUser(@PathVariable Long userId) {
-        return productService.getTotalClicksForUser(userId);
-    }
-
-    // API endpoint to get total number of clicks per product category
-    @GetMapping("/totalClicksPerCategory")
-    public List<Object[]> getClicksPerCategory() {
-        return productService.getTotalClicksByCategory();
-    }
-
     // API endpoint for searching and filtering products
     @GetMapping("/searchAndFilter")
     public List<Product> searchAndFilterProducts(@RequestParam(required = false) String search,
