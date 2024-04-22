@@ -46,7 +46,6 @@ function SellerProfile() {
     .get(url)
     .then((response) => {
       const userData = response.data;
-      // console.log("user newly registerd data", userData);
 
       setImgUrl(userData.imgurl);
       setfirstName(userData.firstName);

@@ -18,6 +18,7 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 
+// Alessandra's Test Cases
 public class UserServiceTest {
 
     @Mock

@@ -1,8 +1,8 @@
 // import necessary modules
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import productImage from "../../assets/placeholder.png";
 import "./ProductDetail.css";
+import { FaEye } from "react-icons/fa";
 
 // Functional component for Product Detail
 const ProductDetail = () => {
@@ -63,9 +63,15 @@ const ProductDetail = () => {
   // JSX for ProductDetail component
   return (
     <div className="product-container">
-      <div className="container" style={{ width: "700px" }}>
+      <div
+        className="container"
+        style={{ width: "700px", display: "flex", justifyContent: "center" }}
+      >
         <div className="product-detail-container">
-          <div className="product-detail-image">
+          <div
+            className="product-detail-image"
+            style={{ marginLeft: "20px", marginRight: "20px" }}
+          >
             <img src={product.imgurl} alt={product.name} />
           </div>
           <div className="product-detail-info">
@@ -79,10 +85,13 @@ const ProductDetail = () => {
                 })}
               </p>
               <p className="category">Category: {product.category}</p>
-              <p className="category">
+              <p className="productCondition">
                 Product Condition: {product.productCondition}
               </p>
               <p className="date">Date Posted: {formattedDate}</p>
+              <p className="views" style={{ marginTop: "20px" }}>
+                <FaEye /> <strong>{product.clicks}</strong> total views
+              </p>
             </div>
           </div>
         </div>

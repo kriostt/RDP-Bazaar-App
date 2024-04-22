@@ -30,14 +30,4 @@ public class Product {
 
     // additional property for insights
     private int clicks;
-
-    // establish relationship with User entity
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "userId")
-//    @JsonIgnore
-  //  private User user;
-
-
-
-
 }

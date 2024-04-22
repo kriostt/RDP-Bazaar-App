@@ -27,11 +27,6 @@ public class User {
     private String password; // Password of the user
     private String imgurl; // Image URL
 
-    // establish inverse relationship with Product entity
-//    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-//    @JsonIgnore
-//    private List<Product> products;
-
     @OneToMany(mappedBy = "senderUser", cascade = CascadeType.ALL)
     @JsonIgnore
     private List<UserConversation> sentConversations;
