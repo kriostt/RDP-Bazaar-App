@@ -21,7 +21,7 @@ public class UserService {
         List<User> users = repository.findAll();
 
         // remove product list from each user
-        users.forEach(user -> user.setProducts(null));
+//        users.forEach(user -> user.setProducts(null));
 
         return users;
     }
@@ -32,7 +32,7 @@ public class UserService {
         List<User> users = repository.findAll(UserSpecifications.searchAndFilterUsers(search));
 
         // remove product list from each user
-        users.forEach(user -> user.setProducts(null));
+//        users.forEach(user -> user.setProducts(null));
 
         // sort users based on provided sortBy parameter
         if ("usernameAsc".equals(sortBy)) {
@@ -46,7 +46,7 @@ public class UserService {
 
     // Method to save a user
     public User saveUser(User user) {
-       return repository.save(user); // Save the user using the repository
+        return repository.save(user); // Save the user using the repository
     }
 
     // Method to get a user by ID
@@ -55,7 +55,7 @@ public class UserService {
         User user = userOptional.orElse(null);
         if (user != null ) {
             // Set the products as null
-            user.setProducts(null);
+//            user.setProducts(null);
         }
         return user;
     }

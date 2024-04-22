@@ -14,7 +14,7 @@ import java.util.List;
 @AllArgsConstructor // Generates a constructor with all arguments
 @Getter
 @Setter
-@Table(name="user")
+@Table(name="users")
 public class User {
     @Id // Indicates the primary key of the entity
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,9 +28,9 @@ public class User {
     private String imgurl; // Image URL
 
     // establish inverse relationship with Product entity
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    @JsonIgnore
-    private List<Product> products;
+//    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+//    @JsonIgnore
+//    private List<Product> products;
 
     @OneToMany(mappedBy = "senderUser", cascade = CascadeType.ALL)
     @JsonIgnore
