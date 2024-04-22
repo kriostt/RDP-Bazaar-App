@@ -83,20 +83,18 @@ public class InsightControllerTest {
     // test for getAllProductsByUserId method
     @Test
     void getAllProductsByUserIdTest_ShouldReturnProductsOfUser() throws Exception {
-        // create sample user
-        User user = new User();
-        user.setUserId((1L));
-
         // create sample product
         Product product = new Product(
-//                1,
-//                "Product 1",
-//                "Description 1",
-//                10.00,
-//                "Clothing",
-//                "New",
-//                new Date(),
-//                0
+                1L,
+                "Product 1",
+                "Description 1",
+                10.00,
+                "Clothing",
+                "New",
+                "imgurl 1",
+                new Date(),
+                1L,
+                0
         );
 
         // create a list containing the sample products
@@ -144,21 +142,18 @@ public class InsightControllerTest {
     // test for getClicksPerProductForUser method
     @Test
     void getClicksPerProductForUserTest_ShouldReturnClicksPerProductOfUser() throws Exception {
-        // create sample user
-        User user = new User();
-        user.setUserId((1L));
-
         // create sample product
         Product product = new Product(
-//                1,
-//                "Product 1",
-//                "Description 1",
-//                10.00,
-//                "Clothing",
-//                "New",
-//                new Date(),
-//                1,
-//                user
+                1L,
+                "Product 1",
+                "Description 1",
+                10.00,
+                "Clothing",
+                "New",
+                "imgurl 1",
+                new Date(),
+                1L,
+                0
         );
 
         // create a list containing the expected clicks per product
@@ -186,21 +181,18 @@ public class InsightControllerTest {
     // test for getClicksPerCategoryForUser method
     @Test
     void getClicksPerCategoryForUserTest_ShouldReturnClicksPerCategoryOfUser() throws Exception {
-        // create sample user
-        User user = new User();
-        user.setUserId((1L));
-
         // create sample product
         Product product = new Product(
-//                1,
-//                "Product 1",
-//                "Description 1",
-//                10.00,
-//                "Clothing",
-//                "New",
-//                new Date(),
-//                1,
-//                user
+                1L,
+                "Product 1",
+                "Description 1",
+                10.00,
+                "Clothing",
+                "New",
+                "imgurl 1",
+                new Date(),
+                1L,
+                0
         );
 
         // create a list containing the expected clicks per category

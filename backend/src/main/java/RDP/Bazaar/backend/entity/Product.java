@@ -9,6 +9,8 @@ import java.util.Date;
 // represents product
 @Entity
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name="product")
 public class Product {
     // primary key for Product entity
