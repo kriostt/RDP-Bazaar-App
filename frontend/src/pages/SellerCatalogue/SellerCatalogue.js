@@ -252,6 +252,22 @@ function SellerCatalogue() {
                           <Link
                             className="nav-link"
                             onClick={() =>
+                              handleViewProfile(
+                                seller.userId,
+                                seller.imgurl,
+                                seller.firstName
+                              )
+                            }
+                          >
+                            <button className="btn btn-warning mt-3 mb-3">
+                              See Profile
+                            </button>
+                          </Link>
+                        </div>
+                        <div className="col-sm-3">
+                          <Link
+                            className="nav-link"
+                            onClick={() =>
                               handleSendMessage(
                                 seller.userId,
                                 seller.imgurl,
