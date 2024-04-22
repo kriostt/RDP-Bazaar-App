@@ -29,7 +29,6 @@ public class SearchAndFilterProductService {
         // use streams for sorting products
         Comparator<Product> productComparator = getProductComparator(sortBy);
         products = products.stream()
-                // remove user information from each product to avoid unnecessary data exposure
                 .sorted(productComparator)
                 .collect(Collectors.toList());
 
