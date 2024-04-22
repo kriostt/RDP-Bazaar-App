@@ -35,6 +35,7 @@ function Login() {
         sessionStorage.setItem("studentId", user.username);
         sessionStorage.setItem("password", user.password);
         sessionStorage.setItem("usrID", user.userId);
+        sessionStorage.setItem("allItems", "all");
         console.log("user data loged", user);
         navigator("/products");
       }

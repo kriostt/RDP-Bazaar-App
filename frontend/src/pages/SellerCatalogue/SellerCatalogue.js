@@ -13,18 +13,49 @@ function SellerCatalogue() {
   // call the custom hook to fetch sellers based on search and filter parameters
   const sellers = useSearchAndFilterSellers(search, sortBy);
 
-  // useEffect(() => {
-  //   axios
-  //     .get("http://localhost:9090/api/users/")
-  //     .then((response) => {
-  //       const userList = response.data;
-  //       setSellers(userList); // Update the state with the fetched seller information
-  //     })
-  //     .catch((error) => {
-  //       console.error("API request failed:", error);
-  //     });
-  // }, []);
-  // console.log(sellers);
+  // function to fetch sellers based on search and filter parameters
+  const searchAndFilterSellers = async () => {
+    try {
+      // send a GET request to fetch sellers from the backend
+      const response = await axios.get(
+        "http://localhost:9090/api/users/searchAndFilter",
+        {
+          params: { search, sortBy },
+        }
+      );
+
+      // log the response data received from the backend
+      console.log("Response data:", response.data);
+
+      // Filter out sellers whose userId matches sessionStorage.getItem("usrID")
+      const filteredSellers = response.data.filter(
+        (seller) => seller.userId != sessionStorage.getItem("usrID")
+      );
+
+      // update the state with the filtered sellers
+      setSellers(filteredSellers);
+    } catch (error) {
+      // handle errors if any occur during fetching
+      console.error("Error fetching sellers: ", error);
+    }
+  };
+
+  // effect hook to execute searchAndFilterSellers function when filter parameters change
+  useEffect(() => {
+    searchAndFilterSellers();
+  }, [search, sortBy]);
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:9090/api/users/")
+      .then((response) => {
+        const userList = response.data;
+        setSellers(userList); // Update the state with the fetched seller information
+      })
+      .catch((error) => {
+        console.error("API request failed:", error);
+      });
+  }, []);
 
   // ------------------text area for the review-----------------------
 
@@ -138,30 +169,31 @@ function SellerCatalogue() {
     }
   }
 
-  console.log("sellers", sellers);
+  //console.log("sellers", sellers);
+
+  const handleSendMessage = (userId, receiverimgurl, firstName) => {
+    sessionStorage.setItem("recieverUserId", userId);
+    sessionStorage.setItem("recieverimgurl", receiverimgurl);
+    sessionStorage.setItem("recieverfirstName", firstName);
+    const recieverUserId = sessionStorage.getItem("recieverUserId");
+    console.log("user clicked", recieverUserId);
+    window.location.assign("/message");
+  };
+
+  const handleViewProfile = (userId, receiverimgurl, firstName) => {
+    sessionStorage.setItem("recieverUserId", userId);
+    sessionStorage.setItem("recieverimgurl", receiverimgurl);
+    sessionStorage.setItem("recieverfirstName", firstName);
+    sessionStorage.removeItem("allItems", "all");
+    const recieverUserId = sessionStorage.getItem("recieverUserId");
+    console.log("user clicked", recieverUserId);
+    window.location.assign("/seller");
+  };
+
+  console.log("current user id logged in", sessionStorage.getItem("usrID"));
 
   return (
     <>
-      <div className="container mt-5">
-        <ul className="nav nav-tabs">
-          <li className="nav-item">
-            <Link to="/Seller" className="nav-link">
-              Items
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link to="/sellersCatalog" className="nav-link">
-              Sellers Catalog
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link to="/reviews" className="nav-link">
-              Reviews
-            </Link>
-          </li>
-        </ul>
-      </div>
-
       <div className="container mt-5">
         <h1>List of Sellers</h1>
       </div>
@@ -185,7 +217,7 @@ function SellerCatalogue() {
           <div className="seller-list d-flex flex-wrap justify-content-center">
             {sellers.map((seller) => (
               <div key={seller.userId} className="col-md-12 mb-4">
-                <div className="card" >
+                <div className="card">
                   <div className="row g-0">
                     <div className="col-md-4">
                       <img

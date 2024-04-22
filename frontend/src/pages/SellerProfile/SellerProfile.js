@@ -32,13 +32,14 @@ function SellerProfile() {
   const hashedUserId = sessionStorage.getItem("hashedUserId");
   const url_messaging = `/message`;
 
-  console.log("current userid --", sessionStorage.getItem("usrID"));
+  // console.log("current userid --", sessionStorage.getItem("usrID"));
 
   const url = `http://localhost:9090/api/users/${userId}`;
   axios
     .get(url)
     .then((response) => {
       const userData = response.data;
+      // console.log("user newly registerd data", userData);
 
       setImgUrl(userData.imgurl);
       setfirstName(userData.firstName);
@@ -101,34 +102,6 @@ function SellerProfile() {
     }
   };
 
-  // Sample items that the user is selling
-  const itemsForSale = [
-    {
-      id: 1,
-      title: "Product 1",
-      price: "$20",
-      image: require("../../images/tumbler.jpg"),
-    },
-    {
-      id: 2,
-      title: "Product 2",
-      price: "$30",
-      image: require("../../images/jacket.jpg"),
-    },
-    {
-      id: 3,
-      title: "Product 1",
-      price: "$20",
-      image: require("../../images/book.jpg"),
-    },
-    {
-      id: 4,
-      title: "Product 2",
-      price: "$30",
-      image: require("../../images/bag.jpg"),
-    },
-  ];
-
   return (
     <div className="">
       <div className="container mt-5 bg">
@@ -146,7 +119,10 @@ function SellerProfile() {
                 </h5>
                 <p className="card-text">Username: {username}</p>
                 <p className="card-text">Rating: {rating}</p>
-                <form onSubmit={handleSubmit}>
+                <form
+                  onSubmit={handleSubmit}
+                  style={{ visibility: showUploadEditButton }}
+                >
                   <input
                     type="file"
                     className="form-control"
@@ -182,47 +158,6 @@ function SellerProfile() {
             </div>
           </div>
           <div className="col-md-8 d-flex "></div>
-        </div>
-      </div>
-      <div className="container mt-5">
-        <ul className="nav nav-tabs">
-          <li className="nav-item">
-            <Link to="/myprofile" className="nav-link">
-              Items
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link to="/sellersCatalog" className="nav-link">
-              Sellers Catalog
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link to="/reviews" className="nav-link">
-              Reviews
-            </Link>
-          </li>
-        </ul>
-      </div>
-      <div className="container mt-5">
-        <div className="mt-4">
-          <h3>Items for Sale</h3>
-          <div className="row">
-            {itemsForSale.map((item) => (
-              <div key={item.id} className="col-md-4 mb-4">
-                <div className="card">
-                  <img
-                    src={item.image}
-                    alt={item.title}
-                    className="card-img-top product-image"
-                  />
-                  <div className="card-body">
-                    <h5 className="card-title">{item.title}</h5>
-                    <p className="card-text">Price: {item.price}</p>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
         </div>
       </div>
     </div>

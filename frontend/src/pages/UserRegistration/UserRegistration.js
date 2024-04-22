@@ -81,8 +81,10 @@ function UserRegistration() {
               // Handle successful response
               const generatedId = response.data.userId;
               sessionStorage.setItem("studentId", username);
-              sessionStorage.setItem("userId", generatedId);
-              console.log("created user", response.data);
+              sessionStorage.setItem("password", password);
+              sessionStorage.setItem("usrID", generatedId);
+              sessionStorage.setItem("senderimgurl", url);
+
               alert("Successfully Signed Up");
               navigator("/seller");
             })

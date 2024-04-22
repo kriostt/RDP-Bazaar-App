@@ -1,6 +1,6 @@
 // import necessary modules
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import useSearchAndFilterProducts from "../components/SearchAndFilter/useSearchAndFilterProducts";
 import SearchAndFilterProducts from "../components/SearchAndFilter/SearchAndFilterProducts";
@@ -26,6 +26,139 @@ const Product = () => {
     maxPrice,
     sortBy
   );
+
+  let currentUserFilter = "";
+  let prodFetchAPI = "";
+  let showUploadEditButton = "show";
+
+  if (sessionStorage.getItem("allItems") != null) {
+    prodFetchAPI = "http://localhost:9090/api/products/";
+    showUploadEditButton = "hidden";
+  } else if (sessionStorage.getItem("recieverUserId") == null) {
+    currentUserFilter = sessionStorage.getItem("usrID");
+    prodFetchAPI = `http://localhost:9090/api/products/by-user/${currentUserFilter}`;
+  } else {
+    currentUserFilter = sessionStorage.getItem("recieverUserId");
+    prodFetchAPI = `http://localhost:9090/api/products/by-user/${currentUserFilter}`;
+    showUploadEditButton = "hidden";
+  }
+
+  console.log("current user product filter", prodFetchAPI);
+
+  const fetchProductBySeller = async (currentUserFilter) => {
+    try {
+      const response = await axios.get(
+        `http://localhost:9090/api/products/by-user/${currentUserFilter}`
+      );
+
+      return response.data; // Extract and return an array of product IDs
+    } catch (error) {
+      console.error("Error fetching filtered product IDs: ", error);
+      return []; // Return empty array if there's an error
+    }
+  };
+
+  const searchAndFilterProducts = async () => {
+    try {
+      // Send a GET request to fetch products from the backend
+      const response = await axios.get(
+        "http://localhost:9090/api/products/searchAndFilter",
+        {
+          params: {
+            search,
+            category,
+            productCondition,
+            minPrice,
+            maxPrice,
+            sortBy,
+          },
+        }
+      );
+
+      // Log the response data received from the backend
+      console.log("Response data for search:", response.data);
+
+      // Retrieve product IDs from the response
+      const productIds = response.data.map((product) => product.productId);
+
+      // Check if sessionStorage has 'allItems'
+      if (sessionStorage.getItem("allItems") == null) {
+        // Fetch filtered product IDs using the retrieved currentUserFilter
+        const filteredProductIds = await fetchProductBySeller(
+          currentUserFilter
+        );
+
+        const filteredProducts = [];
+
+        response.data.forEach((product) => {
+          // Initialize a flag to track if the product should be included
+          let includeProduct = false;
+
+          // Iterate over filteredProductIds to check if the current product's productid exists
+          filteredProductIds.forEach((filteredProduct) => {
+            if (filteredProduct.productid === product.productid) {
+              includeProduct = true;
+              // If a match is found, you can break out of the forEach loop
+              return;
+            }
+          });
+
+          // If includeProduct is true, add the product to the filteredProducts array
+          if (includeProduct) {
+            filteredProducts.push(product);
+          }
+        });
+
+        console.log("Filtered products:", filteredProducts);
+
+        // Update the state or perform other actions with the filtered products
+        setProducts(filteredProducts);
+
+        console.log("Selected a specific seller");
+      } else {
+        setProducts(response.data);
+      }
+    } catch (error) {
+      // Handle errors if any occur during fetching
+      console.error("Error fetching products: ", error);
+    }
+  };
+
+  // effect hook to execute searchAndFilterProducts function when filter parameters change
+  useEffect(() => {
+    searchAndFilterProducts();
+  }, [search, category, productCondition, minPrice, maxPrice, sortBy]);
+
+  // function to clear all filter parameters
+  const handleClear = () => {
+    setSearch("");
+    setCategory("");
+    setProductCondition("");
+    setMinPrice("");
+    setMaxPrice("");
+    setSortBy("");
+  };
+
+  // function to fetch all products
+  const fetchProducts = async () => {
+    try {
+      // send a GET request to fetch products from the backend
+
+      const response = await axios.get(prodFetchAPI);
+
+      console.log("items", products);
+      // update the state with the fetched products
+      setProducts(response.data);
+    } catch (error) {
+      // handle errors if any occur during fetching
+      console.error("Error fetching products: ", error);
+    }
+  };
+
+  // effect hook to fetch all products when the component mounts
+  useEffect(() => {
+    fetchProducts();
+  }, []);
 
   // function to increment clicks for specific product
   const handleIncrementClicks = async (productId) => {
@@ -80,6 +213,94 @@ const Product = () => {
               setSortBy("");
             }}
           />
+
+          {/* category dropdown */}
+          <select
+            className="form-select mb-3"
+            value={category}
+            onChange={(e) => setCategory(e.target.value)}
+          >
+            <option value="">All Categories</option>
+            <option value="appliances">Appliances</option>
+            <option value="clothing">Clothing</option>
+            <option value="electronics">Electronics</option>
+            <option value="furniture">Furniture</option>
+            <option value="miscellaneous">Miscellaneous</option>
+            <option value="textbooks">Textbooks</option>
+            <option value="vehicles">Vehicles</option>
+          </select>
+
+          {/* condition dropdown */}
+          <select
+            className="form-select mb-3"
+            value={productCondition}
+            onChange={(e) => setProductCondition(e.target.value)}
+          >
+            <option value="">All Conditions</option>
+            <option value="new">New</option>
+            <option value="used - like new">Used - Like New</option>
+            <option value="used - good">Used - Good</option>
+            <option value="used - fair">Used - Fair</option>
+          </select>
+
+          {/* price range filter */}
+          <div className="input-group mb-3">
+            <span className="input-group-text">$</span>
+
+            <input
+              type="text"
+              className="form-control"
+              placeholder="Min"
+              value={minPrice}
+              onChange={(e) => {
+                // remove any non-digit characters (including -) from the input value
+                const value = e.target.value.replace(/[^0-9]/g, "");
+                setMinPrice(value);
+              }}
+            />
+
+            <span className="input-group-text">to</span>
+
+            <input
+              type="text"
+              className="form-control"
+              placeholder="Max"
+              value={maxPrice}
+              onChange={(e) => {
+                // remove any non-digit characters (including -) from the input value
+                const value = e.target.value.replace(/[^0-9]/g, "");
+                setMaxPrice(value);
+              }}
+            />
+          </div>
+
+          {/* sort by dropdown */}
+          <select
+            className="form-select mb-3"
+            value={sortBy}
+            onChange={(e) => setSortBy(e.target.value)}
+          >
+            <option value="">Sort By</option>
+            <option value="priceAsc">Price: Low to High</option>
+            <option value="priceDesc">Price: High to Low</option>
+            <option value="datePostedAsc">Date Posted: Old to New</option>
+            <option value="datePostedDesc">Date Posted: New to Old</option>
+          </select>
+
+          {/* clear button */}
+          <div className="d-grid">
+            <button className="btn btn-secondary mb-3" onClick={handleClear}>
+              Clear
+            </button>
+            <Link to="/productForm" className="nav-link">
+              <button
+                className="btn btn-info mb-3"
+                style={{ visibility: showUploadEditButton }}
+              >
+                Add New Item
+              </button>
+            </Link>
+          </div>
         </div>
 
         {/* container for product catalogue */}
@@ -92,10 +313,16 @@ const Product = () => {
               <div
                 key={product.productId}
                 className="product-item border mb-3 p-3"
-                onClick={() => handleClick(product.productId)}
-                style={{ cursor: "pointer", width: "300px", margin: "7px" }}
+                onClick={() => handleClick(product.productid)}
+                style={{ cursor: "pointer", width: "500px" }} // dito dapat ma-map through yung products with image na
               >
-                <h2>{product.name}</h2>
+                <img
+                  src={product.imgurl}
+                  alt={product.firstName}
+                  className="card-img-top"
+                  style={{ objectFit: "cover", height: "350px" }}
+                />
+                <h2>{product.name} -</h2>
                 <p>{product.description}</p>
                 <p>{product.category}</p>
                 <p>{product.productCondition}</p>
