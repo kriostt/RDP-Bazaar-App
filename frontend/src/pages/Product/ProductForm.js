@@ -141,59 +141,6 @@ function ProductForm() {
     }
   };
 
-  // const axiosPostData = async () => {
-  //   const datePosted = new Date(); // Example Date object
-  //   const formattedDate = datePosted.toISOString(); // Convert Date to ISO string
-  //   try {
-  //     if (img == null) return;
-  //     const imageRef = ref(storage, `images/${img.name + v4()}`);
-  //     uploadBytes(imageRef, img)
-  //       .then(() => getDownloadURL(imageRef))
-  //       .then((url) => {
-  //         // alert("Image Uploaded");
-  //         console.log("the url is-> " + url);
-  //         const postData = {
-  //           name: name,
-  //           description: description,
-  //           price: price,
-  //           category: category,
-  //           productCondition: productCondition,
-  //           imgurl: url,
-  //           datePosted: formattedDate,
-  //           clicks: 0,
-  //           user: {
-  //             userId: sessionStorage.getItem("usrID"),
-  //           },
-  //         };
-
-  //         console.log("for insert", postData);
-  //         axios
-  //           .post("http://localhost:9090/api/products/save", postData)
-  //           .then((response) => {
-  //             alert("Product Successfully Added");
-  //             const productId = response.data.productid;
-  //             console.log("New product ID:", productId);
-  //             navigator("/products");
-  //           })
-  //           .catch((error) => {
-  //             // Handle errors
-  //             console.error("Error while posting data:", error);
-  //             setErrors(
-  //               <p className="error">
-  //                 Failed to post data. Please try again later.
-  //               </p>
-  //             );
-  //           });
-  //       });
-  //   } catch (error) {
-  //     // Handle errors
-  //     console.error("Error while posting data:", error);
-  //     setErrors(
-  //       <p className="error">Failed to post data. Please try again later.</p>
-  //     );
-  //   }
-  // };
-
   return (
     <div className="container mt-5 bg">
       <h2 className="font-white">Add Product</h2>

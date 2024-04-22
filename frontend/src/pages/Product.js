@@ -7,7 +7,7 @@ import SearchAndFilterProducts from "../components/SearchAndFilter/SearchAndFilt
 
 const Product = () => {
   // state variables to hold product data and filter parameters
-  const [products_, setProducts] = useState([]);
+  const [products, setProducts] = useState([]);
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("");
   const [productCondition, setProductCondition] = useState("");
@@ -17,16 +17,6 @@ const Product = () => {
 
   // hook for navigation
   const navigate = useNavigate();
-
-  // call custom hook to fetch products based on search and filter parameters
-  const products = useSearchAndFilterProducts(
-    search,
-    category,
-    productCondition,
-    minPrice,
-    maxPrice,
-    sortBy
-  );
 
   let currentUserFilter = "";
   let prodFetchAPI = "";
@@ -236,12 +226,11 @@ const Product = () => {
                   className="card-img-top"
                   style={{ objectFit: "cover", height: "350px" }}
                 />
-                <h2>{product.name} -</h2>
+                <h2>{product.name}</h2>
                 <p>{product.description}</p>
-                <p>{product.category}</p>
-                <p>{product.productCondition}</p>
-                <p>Price: {product.price}</p>
-                {/* add more details if needed */}
+                <p>Category: {product.category}</p>
+                <p>Condition: {product.productCondition}</p>
+                <p>Price: ${product.price.toFixed(2)}</p>
               </div>
             ))}
           </div>

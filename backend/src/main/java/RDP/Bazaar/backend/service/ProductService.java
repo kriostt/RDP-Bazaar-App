@@ -21,9 +21,6 @@ public class ProductService {
     // get all products
     public List<Product> getAllProducts() {
         List<Product> products = productRepository.findAll();
-
-        // remove user information from each product (PLACEHOLDER FOR HOW PRODUCT CATALOGUE FEATURE HANDLES THIS)
-        //products.forEach(product -> product.setUser(null));
         return products;
     }
 
@@ -50,7 +47,6 @@ public class ProductService {
         existingProduct.setImgurl(product.getImgurl());
         existingProduct.setDatePosted(product.getDatePosted());
         existingProduct.setClicks(product.getClicks());
-//        existingProduct.setUser(product.getUser());
 
         // Save the updated product
         return productRepository.save(existingProduct);

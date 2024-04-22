@@ -55,17 +55,23 @@ const Navbar = () => {
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
           <div className="container-fluid px-0">
             {/* logo takes user back to home page when clicked */}
-            <Link
-              to="/products"
+            <button
               className="navbar-brand ms-3"
               style={{
                 fontFamily: "Arial, sans-serif",
                 fontSize: "20px",
                 fontWeight: "bold",
+                backgroundColor: "transparent",
+                border: "none",
+                cursor: "pointer",
+                textDecoration: "none",
+                color: "White",
+                padding: 0,
               }}
+              onClick={handleAllItemSeller}
             >
               RDP BAZAAR
-            </Link>
+            </button>
 
             {/* navbar links */}
             <div
