@@ -1,15 +1,11 @@
 package RDP.Bazaar.backend.service;
 
 import RDP.Bazaar.backend.entity.Product;
-import RDP.Bazaar.backend.entity.User;
 import RDP.Bazaar.backend.repository.IProductRepository;
-import RDP.Bazaar.backend.repository.ProductSpecifications;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Comparator;
 import java.util.List;
-import java.util.Optional;
 
 // handles business logic related to Product entities
 @Service
@@ -24,8 +20,12 @@ public class ProductService {
         return products;
     }
 
-    public List<Product> findAll() {
-        return productRepository.findAll();
+    public List<Product> getProductsByUserId(Long sellerid) {
+        return productRepository.findBySellerId(sellerid);
+    }
+
+    public List<Product> findProductById(Long productid) {
+        return productRepository.findProductByProductid(productid);
     }
 
     public Product saveItem(Product product) {

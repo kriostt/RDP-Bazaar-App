@@ -2,7 +2,6 @@ package RDP.Bazaar.backend.controller;
 
 import RDP.Bazaar.backend.entity.Product;
 import RDP.Bazaar.backend.service.ProductService;
-import RDP.Bazaar.backend.service.ProductSrv;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,14 +17,7 @@ public class ProductController {
     @Autowired
     private ProductService productService;
 
-    @Autowired
-    private ProductSrv productSrv;
-
     // API endpoint for getting all products
-    @GetMapping("/all")
-    public List<Product> getAllProductsItem() {
-        return productSrv.getAllItems();
-    }
     @GetMapping("/")
     public List<Product> getAllProducts() {
         return productService.getAllProducts();
@@ -33,7 +25,7 @@ public class ProductController {
 
     @GetMapping("/by-user/{userId}") // Path variable {userId}
     public List<Product> getProductsByUser(@PathVariable Long userId) {
-        return productSrv.getProductsByUserId(userId);
+        return productService.getProductsByUserId(userId);
     }
 
 
@@ -71,7 +63,7 @@ public class ProductController {
 
     @GetMapping("/find-byprod/{productid}")
     public ResponseEntity<Product> getProdByProdID(@PathVariable Long productid) {
-        List<Product> products = productSrv.findProductById(productid);
+        List<Product> products = productService.findProductById(productid);
 
         if (products.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND); // Product not found
