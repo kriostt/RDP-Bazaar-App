@@ -57,8 +57,8 @@ function ProductForm() {
       );
 
       console.log("Updated Product:", response.data);
-      // Navigate to the products page or perform other actions
-      navigator("/products");
+      // Navigate to the user's page or perform other actions
+      navigator("/seller");
     } catch (error) {
       // Handle errors
       console.error("Error while updating data:", error);

@@ -42,6 +42,29 @@
   margin: 20px;
 }
 
+@media (max-width: 900px) {
+  .product-detail-container {
+    width: 80%;
+    max-width: none;
+    height: auto;
+    max-height: none;
+    padding: 0 20px;
+  }
+}
+
+@media only screen and (max-width: 800px) {
+  .product-detail-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .product-detail-image img {
+    margin-top: 20px;
+    margin-bottom: 30px;
+  }
+}
+
+
 
 
 
