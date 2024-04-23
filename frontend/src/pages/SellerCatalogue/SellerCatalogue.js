@@ -6,38 +6,12 @@ import SearchAndFilterSellers from "../../components/SearchAndFilter/SearchAndFi
 import useSearchAndFilterSellers from "../../components/SearchAndFilter/useSearchAndFilterSellers";
 
 function SellerCatalogue() {
-  const [sellers_, setSellers] = useState([]);
   const [ratings, setRatings] = useState({});
   const [search, setSearch] = useState("");
   const [sortBy, setSortBy] = useState("");
 
   // call the custom hook to fetch sellers based on search and filter parameters
   const sellers = useSearchAndFilterSellers(search, sortBy);
-
-  useEffect(() => {
-    axios
-      .get("http://localhost:9090/api/bazaarUsers")
-      .then((response) => {
-        const userList = response.data;
-        setSellers(userList); // Update the state with the fetched seller information
-      })
-      .catch((error) => {
-        console.error("API request failed:", error);
-      });
-  }, []);
-  console.log(sellers);
-
-  useEffect(() => {
-    axios
-      .get("http://localhost:9090/api/users/")
-      .then((response) => {
-        const userList = response.data;
-        setSellers(userList); // Update the state with the fetched seller information
-      })
-      .catch((error) => {
-        console.error("API request failed:", error);
-      });
-  }, []);
 
   // ------------------text area for the review-----------------------
 
