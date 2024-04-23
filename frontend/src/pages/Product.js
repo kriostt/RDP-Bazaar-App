@@ -18,6 +18,16 @@ const Product = () => {
   // hook for navigation
   const navigate = useNavigate();
 
+  // call custom hook to fetch products based on search and filter parameters
+  const searchAndFilterProducts = useSearchAndFilterProducts(
+    search,
+    category,
+    productCondition,
+    minPrice,
+    maxPrice,
+    sortBy
+  );
+
   let currentUserFilter = "";
   let prodFetchAPI = "";
   let showUploadEditButton = "show";
@@ -49,29 +59,8 @@ const Product = () => {
     }
   };
 
-  const searchAndFilterProducts = async () => {
+  const filterProductsByUser = async () => {
     try {
-      // Send a GET request to fetch products from the backend
-      const response = await axios.get(
-        "http://localhost:9090/api/searchAndFilter/products",
-        {
-          params: {
-            search,
-            category,
-            productCondition,
-            minPrice,
-            maxPrice,
-            sortBy,
-          },
-        }
-      );
-
-      // Log the response data received from the backend
-      console.log("Response data for search:", response.data);
-
-      // Retrieve product IDs from the response
-      const productIds = response.data.map((product) => product.productId);
-
       // Check if sessionStorage has 'allItems'
       if (sessionStorage.getItem("allItems") == null) {
         // Fetch filtered product IDs using the retrieved currentUserFilter
@@ -81,7 +70,7 @@ const Product = () => {
 
         const filteredProducts = [];
 
-        response.data.forEach((product) => {
+        searchAndFilterProducts.forEach((product) => {
           // Initialize a flag to track if the product should be included
           let includeProduct = false;
 
@@ -107,7 +96,7 @@ const Product = () => {
 
         console.log("Selected a specific seller");
       } else {
-        setProducts(response.data);
+        setProducts(searchAndFilterProducts);
       }
     } catch (error) {
       // Handle errors if any occur during fetching
@@ -115,10 +104,10 @@ const Product = () => {
     }
   };
 
-  // effect hook to execute searchAndFilterProducts function when filter parameters change
+  // effect hook to execute filterProductsByUser() when searchAndFilterProducts changes
   useEffect(() => {
-    searchAndFilterProducts();
-  }, [search, category, productCondition, minPrice, maxPrice, sortBy]);
+    filterProductsByUser();
+  }, [searchAndFilterProducts]);
 
   // function to fetch all products
   const fetchProducts = async () => {
